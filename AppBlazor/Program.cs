@@ -1,10 +1,23 @@
 using AppBlazor.Components;
+using AppBlazor.Data;
+using AppBlazor.Data.Auth;
+using AppBlazor.Data.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options => options.DetailedErrors = true);
+builder.Services.AddAuthorizationCore();
+
+//Custom Services
+//builder.Services.AddSingleton<StateContainer>();
+builder.Services.AddSingleton<TokenContainer>();
+builder.Services.AddSingleton<AuthService>();
+builder.Services.AddSingleton<Consumer>();
+
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();
 
 var app = builder.Build();
 
