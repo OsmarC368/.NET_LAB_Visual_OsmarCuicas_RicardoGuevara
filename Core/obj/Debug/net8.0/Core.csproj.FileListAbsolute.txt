@@ -22,3 +22,15 @@ C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Co
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\refint\Core.dll
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.pdb
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\ref\Core.dll
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\bin\Debug\net8.0\Core.deps.json
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\bin\Debug\net8.0\Core.dll
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\bin\Debug\net8.0\Core.pdb
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.sourcelink.json
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.dll
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\refint\Core.dll
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\Core.pdb
+C:\Users\gueva\OneDrive\Documentos\Progra\netLab\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Core\obj\Debug\net8.0\ref\Core.dll

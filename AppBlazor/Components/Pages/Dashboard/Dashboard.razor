@@ -1,0 +1,39 @@
+@page "/dashboard"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3>Bienvenido a CookingBros</h3>
+
+@if (isLoaded)
+{
+    <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
+        Measures
+    </button>
+}
+else
+{
+    <p>Cargando...</p>
+}
+
+@code {
+    private bool isAuthenticated = false;
+    private bool isLoaded = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            isAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
+            isLoaded = true;
+            StateHasChanged(); 
+        }
+    }
+
+    private void GoToMeasures()
+    {
+        Navigation.NavigateTo("/measure");
+    }
+}

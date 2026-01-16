@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "mM3ZtC66Tq0=",
+  "dgSpecHash": "2RMKhoqihVU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\osmar\\OneDrive\\Escritorio\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\Core\\Core.csproj",
+  "projectFilePath": "C:\\Users\\gueva\\OneDrive\\Documentos\\Progra\\netLab\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\Core\\Core.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\osmar\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.22\\microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
-    "C:\\Users\\osmar\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
-    "C:\\Users\\osmar\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.22\\microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512"
+    "C:\\Users\\gueva\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.23\\microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
+    "C:\\Users\\gueva\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.23\\microsoft.windowsdesktop.app.ref.8.0.23.nupkg.sha512",
+    "C:\\Users\\gueva\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.23\\microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
   ],
   "logs": []
 }

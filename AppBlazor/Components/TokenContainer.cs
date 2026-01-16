@@ -1,3 +1,5 @@
+using System;
+
 namespace AppBlazor.Components
 {
     public class TokenContainer

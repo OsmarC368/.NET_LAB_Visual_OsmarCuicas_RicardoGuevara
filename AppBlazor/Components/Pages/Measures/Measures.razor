@@ -1,0 +1,73 @@
+@page "/measure"
+@rendermode InteractiveServer
+@using Core.Entities
+
+<h3>Measures</h3>
+
+<AuthorizeView>
+    <Authorized Context="auth">
+        <EditForm Model="currentMeasure" OnValidSubmit="SaveMeasure" FormName="measureForm">
+            <div class="mb-3">
+                <label>Name</label>
+                <InputText class="form-control" @bind-Value="currentMeasure.name" />
+            </div>
+
+            <div class="mb-3">
+                <label>Unit of measurement</label>
+                <InputText class="form-control" @bind-Value="currentMeasure.symbol" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                @(isEditMode ? "Actualizar" : "Crear")
+            </button>
+
+            @if (isEditMode)
+            {
+                <button class="btn btn-secondary ms-2" type="button" @onclick="CancelEdit">
+                    Cancelar
+                </button>
+            }
+        </EditForm>
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div class="alert @(success ? "alert-success" : "alert-danger") mt-2">
+                    @message
+                </div>
+            }
+    </Authorized>
+
+    <NotAuthorized>
+        <div class="alert alert-warning">
+            Debes iniciar sesión para crear o editar medidas.
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Unit of Measurement</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in measures)
+        {
+            <tr>
+                <td>@m.name</td>
+                <td>@m.symbol</td>
+                <td>
+                    <AuthorizeView Context="auth">
+                        <Authorized>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditMeasure(m)">Editar</button>
+                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteMeasure(m)">Eliminar</button>
+                        </Authorized>
+                    </AuthorizeView>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

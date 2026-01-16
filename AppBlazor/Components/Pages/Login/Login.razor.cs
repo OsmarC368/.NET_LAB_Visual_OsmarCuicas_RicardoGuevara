@@ -42,7 +42,7 @@ namespace AppBlazor.Components.Pages.Login
             {
                 tokenContainer.asingToken(response.Data.Datos.jwt);
                 ((CustomAuthorizationStateProvider)AuthenticationStateProvider).AuthenticateUser(response.message);
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/dashboard");
             }
             else
             {
