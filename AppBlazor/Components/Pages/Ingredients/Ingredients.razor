@@ -1,0 +1,76 @@
+@page "/ingredient"
+@rendermode InteractiveServer
+@using Core.Entities
+@inject NavigationManager Navigation
+
+
+<button class="btn btn-primary" @onclick="GoBack">
+        Back
+</button>
+
+<h3 style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+  Ingredients
+</h3>
+
+
+<AuthorizeView>
+    <Authorized Context="auth">
+        <EditForm Model="currentIngredient" OnValidSubmit="SaveIngredient" FormName="ingredientForm">
+            <div class="mb-3">
+                <label>Name</label>
+                <InputText class="form-control" @bind-Value="currentIngredient.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label>Type</label>
+                <InputText class="form-control" @bind-Value="currentIngredient.Type" />
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                @(isEditMode ? "Actualizar" : "Crear")
+            </button>
+
+            @if (isEditMode)
+            {
+                <button class="btn btn-secondary ms-2" type="button" @onclick="CancelEdit">
+                    Cancelar
+                </button>
+            }
+        </EditForm>
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div class="alert @(success ? "alert-success" : "alert-danger") mt-2">
+                    @message
+                </div>
+            }
+    </Authorized>
+</AuthorizeView>
+
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in ingredients)
+        {
+            <tr>
+                <td>@i.Name</td>
+                <td>@i.Type</td>
+                <td>
+                    <AuthorizeView Context="auth">
+                        <Authorized>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditIngredient(i)">Editar</button>
+                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteIngredient(i)">Eliminar</button>
+                        </Authorized>
+                    </AuthorizeView>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

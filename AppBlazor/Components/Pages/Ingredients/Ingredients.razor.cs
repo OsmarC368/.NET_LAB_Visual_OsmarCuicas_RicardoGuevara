@@ -4,48 +4,48 @@ using Microsoft.AspNetCore.Components;
 using Core.Responses;          
 using AppBlazor.Data.Services;
 
-namespace AppBlazor.Components.Pages.Measures
+namespace AppBlazor.Components.Pages.Ingredients
 {
-    public partial class Measures
+    public partial class Ingredients
     {
-        [Inject] private IMeasureService MeasureService { get; set; } = default!;
+        [Inject] private IIngredientService IngredientService { get; set; } = default!;
 
-        protected List<Measure> measures = new();
-        protected Measure currentMeasure = new();
+        protected List<Ingredient> ingredients = new();
+        protected Ingredient currentIngredient = new();
         protected bool isEditMode = false;
         protected string message = "";
         protected bool success = false;
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadMeasures();
+            await LoadIngredients();
         }
 
-        private async Task LoadMeasures()
+        private async Task LoadIngredients()
         {
-            var response = await MeasureService.GetAllAsync();
+            var response = await IngredientService.GetAllAsync();
             if (response.Ok && response.Datos != null)
             {
-                measures = response.Datos.ToList();
+                ingredients = response.Datos.ToList();
             }
         }
 
-        protected async Task SaveMeasure()
+        protected async Task SaveIngredient()
         {
-            Response<Measure> result;
+            Response<Ingredient> result;
 
             if (isEditMode)
-                result = await MeasureService.Update(currentMeasure.id, currentMeasure);
+                result = await IngredientService.Update(currentIngredient.Id, currentIngredient);
             else
-                result = await MeasureService.Create(currentMeasure);
+                result = await IngredientService.Create(currentIngredient);
 
             if (result.Ok)
             {
-                message = isEditMode ? "Medida actualizada correctamente" : "Medida creada correctamente";
+                message = isEditMode ? "Ingrediente actualizado correctamente" : "Ingrediente creado correctamente";
                 success = true;
-                currentMeasure = new Measure();
+                currentIngredient = new Ingredient();
                 isEditMode = false;
-                await LoadMeasures();
+                await LoadIngredients();
             }
             else
             {
@@ -54,26 +54,26 @@ namespace AppBlazor.Components.Pages.Measures
             }
         }
 
-        protected void EditMeasure(Measure m)
+        protected void EditIngredient(Ingredient i)
         {
-            currentMeasure = new Measure
+            currentIngredient = new Ingredient
             {
-                id = m.id,
-                name = m.name,
-                symbol = m.symbol
+                Id = i.Id,
+                Name = i.Name,
+                Type = i.Type
             };
             isEditMode = true;
             message = "";
         }
 
-        protected async Task DeleteMeasure(Measure m)
+        protected async Task DeleteIngredient(Ingredient i)
         {
-            var result = await MeasureService.Remove(m.id);
+            var result = await IngredientService.Remove(i.Id);
             if (result.Ok)
             {
-                message = "Medida eliminada correctamente";
+                message = "Ingrediente eliminado correctamente";
                 success = true;
-                await LoadMeasures();
+                await LoadIngredients();
             }
             else
             {
@@ -84,7 +84,7 @@ namespace AppBlazor.Components.Pages.Measures
 
         protected void CancelEdit()
         {
-            currentMeasure = new Measure();
+            currentIngredient = new Ingredient();
             isEditMode = false;
             message = "";
         }

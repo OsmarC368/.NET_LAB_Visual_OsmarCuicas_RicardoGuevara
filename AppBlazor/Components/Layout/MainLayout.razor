@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@using System.Globalization
 
-<div class="page">
+<div class="page" @key="CultureInfo.CurrentUICulture.Name">
     <div class="sidebar">
         <NavMenu />
     </div>

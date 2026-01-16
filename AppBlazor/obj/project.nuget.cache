@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "u8yG7Gbs1+k=",
+  "dgSpecHash": "kSsdh4hf9Jk=",
   "success": true,
   "projectFilePath": "C:\\Users\\gueva\\OneDrive\\Documentos\\Progra\\netLab\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\AppBlazor\\AppBlazor.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.2\\microsoft.entityframeworkcore.abstractions.10.0.2.nupkg.sha512",
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.2\\microsoft.entityframeworkcore.analyzers.10.0.2.nupkg.sha512",
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.2\\microsoft.entityframeworkcore.relational.10.0.2.nupkg.sha512",
+    "C:\\Users\\gueva\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\10.0.2\\microsoft.extensions.localization.abstractions.10.0.2.nupkg.sha512",
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.15.0\\microsoft.identitymodel.abstractions.8.15.0.nupkg.sha512",
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.15.0\\microsoft.identitymodel.jsonwebtokens.8.15.0.nupkg.sha512",
     "C:\\Users\\gueva\\.nuget\\packages\\microsoft.identitymodel.logging\\8.15.0\\microsoft.identitymodel.logging.8.15.0.nupkg.sha512",
@@ -46,6 +47,18 @@
       "warningLevel": 1,
       "filePath": "C:\\Users\\gueva\\OneDrive\\Documentos\\Progra\\netLab\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\AppBlazor\\AppBlazor.csproj",
       "libraryId": "Microsoft.AspNetCore.Identity",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "message": "PackageReference Microsoft.Extensions.Localization.Abstractions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "projectPath": "C:\\Users\\gueva\\OneDrive\\Documentos\\Progra\\netLab\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\AppBlazor\\AppBlazor.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\gueva\\OneDrive\\Documentos\\Progra\\netLab\\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\\AppBlazor\\AppBlazor.csproj",
+      "libraryId": "Microsoft.Extensions.Localization.Abstractions",
       "targetGraphs": [
         "net10.0"
       ]

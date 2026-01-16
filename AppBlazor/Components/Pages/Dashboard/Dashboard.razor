@@ -3,30 +3,63 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
+@using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> L
 
-<h3>Bienvenido a CookingBros</h3>
 
-@if (isLoaded)
+<h3 style= "text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+    @L["Welcome"]
+</h3>
+
+@if (isLoaded && userType == 2)
 {
-    <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
-        Measures
-    </button>
+    <div class="d-flex justify-content-center gap-2">
+        <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
+            Measures
+        </button>
+        <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
+            Ingredients
+        </button>
+    </div>
 }
 else
 {
-    <p>Cargando...</p>
+    <button class="btn btn-primary">
+            Recipes
+    </button>
+    <div class="d-flex justify-content-center gap-2">
+        <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
+            Measures
+        </button>
+        <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
+            Ingredients
+        </button>
+    </div>
 }
 
 @code {
     private bool isAuthenticated = false;
     private bool isLoaded = false;
+    private int userType = 0;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
+            var user = authState.User;
+
             isAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
+            if (isAuthenticated)
+            {
+                var userTypeClaim = user.FindFirst("UserTypeID");
+                if (userTypeClaim != null && int.TryParse(userTypeClaim.Value, out var parsedType))
+                {
+                    userType = parsedType;
+                }
+            }
             isLoaded = true;
             StateHasChanged(); 
         }
@@ -35,5 +68,10 @@ else
     private void GoToMeasures()
     {
         Navigation.NavigateTo("/measure");
+    }
+
+    private void GoToIngredients()
+    {
+        Navigation.NavigateTo("/ingredient");
     }
 }

@@ -153,6 +153,19 @@
           }
         }
       },
+      "Microsoft.Extensions.Localization.Abstractions/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/_._": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/_._": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.IdentityModel.Abstractions/8.15.0": {
         "type": "package",
         "compile": {
@@ -477,6 +490,25 @@
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
+    "Microsoft.Extensions.Localization.Abstractions/10.0.2": {
+      "sha512": "O28Xu6BMUYfFwzK2U5OyctQDrcGC3cewL026Af5WaQKmsdhJK1KEmCFloC2ZqHhh4ldizJOg4j/BuBEJeRZcrw==",
+      "type": "package",
+      "path": "microsoft.extensions.localization.abstractions/10.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net10.0/Microsoft.Extensions.Localization.Abstractions.dll",
+        "lib/net10.0/Microsoft.Extensions.Localization.Abstractions.xml",
+        "lib/net462/Microsoft.Extensions.Localization.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.Localization.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.xml",
+        "microsoft.extensions.localization.abstractions.10.0.2.nupkg.sha512",
+        "microsoft.extensions.localization.abstractions.nuspec"
+      ]
+    },
     "Microsoft.IdentityModel.Abstractions/8.15.0": {
       "sha512": "e/DApa1GfxUqHSBHcpiQg8yaghKAvFVBQFcWh25jNoRobDZbduTUACY8bZ54eeGWXvimGmEDdF0zkS5Dq16XPQ==",
       "type": "package",
@@ -714,6 +746,7 @@
       "Microsoft.AspNetCore.Components.WebAssembly >= 8.0.0",
       "Microsoft.AspNetCore.Identity >= 2.3.9",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.2",
+      "Microsoft.Extensions.Localization.Abstractions >= 10.0.2",
       "Newtonsoft.Json >= 13.0.3",
       "System.IdentityModel.Tokens.Jwt >= 8.15.0"
     ]
@@ -792,6 +825,10 @@
             "version": "[2.3.9, )"
           },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[10.0.2, )"
+          },
+          "Microsoft.Extensions.Localization.Abstractions": {
             "target": "Package",
             "version": "[10.0.2, )"
           },
@@ -1258,6 +1295,16 @@
       "warningLevel": 1,
       "message": "PackageReference Microsoft.AspNetCore.Identity will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
       "libraryId": "Microsoft.AspNetCore.Identity",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "PackageReference Microsoft.Extensions.Localization.Abstractions will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "libraryId": "Microsoft.Extensions.Localization.Abstractions",
       "targetGraphs": [
         "net10.0"
       ]

@@ -1,19 +1,32 @@
 @page "/measure"
 @rendermode InteractiveServer
 @using Core.Entities
+@inject NavigationManager Navigation
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@inject IStringLocalizerFactory LocalizerFactory
 
-<h3>Measures</h3>
+<p>Culture: @CultureInfo.CurrentUICulture.Name</p>
+<h3>@L["Measures"]</h3>
+
+<button class="btn btn-primary" @onclick="GoBack">
+    @L["Back"]
+</button>
+
+<h3 style= "text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+    @L["Measures"]
+</h3>
 
 <AuthorizeView>
     <Authorized Context="auth">
         <EditForm Model="currentMeasure" OnValidSubmit="SaveMeasure" FormName="measureForm">
             <div class="mb-3">
-                <label>Name</label>
+                <label>@L["Name"]</label>
                 <InputText class="form-control" @bind-Value="currentMeasure.name" />
             </div>
 
             <div class="mb-3">
-                <label>Unit of measurement</label>
+                <label>@L["Unit of measurement"]</label>
                 <InputText class="form-control" @bind-Value="currentMeasure.symbol" />
             </div>
 
@@ -24,7 +37,7 @@
             @if (isEditMode)
             {
                 <button class="btn btn-secondary ms-2" type="button" @onclick="CancelEdit">
-                    Cancelar
+                    @L["Cancel"]
                 </button>
             }
         </EditForm>
@@ -35,12 +48,6 @@
                 </div>
             }
     </Authorized>
-
-    <NotAuthorized>
-        <div class="alert alert-warning">
-            Debes iniciar sesión para crear o editar medidas.
-        </div>
-    </NotAuthorized>
 </AuthorizeView>
 
 <hr />
@@ -48,8 +55,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Unit of Measurement</th>
+            <th>@L["Name"]</th>
+            <th>@L["Unit of measurement"]</th>
             <th></th>
         </tr>
     </thead>
@@ -62,8 +69,8 @@
                 <td>
                     <AuthorizeView Context="auth">
                         <Authorized>
-                            <button class="btn btn-warning btn-sm" @onclick="() => EditMeasure(m)">Editar</button>
-                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteMeasure(m)">Eliminar</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditMeasure(m)">@L["Edit"]</button>
+                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteMeasure(m)">@L["Delete"]</button>
                         </Authorized>
                     </AuthorizeView>
                 </td>
@@ -71,3 +78,15 @@
         }
     </tbody>
 </table>
+
+@code {
+    private IStringLocalizer L = default!;
+
+    protected override void OnInitialized()
+    {
+        L = LocalizerFactory.Create(
+            "SharedResources",
+            typeof(SharedResources).Assembly.GetName().Name!
+        );
+    }
+}

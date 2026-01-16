@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using AppBlazor.Data.Services;
 using Core.Interfaces.Services;
 using Blazored.SessionStorage;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,15 +18,40 @@ builder.Services.AddAuthorizationCore();
 
 builder.Services.AddBlazoredSessionStorage(); 
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 // Custom Services
 builder.Services.AddSingleton<TokenContainer>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<Consumer>();
 builder.Services.AddSingleton<IMeasureService, MeasureService>();
+builder.Services.AddSingleton<IIngredientService, IngredientService>();
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();
 
 var app = builder.Build();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("es"),
+    new CultureInfo("en")
+};
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("es"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures,
+    RequestCultureProviders = new IRequestCultureProvider[]
+    {
+        new CookieRequestCultureProvider(),       
+        new QueryStringRequestCultureProvider()   
+    }
+};
+
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -41,5 +68,26 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapGet("/set-culture", (string culture, string redirectUri, HttpContext context) =>
+{
+    context.Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(
+            new RequestCulture(culture)
+        ),
+        new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddYears(1),
+            IsEssential = true
+        }
+    );
+
+    var safeRedirect =
+        $"{context.Request.Scheme}://{context.Request.Host}{redirectUri}";
+
+    context.Response.Redirect(safeRedirect);
+});
+
 
 app.Run();
