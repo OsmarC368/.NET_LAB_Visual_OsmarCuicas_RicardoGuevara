@@ -16,24 +16,24 @@
 {
     <div class="d-flex justify-content-center gap-2">
         <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
-            Measures
+            @L["Measures"]
         </button>
         <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
-            Ingredients
+            @L["Ingredients"]
         </button>
     </div>
 }
 else
 {
     <button class="btn btn-primary">
-            Recipes
+            @L["Recipes"]
     </button>
     <div class="d-flex justify-content-center gap-2">
         <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
-            Measures
+            @L["Measures"]
         </button>
         <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
-            Ingredients
+            @L["Ingredients"]
         </button>
     </div>
 }

@@ -6,8 +6,6 @@
 @using System.Globalization
 @inject IStringLocalizerFactory LocalizerFactory
 
-<p>Culture: @CultureInfo.CurrentUICulture.Name</p>
-<h3>@L["Measures"]</h3>
 
 <button class="btn btn-primary" @onclick="GoBack">
     @L["Back"]
@@ -31,7 +29,7 @@
             </div>
 
             <button class="btn btn-primary" type="submit">
-                @(isEditMode ? "Actualizar" : "Crear")
+                @(isEditMode ? L["Update"] : L["Create"])
             </button>
 
             @if (isEditMode)

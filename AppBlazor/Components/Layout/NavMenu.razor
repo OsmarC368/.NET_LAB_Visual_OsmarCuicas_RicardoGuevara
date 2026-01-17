@@ -25,28 +25,30 @@
 
         <li class="nav-item px-3 mt-3">
             <div class="d-flex gap-1">
-                <button class="btn btn-outline-secondary btn-sm"
-                        @onclick='() => ChangeLanguage("es")'>
+                <a class="btn btn-outline-secondary btn-sm"
+                   href="@GetCultureUrl("es")">
                     🇪🇸 ES
-                </button>
+                </a>
 
-                <button class="btn btn-outline-secondary btn-sm"
-                        @onclick='() => ChangeLanguage("en")'>
+                <a class="btn btn-outline-secondary btn-sm"
+                   href="@GetCultureUrl("en")">
                     🇺🇸 EN
-                </button>
+                </a>
             </div>
         </li>
     </nav>
 </div>
 
 @code {
-    void ChangeLanguage(string culture)
+    string GetCultureUrl(string culture)
     {
-        var uri = Navigation.ToBaseRelativePath(Navigation.Uri);
+        var currentPath = Navigation.ToBaseRelativePath(Navigation.Uri);
 
-        Navigation.NavigateTo(
-            $"/set-culture?culture={culture}&redirectUri=/{uri}",
-            forceLoad: true
-        );
+        if (string.IsNullOrEmpty(currentPath))
+            currentPath = "/";
+        else
+            currentPath = "/" + currentPath;
+
+        return $"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(currentPath)}";
     }
 }

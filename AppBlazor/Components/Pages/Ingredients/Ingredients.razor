@@ -2,14 +2,16 @@
 @rendermode InteractiveServer
 @using Core.Entities
 @inject NavigationManager Navigation
-
+@inject IStringLocalizerFactory LocalizerFactory
+@using System.Globalization
+@using Microsoft.Extensions.Localization
 
 <button class="btn btn-primary" @onclick="GoBack">
-        Back
+    @L["Back"]
 </button>
 
 <h3 style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
-  Ingredients
+    @L["Ingredients"]
 </h3>
 
 
@@ -17,23 +19,23 @@
     <Authorized Context="auth">
         <EditForm Model="currentIngredient" OnValidSubmit="SaveIngredient" FormName="ingredientForm">
             <div class="mb-3">
-                <label>Name</label>
+                <label>@L["Name"]</label>
                 <InputText class="form-control" @bind-Value="currentIngredient.Name" />
             </div>
 
             <div class="mb-3">
-                <label>Type</label>
+                <label>@L["Symbol"]</label>
                 <InputText class="form-control" @bind-Value="currentIngredient.Type" />
             </div>
 
             <button class="btn btn-primary" type="submit">
-                @(isEditMode ? "Actualizar" : "Crear")
+                @(isEditMode ? L["Update"] : L["Create"])
             </button>
 
             @if (isEditMode)
             {
                 <button class="btn btn-secondary ms-2" type="button" @onclick="CancelEdit">
-                    Cancelar
+                    @L["Cancel"]
                 </button>
             }
         </EditForm>
@@ -51,8 +53,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Type</th>
+            <th>@L["Name"]</th>
+            <th>@L["Type"]</th>
             <th></th>
         </tr>
     </thead>
@@ -65,8 +67,8 @@
                 <td>
                     <AuthorizeView Context="auth">
                         <Authorized>
-                            <button class="btn btn-warning btn-sm" @onclick="() => EditIngredient(i)">Editar</button>
-                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteIngredient(i)">Eliminar</button>
+                            <button class="btn btn-warning btn-sm" @onclick="() => EditIngredient(i)">@L["Edit"]</button>
+                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteIngredient(i)">@L["Delete"]</button>
                         </Authorized>
                     </AuthorizeView>
                 </td>
@@ -74,3 +76,15 @@
         }
     </tbody>
 </table>
+
+@code {
+    private IStringLocalizer L = default!;
+
+    protected override void OnInitialized()
+    {
+        L = LocalizerFactory.Create(
+            "SharedResources",
+            typeof(SharedResources).Assembly.GetName().Name!
+        );
+    }
+}

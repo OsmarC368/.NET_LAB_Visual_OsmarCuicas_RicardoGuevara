@@ -3,7 +3,6 @@ using AppBlazor.Data;
 using AppBlazor.Data.Auth;
 using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components.Authorization;
-using AppBlazor.Data.Services;
 using Core.Interfaces.Services;
 using Blazored.SessionStorage;
 using System.Globalization;
@@ -28,30 +27,54 @@ builder.Services.AddSingleton<IMeasureService, MeasureService>();
 builder.Services.AddSingleton<IIngredientService, IngredientService>();
 
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();
 
 var app = builder.Build();
 
+// 🔹 Definir culturas soportadas
 var supportedCultures = new[]
 {
     new CultureInfo("es"),
     new CultureInfo("en")
 };
 
+// 🔹 Configurar RequestLocalization
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("es"),
     SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures,
-    RequestCultureProviders = new IRequestCultureProvider[]
-    {
-        new CookieRequestCultureProvider(),       
-        new QueryStringRequestCultureProvider()   
-    }
+    SupportedUICultures = supportedCultures
 };
 
+// 🔹 Usar CookieRequestCultureProvider para Blazor Server
+localizationOptions.RequestCultureProviders.Clear();
+localizationOptions.RequestCultureProviders.Add(
+    new CookieRequestCultureProvider()
+);
+
 app.UseRequestLocalization(localizationOptions);
+
+// 🔹 Endpoint para cambiar idioma
+app.MapGet("/set-culture", (string culture, string redirectUri, HttpContext context) =>
+{
+    context.Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(
+            new RequestCulture(culture)
+        ),
+        new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddYears(1),
+            IsEssential = true,
+            Path = "/" // aplica a toda la app
+        }
+    );
+
+    var absoluteUrl =
+        $"{context.Request.Scheme}://{context.Request.Host}{redirectUri}";
+
+    context.Response.Redirect(absoluteUrl);
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -68,26 +91,5 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
-app.MapGet("/set-culture", (string culture, string redirectUri, HttpContext context) =>
-{
-    context.Response.Cookies.Append(
-        CookieRequestCultureProvider.DefaultCookieName,
-        CookieRequestCultureProvider.MakeCookieValue(
-            new RequestCulture(culture)
-        ),
-        new CookieOptions
-        {
-            Expires = DateTimeOffset.UtcNow.AddYears(1),
-            IsEssential = true
-        }
-    );
-
-    var safeRedirect =
-        $"{context.Request.Scheme}://{context.Request.Host}{redirectUri}";
-
-    context.Response.Redirect(safeRedirect);
-});
-
 
 app.Run();

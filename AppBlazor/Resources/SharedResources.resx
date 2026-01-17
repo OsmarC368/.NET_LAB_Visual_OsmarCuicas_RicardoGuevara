@@ -7,53 +7,52 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 
-  <!-- English translations -->
   <data name="Welcome" xml:space="preserve">
-    <value>Welcome to CookingBros</value>
+    <value>Bienvenido a CookingBros</value>
   </data>
   <data name="Ingredients" xml:space="preserve">
-    <value>Ingredients</value>
+    <value>Ingredientes</value>
   </data>
   <data name="Measures" xml:space="preserve">
-    <value>Measures</value>
+    <value>Medidas</value>
   </data>
   <data name="Recipes" xml:space="preserve">
-    <value>Recipes</value>
+    <value>Recetas</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>Volver</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Crear</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Actualizar</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Cargando...</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Nombre</value>
   </data>
   <data name="Unit of measurement" xml:space="preserve">
-    <value>Unit Of Measurement</value>
+    <value>Unidad de Medida</value>
+  </data>
+   <data name="Symbol" xml:space="preserve">
+    <value>Simbolo</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Eliminar</value>
   </data>
 </root>
