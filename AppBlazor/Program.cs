@@ -31,14 +31,12 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationState
 
 var app = builder.Build();
 
-// 🔹 Definir culturas soportadas
 var supportedCultures = new[]
 {
     new CultureInfo("es"),
     new CultureInfo("en")
 };
 
-// 🔹 Configurar RequestLocalization
 var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("es"),
@@ -46,7 +44,6 @@ var localizationOptions = new RequestLocalizationOptions
     SupportedUICultures = supportedCultures
 };
 
-// 🔹 Usar CookieRequestCultureProvider para Blazor Server
 localizationOptions.RequestCultureProviders.Clear();
 localizationOptions.RequestCultureProviders.Add(
     new CookieRequestCultureProvider()
@@ -54,7 +51,6 @@ localizationOptions.RequestCultureProviders.Add(
 
 app.UseRequestLocalization(localizationOptions);
 
-// 🔹 Endpoint para cambiar idioma
 app.MapGet("/set-culture", (string culture, string redirectUri, HttpContext context) =>
 {
     context.Response.Cookies.Append(
