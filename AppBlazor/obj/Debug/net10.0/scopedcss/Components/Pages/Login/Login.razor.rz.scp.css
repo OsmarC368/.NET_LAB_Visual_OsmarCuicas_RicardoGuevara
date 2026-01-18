@@ -1,0 +1,22 @@
+.formLogin[b-ok54b6n1cw] {
+    border: 5px solid #0000007c;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: auto;
+    max-width: 35vw;
+    margin: auto;
+    margin-top: 8rem;
+    box-shadow: 2px 2px 12px #aaaaaa;
+    background-color: var(--fondo);
+    
+}
+
+.btn-group[b-ok54b6n1cw] {
+    margin-top: 10px;
+}
+
+
+
+.alert-danger[b-ok54b6n1cw] {
+    margin-top: 10px;
+}

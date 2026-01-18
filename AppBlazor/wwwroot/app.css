@@ -1,9 +1,32 @@
+:root {
+    /* Modo Luz */
+    --fondo: white;
+    --texto: black;
+    --primario: #1b6ec2;
+    --secundario: #6c757d;
+    --link: #0366d6;
+    --fondo-boton: #080808;
+    --texto-boton: rgba(219, 219, 219, 0.603);
+    --texto-2: #dfdfdf;
+}
+
+.tema-oscuro {
+    /* Tema Oscuro */
+    --fondo: #222222;
+    --texto: #e0e0e0;
+    --primario: #1b6ec2;
+    --secundario: #9a9a9a;
+    --link: #58a6ff;
+    --fondo-boton: #ebebeb;
+    --texto-boton: rgba(15, 15, 15, 0.603);
+}    
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 a, .btn-link {
-    color: #006bb7;
+    color: var(--fondo-boton);
 }
 
 .btn-primary {
@@ -26,6 +49,11 @@ h1:focus {
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
+}
+
+div.main {
+    background-color: var(--fondo);
+    color: var(--texto);
 }
 
 .invalid {

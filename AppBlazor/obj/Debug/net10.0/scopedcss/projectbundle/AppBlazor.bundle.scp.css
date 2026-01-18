@@ -361,3 +361,50 @@ main[b-dpjp486nnl] {
         opacity: 0;
     }
 }
+/* /Components/Pages/CreateRecipes/CreateRecipes.razor.rz.scp.css */
+/* /Components/Pages/Login/Login.razor.rz.scp.css */
+.formLogin[b-ok54b6n1cw] {
+    border: 5px solid #0000007c;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: auto;
+    max-width: 35vw;
+    margin: auto;
+    margin-top: 8rem;
+    box-shadow: 2px 2px 12px #aaaaaa;
+    background-color: var(--fondo);
+    
+}
+
+.btn-group[b-ok54b6n1cw] {
+    margin-top: 10px;
+}
+
+
+
+.alert-danger[b-ok54b6n1cw] {
+    margin-top: 10px;
+}
+/* /Components/Pages/Registration/Register.razor.rz.scp.css */
+.formRegister[b-r3joh3zd3a] {
+    border: 5px solid #0000007c;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: auto;
+    max-width: 35vw;
+    margin: auto;
+    margin-top: 8rem;
+    box-shadow: 2px 2px 12px #aaaaaa;
+    background-color: #0a0a0a3b;
+    
+}
+
+.btn-group[b-r3joh3zd3a] {
+    margin-top: 10px;
+}
+
+
+
+.alert-danger[b-r3joh3zd3a] {
+    margin-top: 10px;
+}

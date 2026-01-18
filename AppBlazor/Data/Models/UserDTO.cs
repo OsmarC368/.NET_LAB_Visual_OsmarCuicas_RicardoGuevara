@@ -9,7 +9,7 @@ namespace AppBlazor.Data.Models
     public class UserDTO
     {
         [Required(ErrorMessage = "El Email es Requerido!")]
-        [StringLength(225, ErrorMessage = "El Email es Demasiado Corto", MinimumLength =2)]
+        [StringLength(225, ErrorMessage = "El Email es Demasiado Corto", MinimumLength =10)]
         public string email {get; set;} = string.Empty;
 
         [Required(ErrorMessage = "La Contraseña es Requerida!")]

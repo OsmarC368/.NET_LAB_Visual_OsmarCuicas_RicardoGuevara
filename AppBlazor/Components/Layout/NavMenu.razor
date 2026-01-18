@@ -1,4 +1,11 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject NavigationManager NavigationManager
+@inject TokenContainer tokenContainer
+@using Blazored.SessionStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Runtime.InteropServices
+
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">AppBlazor</a>
     </div>
@@ -8,33 +15,79 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+       <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/auth/login">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Login
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/auth/register">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="counter">
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="weather">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/create-recipes">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Crear Recetas
+                    </NavLink>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/auth/login">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Login
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/auth/register">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
+                    </NavLink>
+                </div>
+                @* <div class="theme-selector">
+                    <label style="color:var(--texto-2); margin-left: 4%;">Cambiar Tema</label>
+                    <select @onchange="test">
+                        @foreach (var theme in themes)
+                        {
+                            <option value="@theme">@theme</option>
+                        }
+                    </select>
+
+                    
+                </div> *@
+            </NotAuthorized>
+        </AuthorizeView>
+
     </nav>
 </div>
+
+@* 
+@code {
+    private List<string> themes = new List<string> { "Claro", "Oscuro" };
+    private bool themeSelected(string theme) => theme == "Claro";
+    [Parameter]
+    public EventCallback<bool> notifyThemeChange { get; set; }
+
+    private void ThemeSelectorSelected(ChangeEventArgs e)
+    {
+        Console.WriteLine(e.Value.ToString());
+        notifyThemeChange.InvokeAsync(themeSelected(e.Value.ToString())); 
+        notifyThemeChange.InvokeAsync();
+    }
+
+    private void test(ChangeEventArgs e)
+    {
+        Console.WriteLine(e.Value.ToString());
+    }
+
+} *@
 

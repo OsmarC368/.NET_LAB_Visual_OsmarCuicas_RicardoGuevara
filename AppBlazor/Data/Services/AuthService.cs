@@ -22,7 +22,6 @@ namespace AppBlazor.Data.Services
                         methodHttp.POST,
                         user);
 
-                var x = response.Data.Datos.jwt;
                 return response;
             }
             catch (Exception ex)
@@ -33,14 +32,14 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<string>> Register(UserDTO user)
+        public async Task<Response<Core.Responses.Response<UserDTO>>> Register(UserDTO user)
         {
-            Response<string> response = new Response<string>();
+            Response<Core.Responses.Response<UserDTO>> response = new Response<Core.Responses.Response<UserDTO>>();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<string, UserDTO>(
+                    .Execute<Core.Responses.Response<UserDTO>, UserDTO>(
                         $"{url}/register",
                         methodHttp.POST,
                         user);

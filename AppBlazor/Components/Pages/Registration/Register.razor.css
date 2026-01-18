@@ -1,0 +1,22 @@
+.formRegister {
+    border: 5px solid #0000007c;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: auto;
+    max-width: 35vw;
+    margin: auto;
+    margin-top: 8rem;
+    box-shadow: 2px 2px 12px #aaaaaa;
+    background-color: #0a0a0a3b;
+    
+}
+
+.btn-group {
+    margin-top: 10px;
+}
+
+
+
+.alert-danger {
+    margin-top: 10px;
+}

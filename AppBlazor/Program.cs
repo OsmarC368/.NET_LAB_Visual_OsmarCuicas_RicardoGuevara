@@ -15,6 +15,7 @@ builder.Services.AddAuthorizationCore();
 //builder.Services.AddSingleton<StateContainer>();
 builder.Services.AddSingleton<TokenContainer>();
 builder.Services.AddSingleton<AuthService>();
+builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<Consumer>();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();

@@ -38,16 +38,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/Login/Login.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpblxMb2dpbi5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/NotFound.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOb3RGb3VuZC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/Registration/Register.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3RyYXRpb25cUmVnaXN0ZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/Weather.razor]
@@ -73,3 +65,15 @@ build_metadata.AdditionalFiles.CssScope = b-consqr0m1i
 [C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Layout/ReconnectModal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcUmVjb25uZWN0TW9kYWwucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-4aj79mijn3
+
+[C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/CreateRecipes/CreateRecipes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVSZWNpcGVzXENyZWF0ZVJlY2lwZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wyr5x5igxw
+
+[C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/Login/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpblxMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ok54b6n1cw
+
+[C:/Users/osmar/OneDrive/Escritorio/.NET_LAB_Visual_OsmarCuicas_RicardoGuevara/AppBlazor/Components/Pages/Registration/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3RyYXRpb25cUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-r3joh3zd3a

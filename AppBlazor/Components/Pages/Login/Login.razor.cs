@@ -38,18 +38,18 @@ namespace AppBlazor.Components.Pages.Login
             StateHasChanged();
             var response = await authService!.Login(user);
 
-            if(response.Ok)
+            if(response.Data.Ok)
             {
                 tokenContainer.asingToken(response.Data.Datos.jwt);
-                ((CustomAuthorizationStateProvider)AuthenticationStateProvider).AuthenticateUser(response.message);
-                NavigationManager.NavigateTo("/");
+                ((CustomAuthorizationStateProvider)AuthenticationStateProvider).AuthenticateUser(tokenContainer.token);
+                NavigationManager.NavigateTo("/counter", forceLoad: true);
+                Clear();
             }
             else
             {
-                message = response.message;
+                message = response.Data.Mensaje;
                 messageClass = "alert alert-danger";
             }
-            Clear();
             StateHasChanged();
         }
 

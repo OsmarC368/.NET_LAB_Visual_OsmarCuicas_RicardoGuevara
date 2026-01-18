@@ -33,7 +33,7 @@ namespace AppBlazor.Components.Pages.Registration
             }
             else
             {
-                message = response.message;
+                message = response.Data.Mensaje;
                 messageClass = "alert alert-danger";
             }
             Clear();

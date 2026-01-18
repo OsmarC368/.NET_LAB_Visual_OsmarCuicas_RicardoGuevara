@@ -92,7 +92,6 @@ namespace AppBlazor.Data
 
         public static async Task<Response<T>> Execute<T>(string endpoint, methodHttp methodHttp, T Data, string? token = null)
         {
-            //string urlBaseApi = "http://gracosoftnet2025.runasp.net/api/";
             string urlBaseApi = "https://api-recipes-tg3p.onrender.com/api";
             Response<T> response = new();
             try
@@ -101,7 +100,7 @@ namespace AppBlazor.Data
                 using (HttpClient client = new HttpClient())
                 {
                     // URL
-                    string url = @$"{urlBaseApi}{endpoint}";
+                    string url = @$"{urlBaseApi}/{endpoint}";
                     //Data - informacion a mandar
                     string dataString = JsonConvert.SerializeObject(methodHttp != methodHttp.GET ? methodHttp != methodHttp.DELETE ? Data : "" : "");
                     var byteContent = new ByteArrayContent(Encoding.UTF8.GetBytes(dataString));
