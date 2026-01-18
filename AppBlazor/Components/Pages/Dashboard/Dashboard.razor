@@ -1,14 +1,12 @@
 @page "/dashboard"
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Components.Authorization
-@inject NavigationManager Navigation
-@inject AuthenticationStateProvider AuthStateProvider
+@using Core.Entities
 @using System.Security.Claims
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<SharedResources> L
 
 
-<h3 style= "text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+<h3 style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
     @L["Welcome"]
 </h3>
 
@@ -25,9 +23,6 @@
 }
 else
 {
-    <button class="btn btn-primary">
-            @L["Recipes"]
-    </button>
     <div class="d-flex justify-content-center gap-2">
         <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
             @L["Measures"]
@@ -35,43 +30,39 @@ else
         <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
             @L["Ingredients"]
         </button>
+        <button class="btn btn-primary" @onclick="GoToRecipes" disabled="@(!isAuthenticated)">
+            @L["Recipes"]
+        </button>
     </div>
 }
 
-@code {
-    private bool isAuthenticated = false;
-    private bool isLoaded = false;
-    private int userType = 0;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+@if (recipes.Any())
+{
+    <div class="row mt-4">
+        @foreach (var recipe in recipes)
         {
-            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-
-            var user = authState.User;
-
-            isAuthenticated = authState.User.Identity?.IsAuthenticated ?? false;
-            if (isAuthenticated)
-            {
-                var userTypeClaim = user.FindFirst("UserTypeID");
-                if (userTypeClaim != null && int.TryParse(userTypeClaim.Value, out var parsedType))
-                {
-                    userType = parsedType;
-                }
-            }
-            isLoaded = true;
-            StateHasChanged(); 
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@recipe.Name</h5>
+                        <p class="mb-1">
+                            <strong>@L["Type"]:</strong> @recipe.Type
+                        </p>
+                        <p class="mb-0">
+                            <strong>@L["Difficulty"]:</strong>
+                            <span class="badge @GetDifficultyClass(recipe.DifficultyLevel)">
+                                @GetDifficultyText(recipe.DifficultyLevel)
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         }
-    }
-
-    private void GoToMeasures()
-    {
-        Navigation.NavigateTo("/measure");
-    }
-
-    private void GoToIngredients()
-    {
-        Navigation.NavigateTo("/ingredient");
-    }
+    </div>
+}
+else if (isLoaded)
+{
+    <div class="alert alert-info mt-4 text-center">
+        @L["No recipes available"]
+    </div>
 }

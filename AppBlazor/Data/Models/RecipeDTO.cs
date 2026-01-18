@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AppBlazor.Data.Models
+{
+    public class RecipeDTO
+    {
+        [Required(ErrorMessage = "El Nombre es Requerido!")]
+        [StringLength(225, ErrorMessage = "El Nombre es Demasiado Corto", MinimumLength =2)]
+        public string name {get; set;} = string.Empty;
+
+        [Required(ErrorMessage = "La Descripción es Requerida!")]
+        [StringLength(225, ErrorMessage = "La Descripción es Demasiado Corta", MinimumLength =5)]
+        public string description {get; set;} = string.Empty;
+
+        [Required(ErrorMessage = "El Tipo de Receta es Requerido!")]
+        [StringLength(225, ErrorMessage = "El Tipo es Demasiado Corto", MinimumLength =2)]
+        public string type {get; set;} = string.Empty;
+
+        [Required(ErrorMessage = "El Nivel de Dificultad es Requerido!")]
+        [Range(1, 5, ErrorMessage = "El Nivel de Dificultad Debe Estar Entre 1 y 5")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Solo se Permiten Numeros")]
+        public string difficultyLevel {get; set;} = string.Empty;
+        public int visibility {get; set;} = 1;
+        public int userIDR {get; set;} = 0;
+        public int userRID {get; set;} = 0;
+        public int Id {get; set;} = 0;
+
+    }
+}

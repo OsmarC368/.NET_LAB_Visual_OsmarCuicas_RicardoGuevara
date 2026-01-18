@@ -23,8 +23,10 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 builder.Services.AddSingleton<TokenContainer>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<Consumer>();
+builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<IMeasureService, MeasureService>();
 builder.Services.AddSingleton<IIngredientService, IngredientService>();
+builder.Services.AddSingleton<IRecipeService, RecipeService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();

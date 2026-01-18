@@ -5,33 +5,34 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 
+<div class="formLogin">
+    <form>
+        <EditForm Model="@user"> 
+            <DataAnnotationsValidator/>
+            <div class="form-group d-flex flex-column">
+                <h3>Iniciar Sesion</h3>
+                <label for="">@loading</label>
+                <label>
+                    <span>Email</span>
+                    <InputText class="form-control" @bind-Value="user.email" />
+                    <ValidationMessage For="() => user.email" class="alert alert-danger" id="Alert"/>
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <InputText class="form-control" @bind-Value="user.password" />
+                    <ValidationMessage For="() => user.password" class="alert alert-danger" id="Alert" />
+                </label>
+            </div>
+        </EditForm> 
 
-<h3>Inciar Sesion</h3>
+    </form>
+        <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
+            <button class="btn btn-secondary" @onclick=LoginUser >Iniciar Sesion</button>
+            <button class="btn btn-secondary" @onclick=Clear >Limpiar</button>
+        </div>
 
-<EditForm Model="@user"> 
-    <DataAnnotationsValidator/>
-    <label for="">@loading</label>
-    <div class="form-group d-flex flex-column">
-        <label>
-            <span>Email</span>
-            <InputText class="form-control" @bind-Value="user.email" />
-            <ValidationMessage For="() => user.email" class="alert alert-danger" />
-        </label>
-        <label>
-            <span>Password</span>
-            <InputText class="form-control" @bind-Value="user.password" />
-            <ValidationMessage For="() => user.password" class="alert alert-danger" />
-        </label>
-    </div>
-    @* <ValidationSummary></ValidationSummary> *@
+        <div class="@messageClass" role="alert">
+            <h4>@message</h4>
+        </div>
 
-</EditForm> 
-
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button class="btn btn-secondary" @onclick=LoginUser >Iniciar Sesion</button>
-    <button class="btn btn-secondary" @onclick=Clear >Limpiar</button>
-</div>
-
-<div class="@messageClass" role="alert">
-    <h4>@message</h4>
 </div>

@@ -26,14 +26,14 @@ namespace AppBlazor.Components.Pages.Registration
 
             var response = await authService!.Register(user);
 
-            if(response.Ok)
+            if (response.Ok)
             {
                 message = "Registration Successful!";
                 messageClass = "alert alert-success";
             }
             else
             {
-                message = response.message;
+                message = response.message ?? "Registration failed!";
                 messageClass = "alert alert-danger";
             }
             Clear();

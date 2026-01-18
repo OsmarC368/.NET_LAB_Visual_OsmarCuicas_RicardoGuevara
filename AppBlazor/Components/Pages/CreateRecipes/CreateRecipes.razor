@@ -1,0 +1,88 @@
+@page "/create-recipes"
+@using Core.Entities
+@rendermode InteractiveServer
+@attribute [StreamRendering]
+@using Microsoft.AspNetCore.Components.Authorization
+
+
+<div class="formLogin">
+    <form>
+        <EditForm Model="@recipe"> 
+            <DataAnnotationsValidator/>
+            <label for="">@loading</label>
+            <div class="form-group d-flex flex-column">
+                @if(updating)
+                {
+                    <h3>Actualizar Receta</h3>
+                }
+                else
+                {
+                    <h3>Crear Receta</h3>
+                }
+                <label>
+                    <span>Nombre</span>
+                    <InputText class="form-control" @bind-Value="recipe.name" />
+                    <ValidationMessage For="() => recipe.name" class="alert alert-danger" id="Alert"/>
+                </label>
+                <label>
+                    <span>Descripción</span>
+                    <InputText class="form-control" @bind-Value="recipe.description" />
+                    <ValidationMessage For="() => recipe.description" class="alert alert-danger" id="Alert" />
+                </label>
+                <label>
+                    <span>Tipo de Receta</span>
+                    <InputText class="form-control" @bind-Value="recipe.type" />
+                    <ValidationMessage For="() => recipe.type" class="alert alert-danger" id="Alert" />
+                </label>
+                <label>
+                    <span>Nivel de Dificultad</span>
+                    <InputText class="form-control" @bind-Value="recipe.difficultyLevel" />
+                    <ValidationMessage For="() => recipe.difficultyLevel" class="alert alert-danger" id="Alert" />
+                </label>
+            </div>
+        </EditForm> 
+
+    </form>
+        <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
+            @if(updating)
+            {
+                <button class="btn btn-primary" @onclick=UpdateRecipe>Guardar</button>
+                <button class="btn btn-primary" @onclick=CancelUpdate>Cancelar</button>
+            }
+            else
+            {
+                <button class="btn btn-primary" @onclick=CreateRecipe >Crear Receta</button>
+            }
+            <button class="btn btn-primary" @onclick=Clear >Limpiar</button>
+        </div>
+
+        <div class="@messageClass" role="alert">
+            <h4>@message</h4>
+        </div>
+    <h3>@loading</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo de Receta</th>
+                <th>Nivel de Dificultad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rec in recipes)
+            {
+                <tr>
+                    <td>@rec.Name</td>
+                    <td>@rec.Type</td>
+                    <td>@rec.DifficultyLevel</td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="() => FillRecipe(rec.Id)">Modificar</button>
+                        <button class="btn btn-warning" @onclick="() => DetallesReceta(rec.Id)">Detalles Receta</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteRecipe(rec.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
