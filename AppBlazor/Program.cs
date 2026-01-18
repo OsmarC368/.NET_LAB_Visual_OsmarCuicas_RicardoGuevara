@@ -66,7 +66,7 @@ app.MapGet("/set-culture", (string culture, string redirectUri, HttpContext cont
         {
             Expires = DateTimeOffset.UtcNow.AddYears(1),
             IsEssential = true,
-            Path = "/" // aplica a toda la app
+            Path = "/" 
         }
     );
 

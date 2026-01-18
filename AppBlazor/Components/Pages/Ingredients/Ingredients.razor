@@ -3,7 +3,6 @@
 @using Core.Entities
 @inject NavigationManager Navigation
 @inject IStringLocalizerFactory LocalizerFactory
-@using System.Globalization
 @using Microsoft.Extensions.Localization
 
 <button class="btn btn-primary" @onclick="GoBack">
@@ -14,7 +13,6 @@
     @L["Ingredients"]
 </h3>
 
-
 <AuthorizeView>
     <Authorized Context="auth">
         <EditForm Model="currentIngredient" OnValidSubmit="SaveIngredient" FormName="ingredientForm">
@@ -24,7 +22,7 @@
             </div>
 
             <div class="mb-3">
-                <label>@L["Symbol"]</label>
+                <label>@L["Type"]</label>
                 <InputText class="form-control" @bind-Value="currentIngredient.Type" />
             </div>
 
@@ -39,46 +37,142 @@
                 </button>
             }
         </EditForm>
-            @if (!string.IsNullOrEmpty(message))
-            {
-                <div class="alert @(success ? "alert-success" : "alert-danger") mt-2">
-                    @message
-                </div>
-            }
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert @(success ? "alert-success" : "alert-danger") mt-2">
+                @message
+            </div>
+        }
     </Authorized>
 </AuthorizeView>
 
 <hr />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@L["Name"]</th>
-            <th>@L["Type"]</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var i in ingredients)
-        {
+<div class="row mb-3">
+    <div class="col-md-6">
+        <input type="text"
+               class="form-control"
+               placeholder="@L["Search by name"]"
+               @bind="SearchText"
+               @bind:event="oninput" />
+    </div>
+
+    <div class="col-md-4">
+        <select class="form-select"
+                @bind="SelectedType">
+            <option value="">@L["All types"]</option>
+            @foreach (var type in IngredientTypes)
+            {
+                <option value="@type">@type</option>
+            }
+        </select>
+    </div>
+</div>
+
+@if (!FilteredIngredients.Any())
+{
+    <div class="alert alert-info">
+        @L["No results found"]
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
             <tr>
-                <td>@i.Name</td>
-                <td>@i.Type</td>
-                <td>
-                    <AuthorizeView Context="auth">
-                        <Authorized>
-                            <button class="btn btn-warning btn-sm" @onclick="() => EditIngredient(i)">@L["Edit"]</button>
-                            <button class="btn btn-danger btn-sm ms-1" @onclick="() => DeleteIngredient(i)">@L["Delete"]</button>
-                        </Authorized>
-                    </AuthorizeView>
-                </td>
+                <th>@L["Name"]</th>
+                <th>@L["Type"]</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var i in PagedIngredients)
+            {
+                <tr>
+                    <td>@i.Name</td>
+                    <td>@i.Type</td>
+                    <td>
+                        <AuthorizeView>
+                            <Authorized>
+                                <button class="btn btn-warning btn-sm"
+                                        @onclick="() => EditIngredient(i)">
+                                    @L["Edit"]
+                                </button>
+                                <button class="btn btn-danger btn-sm ms-1"
+                                        @onclick="() => DeleteIngredient(i)">
+                                    @L["Delete"]
+                                </button>
+                            </Authorized>
+                        </AuthorizeView>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (TotalPages > 1)
+    {
+        <nav class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <button class="page-link" @onclick="PreviousPage">
+                        @L["Previous"]
+                    </button>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        @currentPage / @TotalPages
+                    </span>
+                </li>
+
+                <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                    <button class="page-link" @onclick="NextPage">
+                        @L["Next"]
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    }
+}
 
 @code {
     private IStringLocalizer L = default!;
+
+    private int pageSize = 5;
+    private int currentPage = 1;
+
+    private string _searchText = string.Empty;
+    private string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (_searchText != value)
+            {
+                _searchText = value;
+                ResetPage();
+            }
+        }
+    }
+
+    private string _selectedType = string.Empty;
+    private string SelectedType
+    {
+        get => _selectedType;
+        set
+        {
+            if (_selectedType != value)
+            {
+                _selectedType = value;
+                ResetPage();
+            }
+        }
+    }
+
+    private int TotalPages =>
+        (int)Math.Ceiling(FilteredIngredients.Count() / (double)pageSize);
 
     protected override void OnInitialized()
     {
@@ -86,5 +180,42 @@
             "SharedResources",
             typeof(SharedResources).Assembly.GetName().Name!
         );
+    }
+
+    private IEnumerable<string> IngredientTypes =>
+        ingredients
+            .Where(i => !string.IsNullOrWhiteSpace(i.Type))
+            .Select(i => i.Type)
+            .Distinct()
+            .OrderBy(t => t);
+
+    private IEnumerable<Ingredient> FilteredIngredients =>
+        ingredients.Where(i =>
+            (string.IsNullOrWhiteSpace(SearchText) ||
+             i.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrWhiteSpace(SelectedType) ||
+             i.Type.Equals(SelectedType, StringComparison.OrdinalIgnoreCase))
+        );
+
+    private IEnumerable<Ingredient> PagedIngredients =>
+        FilteredIngredients
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize);
+
+    private void NextPage()
+    {
+        if (currentPage < TotalPages)
+            currentPage++;
+    }
+
+    private void PreviousPage()
+    {
+        if (currentPage > 1)
+            currentPage--;
+    }
+
+    private void ResetPage()
+    {
+        currentPage = 1;
     }
 }

@@ -59,4 +59,27 @@
    <data name="Symbol" xml:space="preserve">
     <value>Symbol</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Search by name or unit" xml:space="preserve">
+    <value>Search by Name or Unit</value>
+  </data>
+  <data name="Search by name" xml:space="preserve">
+    <value>Search by Name</value>
+  </data>
+  <data name="All type" xml:space="preserve">
+    <value>All Type</value>
+  </data>
+  <data name="No results found" xml:space="preserve">
+    <value>No results found</value>
+  </data>
 </root>
+
+

@@ -32,6 +32,18 @@ namespace AppBlazor.Components.Pages.Measures
 
         protected async Task SaveMeasure()
         {
+
+            bool exists = measures.Any(m =>
+                m.name.Trim().Equals(currentMeasure.name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || m.id != currentMeasure.id)
+            );
+
+            if (exists)
+            {
+                message = @L["Ya existe una Measure con ese nombre."];
+                success = false;
+                return;
+            }
             Response<Measure> result;
 
             if (isEditMode)
@@ -68,6 +80,19 @@ namespace AppBlazor.Components.Pages.Measures
 
         protected async Task DeleteMeasure(Measure m)
         {
+
+            bool exists = measures.Any(m =>
+                m.name.Trim().Equals(currentMeasure.name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || m.id != currentMeasure.id)
+            );
+
+            if (exists)
+            {
+                message = "Ya existe una medida con ese nombre.";
+                success = false;
+                return;
+            }
+
             var result = await MeasureService.Remove(m.id);
             if (result.Ok)
             {

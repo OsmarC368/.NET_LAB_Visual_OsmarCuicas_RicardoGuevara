@@ -32,6 +32,18 @@ namespace AppBlazor.Components.Pages.Ingredients
 
         protected async Task SaveIngredient()
         {
+            bool exists = ingredients.Any(i =>
+                i.Name.Trim().Equals(currentIngredient.Name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || i.Id != currentIngredient.Id)
+            );
+
+            if (exists)
+            {
+                message = "Ya existe un ingrediente con ese nombre.";
+                success = false;
+                return;
+            }
+
             Response<Ingredient> result;
 
             if (isEditMode)
@@ -56,6 +68,19 @@ namespace AppBlazor.Components.Pages.Ingredients
 
         protected void EditIngredient(Ingredient i)
         {
+
+            bool exists = ingredients.Any(i =>
+                i.Name.Trim().Equals(currentIngredient.Name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || i.Id != currentIngredient.Id)
+            );
+
+            if (exists)
+            {
+                message = "Ya existe un ingrediente con ese nombre.";
+                success = false;
+                return;
+            }
+
             currentIngredient = new Ingredient
             {
                 Id = i.Id,
