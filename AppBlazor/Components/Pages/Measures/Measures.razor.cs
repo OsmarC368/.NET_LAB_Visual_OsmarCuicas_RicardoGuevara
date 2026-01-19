@@ -8,7 +8,7 @@ namespace AppBlazor.Components.Pages.Measures
 {
     public partial class Measures
     {
-        [Inject] private IMeasureService MeasureService { get; set; } = default!;
+        /*[Inject] private IMeasureService MeasureService { get; set; } = default!;
 
         protected List<Measure> measures = new();
         protected Measure currentMeasure = new();
@@ -117,6 +117,6 @@ namespace AppBlazor.Components.Pages.Measures
         private void GoBack()
         {
             Navigation.NavigateTo("/dashboard");
-        }
+        }*/
     }
 }

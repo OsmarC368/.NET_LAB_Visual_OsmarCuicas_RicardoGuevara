@@ -86,7 +86,7 @@
     <form>
         <EditForm Model="@ingredientPerRecipe"> 
             <DataAnnotationsValidator/>
-            <label for="">@loading</label>
+            <label for="">@loadingIngredient</label>
             <div class="form-group d-flex flex-column">
                 @if(updatingIngredient)
                 {
@@ -96,16 +96,16 @@
                 {
                     <h3>Añadir Ingrediente</h3>
                 }
-                <select name="" id="">
+                <select class="form-select" @bind="@selectedIngredient">
                     @foreach(var ingredient in ingredientsList)
                     {
                         <option value="@ingredient.Id">@ingredient.Name</option>
                     }
                 </select>
-                <select name="" id="">
+                <select class="form-select" @bind="@selectedMeasure">
             @foreach(var measure in measureList)
                     {
-                        <option value="@measure.id">@measure</option>
+                        <option value="@measure.id">@measure.name</option>
                     }
                 </select>
                 <label>
@@ -120,7 +120,7 @@
     <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
         @if(updatingIngredient)
         {
-            <button class="btn btn-primary" @onclick=UpdateIngredient>Guardar</button>
+            @* <button class="btn btn-primary" @onclick=UpdateIngredient>Guardar</button> *@
             <button class="btn btn-primary" @onclick=CancelUpdateIngredient>Cancelar</button>
         }
         else
@@ -142,11 +142,11 @@
             {
                 <tr>
                     <td>@ingredient.ingredient</td>
-                    <td>@ingredient.unidad</td>
+                    <td>@ingredient.measure</td>
                     <td>@ingredient.amount</td>
                     <td>
-                        <button class="btn btn-secondary" @onclick="() => FillIngredient(ingredient.Id)">Modificar</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteIngredient(ingredient.Id)">Eliminar</button>
+                        @* <button class="btn btn-secondary" @onclick="() => FillIngredient(ingredient.Id)">Modificar</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteIngredient(ingredient.Id)">Eliminar</button> *@
                     </td>
                 </tr>
             }

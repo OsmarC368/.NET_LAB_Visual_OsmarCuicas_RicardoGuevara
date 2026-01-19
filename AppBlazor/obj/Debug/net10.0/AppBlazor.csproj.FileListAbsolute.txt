@@ -103,7 +103,7 @@ C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\Ap
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\AppBlazor.csproj.Up2Date
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\scopedcss\Components\Pages\Login\Login.razor.rz.scp.css
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\scopedcss\Components\Pages\Registration\Register.razor.rz.scp.css
-C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\compressed\6s3e69ei4x-{0}-qqr707t4u0-qqr707t4u0.gz
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\scopedcss\Components\Pages\CreateRecipes\CreateRecipes.razor.rz.scp.css
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\compressed\kkij8xm3jq-{0}-l4o4hht7ce-l4o4hht7ce.gz
 C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\compressed\74gmpik86s-{0}-l4o4hht7ce-l4o4hht7ce.gz
+C:\Users\osmar\OneDrive\Escritorio\.NET_LAB_Visual_OsmarCuicas_RicardoGuevara\AppBlazor\obj\Debug\net10.0\compressed\6s3e69ei4x-{0}-wmaq1g4uio-wmaq1g4uio.gz

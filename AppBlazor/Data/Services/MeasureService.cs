@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AppBlazor.Data.Services
 {
-    public class MeasureService : IMeasureService
+    public class MeasureService
     {
         private readonly TokenContainer _tokenContainer;
 
@@ -29,11 +29,11 @@ namespace AppBlazor.Data.Services
             return apiResponse.Data ?? new Core.Responses.Response<IEnumerable<Measure>> { Ok = false, Mensaje = apiResponse.message };
         }
 
-        public async Task<Core.Responses.Response<Measure>> GetByIdAsync(int id)
+        public async Task<Response<Core.Responses.Response<Measure>>> GetByIdAsync(int id)
         {
             //Console.WriteLine("TOKEN ACTUAL EN GetByIdAsync: " + _tokenContainer.token); 
 
-            var apiResponse = await Consumer.Execute<Measure, object>(
+            var apiResponse = await Consumer.Execute<Core.Responses.Response<Measure>, object>(
                 $"Measure/{id}",
                 methodHttp.GET,
                 null!,
@@ -43,12 +43,7 @@ namespace AppBlazor.Data.Services
             //if (!apiResponse.Ok)
             //    Console.WriteLine($"ERROR GetByIdAsync ({id}): " + apiResponse.message);
 
-            return new Core.Responses.Response<Measure>
-            {
-                Ok = apiResponse.Ok,
-                Mensaje = apiResponse.message,
-                Datos = apiResponse.Data
-            };
+            return apiResponse;
         }
 
         public async Task<Core.Responses.Response<Measure>> Create(Measure newEntity)

@@ -16,7 +16,7 @@ namespace AppBlazor.Components.Pages.Dashboard
     {
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; }
-        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
+        //[Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject] private IRecipeService RecipeService { get; set; }
 
         private bool isAuthenticated = false;

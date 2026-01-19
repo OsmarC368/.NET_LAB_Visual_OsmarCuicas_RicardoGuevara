@@ -12,7 +12,6 @@ builder.Services.AddServerSideBlazor().AddCircuitOptions(options => options.Deta
 builder.Services.AddAuthorizationCore();
 
 //Custom Services
-//builder.Services.AddSingleton<StateContainer>();
 builder.Services.AddSingleton<TokenContainer>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<RecipesService>();
