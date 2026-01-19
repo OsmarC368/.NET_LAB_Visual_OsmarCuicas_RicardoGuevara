@@ -6,6 +6,8 @@ using AppBlazor.Components;
 using AppBlazor.Data.Models;
 using Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Http;
+using System.IO;
 
 namespace AppBlazor.Data.Services
 {
@@ -92,12 +94,32 @@ namespace AppBlazor.Data.Services
             Response<Core.Responses.Response<RecipeDTO>> response = new ();
             try
             {
+                var formData = new MultipartFormDataContent();
+
+                // Agregar los campos de texto
+                formData.Add(new StringContent(recipeDTO.name), "name");
+                formData.Add(new StringContent(recipeDTO.description), "description");
+                formData.Add(new StringContent(recipeDTO.type), "type");
+                formData.Add(new StringContent(recipeDTO.difficultyLevel), "difficultyLevel");
+                formData.Add(new StringContent(recipeDTO.visibility.ToString()), "visibility");
+                formData.Add(new StringContent(recipeDTO.userIDR.ToString()), "userIDR");
+                formData.Add(new StringContent(recipeDTO.userRID.ToString()), "userRID");
+                formData.Add(new StringContent(recipeDTO.imageUrl), "imageUrl");
+
+                // Agregar la imagen si existe
+                if (recipeDTO.ImageFile != null)
+                {
+                    var stream = recipeDTO.ImageFile.OpenReadStream();
+                    var fileContent = new StreamContent(stream);
+                    fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(recipeDTO.ImageFile.ContentType);
+                    formData.Add(fileContent, "imageFile", recipeDTO.ImageFile.Name);
+                }
+
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<RecipeDTO>, RecipeDTO>(
+                    .ExecuteMultipart<Core.Responses.Response<RecipeDTO>>(
                         $"{url}",
-                        methodHttp.POST,
-                        recipeDTO,
+                        formData,
                         _tokenContainer.token
                     );
             }

@@ -6,6 +6,7 @@ using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace AppBlazor.Components.Pages.CreateRecipes
 {
@@ -123,18 +124,24 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             Clear();
         }
 
+        public void OnImageSelected(InputFileChangeEventArgs e)
+        {
+            recipe.ImageFile = e.File;
+        }
+
         public void Clear()
         {
             recipe.name = string.Empty;
             recipe.description = string.Empty;
             recipe.difficultyLevel = string.Empty;
             recipe.type = string.Empty;
+            recipe.ImageFile = null;
             loading = string.Empty;
         }
 
         public void DetallesReceta(int recipeId)
         {
-            NavigationManager.NavigateTo($"/recipedetails/{recipeId}");
+            NavigationManager.NavigateTo($"/recipe-details/{recipeId}");
         }
 
     }

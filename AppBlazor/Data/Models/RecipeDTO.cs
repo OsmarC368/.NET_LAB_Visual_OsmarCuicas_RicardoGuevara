@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace AppBlazor.Data.Models
 {
@@ -28,6 +29,9 @@ namespace AppBlazor.Data.Models
         public int userIDR {get; set;} = 0;
         public int userRID {get; set;} = 0;
         public int Id {get; set;} = 0;
+        public string imageUrl { get; set; } = "TemporaryImagePath";
 
+        // Nuevo campo para la imagen
+        public IBrowserFile? ImageFile { get; set; }
     }
 }

@@ -150,5 +150,64 @@ namespace AppBlazor.Data
             }
             return response;
         }
+
+        public static async Task<Response<T>> ExecuteMultipart<T>(string endpoint, MultipartFormDataContent formData, string? token = null)
+        {
+            string urlBaseApi = "https://api-recipes-tg3p.onrender.com/api";
+            Response<T> response = new();
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = $"{urlBaseApi}/{endpoint}";
+                    if (token != null)
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    var request = new HttpRequestMessage(HttpMethod.Post, url)
+                    {
+                        Content = formData
+                    };
+
+                    using (HttpResponseMessage responseApi = await client.SendAsync(request))
+                    {
+                        using (HttpContent content = responseApi.Content)
+                        {
+                            response.statusCode = responseApi.StatusCode.ToString();
+                            string dataResponse = await content.ReadAsStringAsync();
+                            if (dataResponse != null)
+                            {
+                                try
+                                {
+                                    response.Data = JsonConvert.DeserializeObject<T>(dataResponse);
+                                    try
+                                    {
+                                        if(response.Data?.Equals("Bad Request") == true)
+                                        {
+                                            response.Ok = false;
+                                            return response;
+                                        }
+                
+                                    }
+                                    catch(Exception ex) 
+                                    { 
+                                        response.Ok = true;
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    response.message = dataResponse;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return response;
+        }
     }
 }
