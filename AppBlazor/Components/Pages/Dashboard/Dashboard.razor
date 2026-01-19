@@ -1,0 +1,88 @@
+@page "/dashboard"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Authorization
+@using Core.Entities
+@using System.Security.Claims
+@using Microsoft.Extensions.Localization
+
+
+<h3 style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+    @L["Welcome"]
+</h3>
+
+<div class="row mt-4">
+    <div class="col-md-12 mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="@L["Search by name"]" 
+                   @bind="filterName" @bind:event="oninput" />
+
+            <input type="text" class="form-control" placeholder="@L["Search by type"]" 
+                   @bind="filterType" @bind:event="oninput" />
+
+            <select class="form-select" @bind="filterDifficulty">
+                <option value="">@L["All difficulties"]</option>
+                <option value="1">@L["Easy"]</option>
+                <option value="2">@L["Medium"]</option>
+                <option value="3">@L["Hard"]</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+@if (isLoaded && userType == 2)
+{
+    <div class="d-flex justify-content-center gap-2">
+        <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
+            @L["Measures"]
+        </button>
+        <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
+            @L["Ingredients"]
+        </button>
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center gap-2">
+        
+        <button class="btn btn-primary" @onclick="GoToRecipes" disabled="@(!isAuthenticated)">
+            @L["Recipes"]
+        </button>
+        <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
+            @L["Measures"]
+        </button>
+        <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
+            @L["Ingredients"]
+        </button>
+    </div>
+}
+
+@if (FilteredRecipes.Any())
+{
+    <div class="row mt-4">
+        @foreach (var recipe in FilteredRecipes)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">@recipe.Name</h5>
+                        <p class="mb-1">
+                            <strong>@L["Type"]:</strong> @recipe.Type
+                        </p>
+                        <p class="mb-0">
+                            <strong>@L["Difficulty"]:</strong>
+                            <span class="badge @GetDifficultyClass(recipe.DifficultyLevel)">
+                                @GetDifficultyText(recipe.DifficultyLevel)
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (isLoaded)
+{
+    <div class="alert alert-info mt-4 text-center">
+        @L["No recipes available"]
+    </div>
+}

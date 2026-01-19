@@ -18,11 +18,16 @@ builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<StepService>();
 builder.Services.AddSingleton<IngredientPerRecipeService>();
+builder.Services.AddSingleton<IngredientService>();
+builder.Services.AddSingleton<MeasureService>();
 builder.Services.AddSingleton<Consumer>();
 
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

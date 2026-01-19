@@ -204,5 +204,36 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             loading = string.Empty;
         }
 
+        public void ClearIngredient()
+        {
+            ingredientPerRecipe.amount = string.Empty;
+            loading = string.Empty;
+        }
+
+        public void CancelUpdateIngredient()
+        {
+            updatingIngredient = false;
+            ClearIngredient();
+        }
+
+        public async Task<IEnumerable<Core.Entities.Measure>?> GetAllMeasures()
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var temp = new List<Core.Entities.Step>();
+            var response = await stepService.GetAllAsync();
+            if (response.Datos != null)
+            {
+                foreach (var step in response.Datos)
+                {
+                    if (step.RecipeIdS == RecipeId)
+                    {
+                        temp.Add(step);
+                    }
+                }
+            }
+            return temp;
+        }
+
     }
 }
