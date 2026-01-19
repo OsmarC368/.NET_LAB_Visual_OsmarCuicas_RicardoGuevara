@@ -7,6 +7,8 @@ using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Localization;
+using Core.Entities;
 
 namespace AppBlazor.Components.Pages.CreateRecipes
 {
@@ -24,6 +26,31 @@ namespace AppBlazor.Components.Pages.CreateRecipes
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
         [Inject]
         public NavigationManager? NavigationManager { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
+        private string filterName = string.Empty;
+        private string filterType = string.Empty;
+        private int? filterDifficulty = null;
+
+        private IEnumerable<Recipe> FilteredRecipes => recipes
+            .Where(r =>
+                (string.IsNullOrWhiteSpace(filterName) || r.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(filterType) || r.Type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
+                (!filterDifficulty.HasValue || r.DifficultyLevel == filterDifficulty.Value)
+            );
+
+        private string GetDifficultyText(float level)
+        {
+            if (level == 1) return L["Easy"];
+            if (level == 2) return L["Medium"];
+            return L["Hard"];
+        }
+
+        private string GetDifficultyClass(float level)
+        {
+            if (level == 1) return "bg-success";
+            if (level == 2) return "bg-warning text-dark";
+            return "bg-danger";
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -194,5 +221,9 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             NavigationManager.NavigateTo($"/recipe-details/{recipeId}");
         }
 
+        private void GoBack()
+        {
+            Navigation.NavigateTo("/dashboard");
+        }
     }
 }

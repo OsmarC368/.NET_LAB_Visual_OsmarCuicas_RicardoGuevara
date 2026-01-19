@@ -53,6 +53,7 @@ else
         <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
             @L["Ingredients"]
         </button>
+       
     </div>
 }
 
@@ -62,14 +63,33 @@ else
         @foreach (var recipe in FilteredRecipes)
         {
             <div class="col-md-4 mb-3">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm h-100 text-center">
+                    @if (!string.IsNullOrWhiteSpace(recipe.imageUrl))
+                    {
+                        <img src="@recipe.imageUrl"
+                            class="card-img-top"
+                            style="height:200px; object-fit:cover;"
+                            alt="@recipe.Name" />
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column justify-content-center align-items-center bg-light"
+                            style="height:200px;">
+                            <span style="font-size:3rem;">🍽️</span>
+                            <span class="text-muted mt-2">@L["No image"]</span>
+                        </div>
+                    }
+
                     <div class="card-body">
                         <h5 class="card-title fw-bold">@recipe.Name</h5>
+
                         <p class="mb-1">
-                            <strong>@L["Type"]:</strong> @recipe.Type
+                            <strong>@L["Type"]</strong><br />
+                            @recipe.Type
                         </p>
+
                         <p class="mb-0">
-                            <strong>@L["Difficulty"]:</strong>
+                            <strong>@L["Difficulty"]</strong><br />
                             <span class="badge @GetDifficultyClass(recipe.DifficultyLevel)">
                                 @GetDifficultyText(recipe.DifficultyLevel)
                             </span>

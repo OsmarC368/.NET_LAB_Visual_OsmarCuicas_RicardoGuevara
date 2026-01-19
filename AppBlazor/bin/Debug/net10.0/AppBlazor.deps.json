@@ -18,6 +18,11 @@
         },
         "runtime": {
           "AppBlazor.dll": {}
+        },
+        "resources": {
+          "en/AppBlazor.resources.dll": {
+            "locale": "en"
+          }
         }
       },
       "Blazored.SessionStorage/2.4.0": {

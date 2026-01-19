@@ -59,7 +59,7 @@ namespace AppBlazor.Components.Pages.Dashboard
 
             if (isAuthenticated)
             {
-                var claim = user.FindFirst("UserTypeID");
+                var claim = user.FindFirst("userType");
                 if (claim != null && int.TryParse(claim.Value, out var parsed))
                 {
                     userType = parsed;

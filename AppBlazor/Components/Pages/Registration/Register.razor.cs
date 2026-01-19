@@ -2,6 +2,7 @@ using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 
 namespace AppBlazor.Components.Pages.Registration
 {
@@ -11,6 +12,7 @@ namespace AppBlazor.Components.Pages.Registration
 
         [Inject]
         public AuthService? authService { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
 
         public string message = string.Empty;
         public string messageClass = string.Empty;
@@ -26,14 +28,14 @@ namespace AppBlazor.Components.Pages.Registration
 
             var response = await authService!.Register(user);
 
-            if(response.Ok)
+            if (response.Ok)
             {
                 message = "Registration Successful!";
                 messageClass = "alert alert-success";
             }
             else
             {
-                message = response.Data.Mensaje;
+                message = response.message ?? "Registration failed!";
                 messageClass = "alert alert-danger";
             }
             Clear();

@@ -3,7 +3,7 @@
 @using Blazored.SessionStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Runtime.InteropServices
-
+@inject NavigationManager Navigation
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -40,6 +40,19 @@
                         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Crear Recetas
                     </NavLink>
                 </div>
+                <li class="nav-item px-3 mt-3">
+                    <div class="d-flex gap-1">
+                        <a class="btn btn-outline-secondary btn-sm"
+                        href="@GetCultureUrl("es")">
+                            🇪🇸 ES
+                        </a>
+
+                        <a class="btn btn-outline-secondary btn-sm"
+                        href="@GetCultureUrl("en")">
+                            🇺🇸 EN
+                        </a>
+                    </div>
+                </li>
             </Authorized>
             <NotAuthorized>
 
@@ -53,6 +66,19 @@
                         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
                     </NavLink>
                 </div>
+                <li class="nav-item px-3 mt-3">
+                    <div class="d-flex gap-1">
+                        <a class="btn btn-outline-secondary btn-sm"
+                        href="@GetCultureUrl("es")">
+                            🇪🇸 ES
+                        </a>
+
+                        <a class="btn btn-outline-secondary btn-sm"
+                        href="@GetCultureUrl("en")">
+                            🇺🇸 EN
+                        </a>
+                    </div>
+                </li>
                 @* <div class="theme-selector">
                     <label style="color:var(--texto-2); margin-left: 4%;">Cambiar Tema</label>
                     <select @onchange="test">
@@ -91,3 +117,16 @@
 
 } *@
 
+@code {
+    string GetCultureUrl(string culture)
+    {
+        var currentPath = Navigation.ToBaseRelativePath(Navigation.Uri);
+
+        if (string.IsNullOrEmpty(currentPath))
+            currentPath = "/";
+        else
+            currentPath = "/" + currentPath;
+
+        return $"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(currentPath)}";
+    }
+}
