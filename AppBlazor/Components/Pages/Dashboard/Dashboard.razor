@@ -10,6 +10,25 @@
     @L["Welcome"]
 </h3>
 
+<div class="row mt-4">
+    <div class="col-md-12 mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="@L["Search by name"]" 
+                   @bind="filterName" @bind:event="oninput" />
+
+            <input type="text" class="form-control" placeholder="@L["Search by type"]" 
+                   @bind="filterType" @bind:event="oninput" />
+
+            <select class="form-select" @bind="filterDifficulty">
+                <option value="">@L["All difficulties"]</option>
+                <option value="1">@L["Easy"]</option>
+                <option value="2">@L["Medium"]</option>
+                <option value="3">@L["Hard"]</option>
+            </select>
+        </div>
+    </div>
+</div>
+
 @if (isLoaded && userType == 2)
 {
     <div class="d-flex justify-content-center gap-2">
@@ -24,22 +43,23 @@
 else
 {
     <div class="d-flex justify-content-center gap-2">
+        
+        <button class="btn btn-primary" @onclick="GoToRecipes" disabled="@(!isAuthenticated)">
+            @L["Recipes"]
+        </button>
         <button class="btn btn-primary" @onclick="GoToMeasures" disabled="@(!isAuthenticated)">
             @L["Measures"]
         </button>
         <button class="btn btn-primary" @onclick="GoToIngredients" disabled="@(!isAuthenticated)">
             @L["Ingredients"]
         </button>
-        <button class="btn btn-primary" @onclick="GoToRecipes" disabled="@(!isAuthenticated)">
-            @L["Recipes"]
-        </button>
     </div>
 }
 
-@if (recipes.Any())
+@if (FilteredRecipes.Any())
 {
     <div class="row mt-4">
-        @foreach (var recipe in recipes)
+        @foreach (var recipe in FilteredRecipes)
         {
             <div class="col-md-4 mb-3">
                 <div class="card shadow-sm h-100">

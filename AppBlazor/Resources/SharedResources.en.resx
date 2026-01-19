@@ -119,7 +119,38 @@
   <data name="No recipes available" xml:space="preserve">
     <value>No recipes available</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="Select level" xml:space="preserve">
+    <value>Select level</value>
+  </data>
+  <data name="All difficulties" xml:space="preserve">
+    <value>All difficulties</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Search by type" xml:space="preserve">
+    <value>Search by type</value>
+  </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
 </root>
+
 
 
 

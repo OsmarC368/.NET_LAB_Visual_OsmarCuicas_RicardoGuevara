@@ -23,6 +23,16 @@ namespace AppBlazor.Components.Pages.Dashboard
         private bool isLoaded = false;
         private int userType = 0;
         private List<Recipe> recipes = new();
+        private string filterName = string.Empty;
+        private string filterType = string.Empty;
+        private int? filterDifficulty = null;
+
+        private IEnumerable<Recipe> FilteredRecipes => recipes
+            .Where(r =>
+                (string.IsNullOrWhiteSpace(filterName) || r.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(filterType) || r.Type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
+                (!filterDifficulty.HasValue || r.DifficultyLevel == filterDifficulty.Value)
+            );
 
         protected override async Task OnInitializedAsync()
         {
@@ -66,15 +76,15 @@ namespace AppBlazor.Components.Pages.Dashboard
 
         private string GetDifficultyText(float level)
         {
-            if (level <= 2) return L["Easy"];
-            if (level <= 4) return L["Medium"];
+            if (level == 1) return L["Easy"];
+            if (level == 2) return L["Medium"];
             return L["Hard"];
         }
 
         private string GetDifficultyClass(float level)
         {
-            if (level <= 2) return "bg-success";
-            if (level <= 4) return "bg-warning text-dark";
+            if (level == 1) return "bg-success";
+            if (level == 2) return "bg-warning text-dark";
             return "bg-danger";
         }
     }

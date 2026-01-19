@@ -118,4 +118,34 @@
   <data name="No recipes available" xml:space="preserve">
     <value>No hay recetas disponibles</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Facil</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Moderado</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Dificil</value>
+  </data>
+  <data name="Select level" xml:space="preserve">
+    <value>Selecciona la Dificultad</value>
+  </data>
+  <data name="All difficulties" xml:space="preserve">
+    <value>Todas las dificultades</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="Search by type" xml:space="preserve">
+    <value>Buscar por tipo</value>
+  </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Dificultad</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
 </root>

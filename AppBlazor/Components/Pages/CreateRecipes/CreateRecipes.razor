@@ -3,86 +3,121 @@
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
 
+<button class="btn btn-secondary mb-3" @onclick="GoBack">
+    @L["Back"]
+</button>
 
-<div class="formLogin">
-    <form>
-        <EditForm Model="@recipe"> 
-            <DataAnnotationsValidator/>
-            <label for="">@loading</label>
-            <div class="form-group d-flex flex-column">
-                @if(updating)
-                {
-                    <h3>@L["Update Recipe"]</h3>
-                }
-                else
-                {
-                    <h3>@L["Create Recipe"]</h3>
-                }
-                <label>
-                    <span>@L["Name"]</span>
-                    <InputText class="form-control" @bind-Value="recipe.name" />
-                    <ValidationMessage For="() => recipe.name" class="alert alert-danger" id="Alert"/>
-                </label>
-                <label>
-                    <span>@L["Description"]</span>
-                    <InputText class="form-control" @bind-Value="recipe.description" />
-                    <ValidationMessage For="() => recipe.description" class="alert alert-danger" id="Alert" />
-                </label>
-                <label>
-                    <span>@L["Type of recipe"]</span>
-                    <InputText class="form-control" @bind-Value="recipe.type" />
-                    <ValidationMessage For="() => recipe.type" class="alert alert-danger" id="Alert" />
-                </label>
-                <label>
-                    <span>@L["Difficulty level"]</span>
-                    <InputText class="form-control" @bind-Value="recipe.difficultyLevel" />
-                    <ValidationMessage For="() => recipe.difficultyLevel" class="alert alert-danger" id="Alert" />
-                </label>
-            </div>
-        </EditForm> 
+<div class="card mb-4 p-3 shadow-sm">
+    <EditForm Model="@recipe">
+        <DataAnnotationsValidator />
+        <label>@loading</label>
 
-    </form>
-        <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
+        <div class="mb-3">
+            <label>@L["Name"]</label>
+            <InputText class="form-control" @bind-Value="recipe.name" />
+            <ValidationMessage For="() => recipe.name" class="text-danger"/>
+        </div>
+
+        <div class="mb-3">
+            <label>@L["Description"]</label>
+            <InputText class="form-control" @bind-Value="recipe.description" />
+            <ValidationMessage For="() => recipe.description" class="text-danger"/>
+        </div>
+
+        <div class="mb-3">
+            <label>@L["Type of recipe"]</label>
+            <InputText class="form-control" @bind-Value="recipe.type" />
+            <ValidationMessage For="() => recipe.type" class="text-danger"/>
+        </div>
+
+        <div class="mb-3">
+            <label>@L["Difficulty level"]</label>
+            <InputSelect class="form-control" @bind-Value="recipe.difficultyLevel">
+                <option value="">@L["Select level"]</option>
+                <option value="1">1 - @L["Easy"]</option>
+                <option value="2">2 - @L["Medium"]</option>
+                <option value="3">3 - @L["Hard"]</option>
+            </InputSelect>
+            <ValidationMessage For="() => recipe.difficultyLevel" class="text-danger"/>
+        </div>
+
+        <div class="btn-group">
             @if(updating)
             {
-                <button class="btn btn-primary" @onclick=UpdateRecipe>Guardar</button>
-                <button class="btn btn-primary" @onclick=CancelUpdate>@L["Cancel"]</button>
+                <button class="btn btn-primary" @onclick="UpdateRecipe">@L["Save"]</button>
+                <button class="btn btn-secondary" @onclick="CancelUpdate">@L["Cancel"]</button>
             }
             else
             {
-                <button class="btn btn-primary" @onclick=CreateRecipe >@L["Create"]</button>
+                <button class="btn btn-success" @onclick="CreateRecipe">@L["Create"]</button>
             }
-            <button class="btn btn-primary" @onclick=Clear >@L["Clean"]</button>
+            <button class="btn btn-warning" @onclick="Clear">@L["Clean"]</button>
         </div>
+    </EditForm>
 
-        <div class="@messageClass" role="alert">
-            <h4>@message</h4>
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert mt-3 @messageClass" role="alert">
+            @message
         </div>
-    <h3>@loading</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>@L["Name"]</th>
-                <th>@L["Type of recipe"]</th>
-                <th>@L["Difficulty level"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rec in recipes)
-            {
-                <tr>
-                    <td>@rec.Name</td>
-                    <td>@rec.Type</td>
-                    <td>@rec.DifficultyLevel</td>
-                    <td>
-                        <button class="btn btn-secondary" @onclick="() => FillRecipe(rec.Id)">@L["Edit"]</button>
-                        <button class="btn btn-warning" @onclick="() => DetallesReceta(rec.Id)">@L["Recipe details"]</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteRecipe(rec.Id)">@L["Delete"]</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
+    }
 </div>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="@L["Search by name"]" @bind="filterName" @bind:event="oninput" />
+    </div>
+    <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="@L["Search by type"]" @bind="filterType" @bind:event="oninput" />
+    </div>
+    <div class="col-md-4">
+        <select class="form-select" @bind="filterDifficulty">
+            <option value="">@L["All difficulties"]</option>
+            <option value="1">@L["Easy"]</option>
+            <option value="2">@L["Medium"]</option>
+            <option value="3">@L["Hard"]</option>
+        </select>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>@L["Name"]</th>
+            <th>@L["Type of recipe"]</th>
+            <th>@L["Difficulty"]</th>
+            <th>@L["Actions"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rec in FilteredRecipes)
+        {
+            <tr>
+                <td>@rec.Name</td>
+                <td>@rec.Type</td>
+                <td>
+                    <span class="badge @GetDifficultyClass(rec.DifficultyLevel)">
+                        @GetDifficultyText(rec.DifficultyLevel)
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-secondary btn-sm" @onclick="() => FillRecipe(rec.Id)">@L["Edit"]</button>
+                        <button class="btn btn-warning btn-sm" @onclick="() => DetallesReceta(rec.Id)">@L["Details"]</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteRecipe(rec.Id)">@L["Delete"]</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!FilteredRecipes.Any())
+{
+    <div class="alert alert-info text-center">
+        @L["No recipes found."]
+    </div>
+}
+
