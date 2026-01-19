@@ -97,13 +97,15 @@
                     <h3>Añadir Ingrediente</h3>
                 }
                 <select class="form-select" @bind="@selectedIngredient">
+                    <option value="">Seleccionar Ingrediente</option>
                     @foreach(var ingredient in ingredientsList)
                     {
                         <option value="@ingredient.id">@ingredient.name</option>
                     }
                 </select>
                 <select class="form-select" @bind="@selectedMeasure">
-            @foreach(var measure in measureList)
+                    <option value="">Seleccionar Medida</option>
+                    @foreach(var measure in measureList)
                     {
                         <option value="@measure.id">@measure.name</option>
                     }

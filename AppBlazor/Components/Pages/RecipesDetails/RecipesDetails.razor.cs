@@ -15,8 +15,8 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 {
     public partial class RecipesDetails
     {
-        private string selectedIngredient = string.Empty;
-        private string selectedMeasure = string.Empty;
+        private int? selectedIngredient;
+        private int? selectedMeasure;
         public StepDTO step = new();
         public string RecipeName = string.Empty;
         public List<Core.Entities.Step> steps = new();
@@ -231,7 +231,9 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public void ClearIngredient()
         {
             ingredientPerRecipe.amount = string.Empty;
-            loading = string.Empty;
+            selectedIngredient = null;
+            selectedMeasure = null;
+            loadingIngredient = string.Empty;
         }
 
         public void CancelUpdateIngredient()
@@ -254,11 +256,19 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task CreatIngredientPerRecipe()
         {
+            if (!selectedIngredient.HasValue || !selectedMeasure.HasValue)
+            {
+                message = "Por favor, selecciona un ingrediente y una medida.";
+                messageClass = "alert alert-warning";
+                StateHasChanged();
+                return;
+            }
+
             loadingIngredient = "loading...";
             StateHasChanged();
             ingredientPerRecipe.recipeID = RecipeId;
-            ingredientPerRecipe.ingredientIdIPR = int.Parse(selectedIngredient);
-            ingredientPerRecipe.measureIdIPR = int.Parse(selectedMeasure);
+            ingredientPerRecipe.ingredientIdIPR = selectedIngredient.Value;
+            ingredientPerRecipe.measureIdIPR = selectedMeasure.Value;
             var response = await ingredientPerRecipeService.Create(ingredientPerRecipe);
             if (response.Ok)
             {
