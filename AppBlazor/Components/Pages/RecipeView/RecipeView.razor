@@ -4,8 +4,9 @@
 @attribute [StreamRendering]
 @using Microsoft.AspNetCore.Components.Authorization
 
-@*<h2>@RecipeName</h2>
+<h2>@RecipeName</h2>
 <div>
+    @*
     <h3>Ingredientes</h3>
     <li>
         @foreach(var ingredient in recipeIngredients)
@@ -15,22 +16,22 @@
                 <p>Cantidad: @ingredient.Quantity @ingredient.MeasureName</p>
             </div>
         }
-    </li>
+    </li>*@
     <div>
         <h3>Pasos</h3>
         <li>
             @foreach(var step in steps)
             {
                 <div>
-                    <h4>@step.name</h4>
-                    <p>@step.description</p>
+                    <h4>@step.Name</h4>
+                    <p>@step.Description</p>
                     <p>Duración: @step.Duration</p>
-                    @if(!string.IsNullOrEmpty(step.ImageUrl))
+                    @if(!string.IsNullOrEmpty(step.imageURL))
                     {
-                        <img src="@step.ImageUrl" alt="@step.name" width="200" />
+                        <img src="@step.imageURL" alt="@step.Name" width="200" />
                     }
                 </div>
             }
         </li>
     </div>
-</div>*@
+</div>
