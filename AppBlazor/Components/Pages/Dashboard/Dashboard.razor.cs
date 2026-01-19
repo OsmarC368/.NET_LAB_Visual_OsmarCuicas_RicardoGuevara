@@ -90,7 +90,7 @@ namespace AppBlazor.Components.Pages.Dashboard
 
         private void GoToRecipeDetails(int recipeId)
         {
-            Navigation.NavigateTo("");
+            Navigation.NavigateTo($"/recipe-view/{recipeId}");
         }
     }
 }
