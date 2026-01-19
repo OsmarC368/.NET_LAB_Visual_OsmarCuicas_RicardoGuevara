@@ -96,7 +96,6 @@ namespace AppBlazor.Data.Services
             {
                 var formData = new MultipartFormDataContent();
 
-                // Agregar los campos de texto
                 formData.Add(new StringContent(recipeDTO.name), "name");
                 formData.Add(new StringContent(recipeDTO.description), "description");
                 formData.Add(new StringContent(recipeDTO.type), "type");
@@ -106,7 +105,6 @@ namespace AppBlazor.Data.Services
                 formData.Add(new StringContent(recipeDTO.userRID.ToString()), "userRID");
                 formData.Add(new StringContent(recipeDTO.imageUrl), "imageUrl");
 
-                // Agregar la imagen si existe
                 if (recipeDTO.ImageFile != null)
                 {
                     var stream = recipeDTO.ImageFile.OpenReadStream();

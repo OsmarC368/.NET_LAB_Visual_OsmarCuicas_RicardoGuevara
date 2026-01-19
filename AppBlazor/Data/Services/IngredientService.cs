@@ -31,24 +31,22 @@ namespace AppBlazor.Data.Services
 
         public async Task<Core.Responses.Response<Ingredient>> GetByIdAsync(int id)
         {
-            //Console.WriteLine("TOKEN ACTUAL EN GetByIdAsync: " + _tokenContainer.token); 
-
-            var apiResponse = await Consumer.Execute<Ingredient, object>(
+            var apiResponse = await Consumer.Execute<
+                Core.Responses.Response<Ingredient>,
+                object
+            >(
                 $"Ingredient/{id}",
                 methodHttp.GET,
                 null!,
                 _tokenContainer.token
             );
 
-            //if (!apiResponse.Ok)
-            //    Console.WriteLine($"ERROR GetByIdAsync ({id}): " + apiResponse.message);
-
-            return new Core.Responses.Response<Ingredient>
-            {
-                Ok = apiResponse.Ok,
-                Mensaje = apiResponse.message,
-                Datos = apiResponse.Data
-            };
+            return apiResponse.Data
+                ?? new Core.Responses.Response<Ingredient>
+                {
+                    Ok = false,
+                    Mensaje = apiResponse.message
+                };
         }
 
         public async Task<Core.Responses.Response<Ingredient>> Create(Ingredient newEntity)

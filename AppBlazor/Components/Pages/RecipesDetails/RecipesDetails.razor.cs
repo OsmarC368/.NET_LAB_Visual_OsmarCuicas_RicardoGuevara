@@ -269,10 +269,34 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
             loadingIngredient = "loading...";
             StateHasChanged();
+
+            if(!int.TryParse(selectedIngredient, out int ingredientId))
+            {
+                message = "Debe seleccionar un ingrediente válido";
+                messageClass = "alert alert-danger";
+                loadingIngredient = string.Empty;
+                return;
+            }
+
+            if(!int.TryParse(selectedMeasure, out int measureId))
+            {
+                message = "Debe seleccionar una medida válida";
+                messageClass = "alert alert-danger";
+                loadingIngredient = string.Empty;
+                return;
+            }
+
             ingredientPerRecipe.recipeID = RecipeId;
+<<<<<<< HEAD
             ingredientPerRecipe.ingredientIdIPR = selectedIngredient.Value;
             ingredientPerRecipe.measureIdIPR = selectedMeasure.Value;
+=======
+            ingredientPerRecipe.ingredientIdIPR = ingredientId;
+            ingredientPerRecipe.measureIdIPR = measureId;
+
+>>>>>>> e301576d67a1fd9580049131110183416dc83ef9
             var response = await ingredientPerRecipeService.Create(ingredientPerRecipe);
+
             if (response.Ok)
             {
                 message = response.Data?.Mensaje ?? "Ingrediente añadido exitosamente";
@@ -283,8 +307,10 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 message = "Error, No se pudo añadir el ingrediente";
                 messageClass = "alert alert-danger";
             }
+
             ClearIngredient();
-            GetIngredientsPerRecipe();
+            await GetIngredientsPerRecipe();
+            loadingIngredient = string.Empty;
             StateHasChanged();
         }
 
@@ -310,30 +336,35 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task GetIngredientsPerRecipe()
         {
+            ingredientsPerRecipeList.Clear(); 
+
             var allIngredientsPerRecipeResponse = await ingredientPerRecipeService.GetAllAsync();
-            if (allIngredientsPerRecipeResponse.Datos != null)
+
+            if (allIngredientsPerRecipeResponse.Datos == null)
+                return;
+
+            foreach (var ipr in allIngredientsPerRecipeResponse.Datos)
             {
-                foreach (var ipr in allIngredientsPerRecipeResponse.Datos)
+                if (ipr.RecipeId != RecipeId)
+                    continue;
+
+                var ingredientResponse = await ingredientService.GetByIdAsync(ipr.IngredientIdIPR);
+                var measureResponse = await measureService.GetByIdAsync(ipr.measureIdIPR);
+
+                IngredientPerRecipeDTO dto = new IngredientPerRecipeDTO
                 {
-                    if (ipr.RecipeId == RecipeId)
-                    {
-                        var ingredientResponse = await ingredientService.GetByIdAsync(ipr.IngredientIdIPR);
-                        var measureResponse = await measureService.GetByIdAsync(ipr.measureIdIPR);
-                        IngredientPerRecipeDTO dto = new IngredientPerRecipeDTO
-                        {
-                            id = ipr.id,
-                            recipeID = ipr.RecipeId,
-                            ingredientIdIPR = ipr.IngredientIdIPR,
-                            measureIdIPR = ipr.measureIdIPR,
-                            amount = ipr.amount.ToString(),
-                            ingredient = ingredientResponse.Datos?.name ?? string.Empty,
-                            measure = measureResponse.Datos?.name ?? string.Empty
-                        };
-                        ingredientsPerRecipeList.Add(dto);
-                    }
-                }
+                    id = ipr.id,
+                    recipeID = ipr.RecipeId,
+                    ingredientIdIPR = ipr.IngredientIdIPR,
+                    measureIdIPR = ipr.measureIdIPR,
+                    amount = ipr.amount.ToString(),
+
+                    ingredient = ingredientResponse?.Datos?.name ?? "—",
+                    measure = measureResponse?.Datos?.name ?? "—"
+                };
+
+                ingredientsPerRecipeList.Add(dto);
             }
         }
-
     }
 }

@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 
 <h2>@RecipeName</h2>
-<div class="formRecipesCreate">
+<div class="card mb-4 p-3 shadow-sm">
     <form>
         <EditForm Model="@step"> 
             <DataAnnotationsValidator/>
@@ -20,17 +20,17 @@
                     <h3>Crear Paso</h3>
                 }
                 <label>
-                    <span>Nombre</span>
+                    <span>@L["Name"]</span>
                     <InputText class="form-control" @bind-Value="step.name" />
                     <ValidationMessage For="() => step.name" class="alert alert-danger" id="Alert"/>
                 </label>
                 <label>
-                    <span>Descripción</span>
+                    <span>@L["Description"]</span>
                     <InputText class="form-control" @bind-Value="step.description" />
                     <ValidationMessage For="() => step.description" class="alert alert-danger" id="Alert" />
                 </label>
                 <label>
-                    <span>Duración</span>
+                    <span>@L["Duration"]</span>
                     <InputText class="form-control" @bind-Value="step.Duration" />
                     <ValidationMessage For="() => step.Duration" class="alert alert-danger" id="Alert" />
                 </label>
@@ -45,14 +45,14 @@
     <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
         @if(updatingStep)
         {
-            <button class="btn btn-primary" @onclick=UpdateStep>Guardar</button>
-            <button class="btn btn-primary" @onclick=CancelUpdateStep>Cancelar</button>
+            <button class="btn btn-primary" @onclick=UpdateStep>@L["Save"]</button>
+            <button class="btn btn-primary" @onclick=CancelUpdateStep>@L["Cancel"]</button>
         }
         else
         {
             <button class="btn btn-primary" @onclick=CreateStep >Crear Paso</button>
         }
-        <button class="btn btn-primary" @onclick=ClearStep >Limpiar</button>
+        <button class="btn btn-primary" @onclick=ClearStep >@L["Clean"]</button>
     </div>
     <h3>@loading</h3>
     <table class="table table-striped table-bordered align-middle">
@@ -60,7 +60,7 @@
             <tr>
                 <th>@L["Name"]</th>
                 <th>@L["Duration"]</th>
-                <th>@L["Name"]</th>
+                <th>@L["Image URL"]</th>
             </tr>
         </thead>
         <tbody>
@@ -71,8 +71,8 @@
                     <td>@step.Duration</td>
                     <td>@step.imageURL</td>
                     <td>
-                        <button class="btn btn-secondary" @onclick="() => FillStep(step.Id)">Modificar</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteStep(step.Id)">Eliminar</button>
+                        <button class="btn btn-secondary" @onclick="() => FillStep(step.Id)">@L["Edit"]</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteStep(step.Id)">@L["Delete"]</button>
                     </td>
                 </tr>
             }
@@ -82,7 +82,7 @@
 
 
 
-<div class="formLogin">
+<div class="card mb-4 p-3 shadow-sm">
     <form>
         <EditForm Model="@ingredientPerRecipe"> 
             <DataAnnotationsValidator/>
@@ -90,12 +90,13 @@
             <div class="form-group d-flex flex-column">
                 @if(updatingIngredient)
                 {
-                    <h3>Actualizar Ingrediente</h3>
+                    <h3>@L["Update Ingredient"]</h3>
                 }
                 else
                 {
-                    <h3>Añadir Ingrediente</h3>
+                    <h3>@L["Add Ingredient"]</h3>
                 }
+                <span>@L["Ingredient"]</span>
                 <select class="form-select" @bind="@selectedIngredient">
                     <option value="">Seleccionar Ingrediente</option>
                     @foreach(var ingredient in ingredientsList)
@@ -103,6 +104,7 @@
                         <option value="@ingredient.id">@ingredient.name</option>
                     }
                 </select>
+                <span>@L["Measure"]</span>
                 <select class="form-select" @bind="@selectedMeasure">
                     <option value="">Seleccionar Medida</option>
                     @foreach(var measure in measureList)
@@ -111,7 +113,7 @@
                     }
                 </select>
                 <label>
-                    <span>Cantidad</span>
+                    <span>@L["Quantity"]</span>
                     <InputText class="form-control" @bind-Value="ingredientPerRecipe.amount" />
                     <ValidationMessage For="() => ingredientPerRecipe.amount" class="alert alert-danger" id="Alert"/>
                 </label>
@@ -123,20 +125,20 @@
         @if(updatingIngredient)
         {
             @* <button class="btn btn-primary" @onclick=UpdateIngredient>Guardar</button> *@
-            <button class="btn btn-primary" @onclick=CancelUpdateIngredient>Cancelar</button>
+            <button class="btn btn-primary" @onclick=CancelUpdateIngredient>@L["Cancel"]</button>
         }
         else
         {
-            <button class="btn btn-primary" @onclick=CreatIngredientPerRecipe >Añadir Ingrediente</button>
+            <button class="btn btn-primary" @onclick=CreatIngredientPerRecipe >@L["Add Ingredient"]</button>
         }
-        <button class="btn btn-primary" @onclick=ClearIngredient >Limpiar</button>
+        <button class="btn btn-primary" @onclick=ClearIngredient >@L["Clean"]</button>
     </div>
-    <table>
+    <table class="table table-striped table-bordered align-middle">
         <thead>
             <tr>
-                <th>Ingredient</th>
-                <th>Medida</th>
-                <th>Cantidad</th>
+                <th>@L["Ingredient"]</th>
+                <th>@L["Measure"]</th>
+                <th>@L["Quantity"]</th>
             </tr>
         </thead>
         <tbody>
