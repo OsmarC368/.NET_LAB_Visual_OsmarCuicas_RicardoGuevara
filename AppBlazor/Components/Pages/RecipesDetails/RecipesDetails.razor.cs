@@ -321,7 +321,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task GetIngredientsPerRecipe()
         {
-            ingredientsPerRecipeList.Clear(); // 🔥 CLAVE
+            ingredientsPerRecipeList.Clear(); 
 
             var allIngredientsPerRecipeResponse = await ingredientPerRecipeService.GetAllAsync();
 
@@ -344,7 +344,6 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                     measureIdIPR = ipr.measureIdIPR,
                     amount = ipr.amount.ToString(),
 
-                    // 🔥 AQUÍ ESTABA EL PROBLEMA VISIBLE
                     ingredient = ingredientResponse?.Datos?.name ?? "—",
                     measure = measureResponse?.Datos?.name ?? "—"
                 };
