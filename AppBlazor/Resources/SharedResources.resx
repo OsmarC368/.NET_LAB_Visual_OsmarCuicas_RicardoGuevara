@@ -163,4 +163,10 @@
   <data name="Create Step" xml:space="preserve">
     <value>Crear Paso</value>
   </data>
+  <data name="Add Ingredient" xml:space="preserve">
+    <value>Agregar Ingrediente</value>
+  </data>
+  <data name="Update Ingredient" xml:space="preserve">
+    <value>Actualizar Ingrediente</value>
+  </data>
 </root>
