@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Core.Interfaces.Services;
+using Microsoft.Extensions.Localization;
+using Core.Entities;
 
 namespace AppBlazor.Components.Pages.RecipesDetails
 {
@@ -43,6 +45,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
         [Inject]
         public NavigationManager? NavigationManager { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
 
         [Parameter]
         public int RecipeId { get; set; }

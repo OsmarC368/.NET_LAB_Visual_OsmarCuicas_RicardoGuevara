@@ -154,4 +154,13 @@
   <data name="No Image" xml:space="preserve">
     <value>Sin Imagen</value>
   </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duracion</value>
+  </data>
+  <data name="Image URL" xml:space="preserve">
+    <value>URL de la imagen</value>
+  </data>
+  <data name="Create Step" xml:space="preserve">
+    <value>Crear Paso</value>
+  </data>
 </root>

@@ -87,5 +87,10 @@ namespace AppBlazor.Components.Pages.Dashboard
             if (level == 2) return "bg-warning text-dark";
             return "bg-danger";
         }
+
+        private void GoToRecipeDetails(int recipeId)
+        {
+            Navigation.NavigateTo("");
+        }
     }
 }
