@@ -6,7 +6,7 @@ using Core.Interfaces.Entities;
 
 namespace Core.Entities
 {
-    public class Measure : IMeasure
+    public class Measure
     {
         public int id { get; set; }
         public string name { get; set; } = "";

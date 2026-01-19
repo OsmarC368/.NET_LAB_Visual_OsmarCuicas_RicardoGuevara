@@ -18,12 +18,12 @@
         <EditForm Model="currentIngredient" OnValidSubmit="SaveIngredient" FormName="ingredientForm" class="card mb-4 p-3 shadow-sm">
             <div class="mb-3">
                 <label>@L["Name"]</label>
-                <InputText class="form-control" @bind-Value="currentIngredient.Name" />
+                <InputText class="form-control" @bind-Value="currentIngredient.name" />
             </div>
 
             <div class="mb-3">
                 <label>@L["Type"]</label>
-                <InputText class="form-control" @bind-Value="currentIngredient.Type" />
+                <InputText class="form-control" @bind-Value="currentIngredient.type" />
             </div>
 
             <button class="btn btn-primary" type="submit">
@@ -90,8 +90,8 @@ else
             @foreach (var i in PagedIngredients)
             {
                 <tr>
-                    <td>@i.Name</td>
-                    <td>@i.Type</td>
+                    <td>@i.name</td>
+                    <td>@i.type</td>
                     <td>
                         <AuthorizeView>
                             <Authorized>
@@ -184,17 +184,17 @@ else
 
     private IEnumerable<string> IngredientTypes =>
         ingredients
-            .Where(i => !string.IsNullOrWhiteSpace(i.Type))
-            .Select(i => i.Type)
+            .Where(i => !string.IsNullOrWhiteSpace(i.type))
+            .Select(i => i.type)
             .Distinct()
             .OrderBy(t => t);
 
     private IEnumerable<Ingredient> FilteredIngredients =>
         ingredients.Where(i =>
             (string.IsNullOrWhiteSpace(SearchText) ||
-             i.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
+             i.name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) &&
             (string.IsNullOrWhiteSpace(SelectedType) ||
-             i.Type.Equals(SelectedType, StringComparison.OrdinalIgnoreCase))
+             i.type.Equals(SelectedType, StringComparison.OrdinalIgnoreCase))
         );
 
     private IEnumerable<Ingredient> PagedIngredients =>

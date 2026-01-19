@@ -14,10 +14,13 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 {
     public partial class RecipesDetails
     {
+        private string selectedIngredient = string.Empty;
+        private string selectedMeasure = string.Empty;
         public StepDTO step = new();
         public string RecipeName = string.Empty;
         public List<Core.Entities.Step> steps = new();
         public string loading = string.Empty;
+        public string loadingIngredient = string.Empty;
         public string message = string.Empty;
         public bool updatingStep = false;
         public bool updatingIngredient = false;
@@ -30,6 +33,12 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public StepService? stepService { get; set; }
         [Inject]
         public RecipesService? recipesService { get; set; }
+        [Inject]
+        public IngredientService? ingredientService { get; set; }
+        [Inject]
+        public MeasureService? measureService { get; set; }
+        [Inject]
+        public IngredientPerRecipeService? ingredientPerRecipeService { get; set; }
         [Inject]
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
         [Inject]
@@ -50,6 +59,21 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
             steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
             loading = string.Empty;
+
+            var ingredientsResponse = await GetAllIngredients();
+            if (ingredientsResponse != null)
+            {
+                ingredientsList = ingredientsResponse.ToList();
+            }
+
+            var measureResponse = await GetAllMeasures();
+            if (measureResponse != null)
+            {
+                measureList = measureResponse.ToList();
+            }
+
+            await GetIngredientsPerRecipe();
+
             StateHasChanged();
         }
 
@@ -218,21 +242,84 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task<IEnumerable<Core.Entities.Measure>?> GetAllMeasures()
         {
-            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var temp = new List<Core.Entities.Step>();
-            var response = await stepService.GetAllAsync();
-            if (response.Datos != null)
+            var response = await measureService.GetAllAsync();
+            return response.Datos;
+        }
+
+        public async Task<IEnumerable<Core.Entities.Ingredient>?> GetAllIngredients()
+        {
+            var response = await ingredientService.GetAllAsync();
+            return response.Datos;
+        }
+
+        public async Task CreatIngredientPerRecipe()
+        {
+            loadingIngredient = "loading...";
+            StateHasChanged();
+            ingredientPerRecipe.recipeID = RecipeId;
+            ingredientPerRecipe.ingredientIdIPR = int.Parse(selectedIngredient);
+            ingredientPerRecipe.measureIdIPR = int.Parse(selectedMeasure);
+            var response = await ingredientPerRecipeService.Create(ingredientPerRecipe);
+            if (response.Ok)
             {
-                foreach (var step in response.Datos)
+                message = response.Data?.Mensaje ?? "Ingrediente añadido exitosamente";
+                messageClass = "alert alert-success";
+            }
+            else
+            {
+                message = "Error, No se pudo añadir el ingrediente";
+                messageClass = "alert alert-danger";
+            }
+            ClearIngredient();
+            GetIngredientsPerRecipe();
+            StateHasChanged();
+        }
+
+        public async Task DeleteIngredientPerRecipe(int id)
+        {
+            var response = await ingredientPerRecipeService.Delete(id);
+            if (response.Ok)
+            {
+                var ingredientToDelete = ingredientsPerRecipeList.FirstOrDefault(s => s.id == id);
+                if (ingredientToDelete != null)
                 {
-                    if (step.RecipeIdS == RecipeId)
+                    ingredientsPerRecipeList.Remove(ingredientToDelete);
+                }
+                await GetIngredientsPerRecipe();
+                StateHasChanged();
+            }
+            else
+            {
+                message = response.message;
+                messageClass = "alert alert-danger";
+            }
+        }
+
+        public async Task GetIngredientsPerRecipe()
+        {
+            var allIngredientsPerRecipeResponse = await ingredientPerRecipeService.GetAllAsync();
+            if (allIngredientsPerRecipeResponse.Datos != null)
+            {
+                foreach (var ipr in allIngredientsPerRecipeResponse.Datos)
+                {
+                    if (ipr.RecipeId == RecipeId)
                     {
-                        temp.Add(step);
+                        var ingredientResponse = await ingredientService.GetByIdAsync(ipr.IngredientIdIPR);
+                        var measureResponse = await measureService.GetByIdAsync(ipr.measureIdIPR);
+                        IngredientPerRecipeDTO dto = new IngredientPerRecipeDTO
+                        {
+                            id = ipr.id,
+                            recipeID = ipr.RecipeId,
+                            ingredientIdIPR = ipr.IngredientIdIPR,
+                            measureIdIPR = ipr.measureIdIPR,
+                            amount = ipr.amount.ToString(),
+                            ingredient = ingredientResponse.Datos?.Name ?? string.Empty,
+                            measure = measureResponse.Datos?.name ?? string.Empty
+                        };
+                        ingredientsPerRecipeList.Add(dto);
                     }
                 }
             }
-            return temp;
         }
 
     }

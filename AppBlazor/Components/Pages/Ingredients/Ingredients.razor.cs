@@ -33,8 +33,8 @@ namespace AppBlazor.Components.Pages.Ingredients
         protected async Task SaveIngredient()
         {
             bool exists = ingredients.Any(i =>
-                i.Name.Trim().Equals(currentIngredient.Name.Trim(), StringComparison.OrdinalIgnoreCase)
-                && (!isEditMode || i.Id != currentIngredient.Id)
+                i.name.Trim().Equals(currentIngredient.name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || i.id != currentIngredient.id)
             );
 
             if (exists)
@@ -47,7 +47,7 @@ namespace AppBlazor.Components.Pages.Ingredients
             Response<Ingredient> result;
 
             if (isEditMode)
-                result = await IngredientService.Update(currentIngredient.Id, currentIngredient);
+                result = await IngredientService.Update(currentIngredient.id, currentIngredient);
             else
                 result = await IngredientService.Create(currentIngredient);
 
@@ -70,8 +70,8 @@ namespace AppBlazor.Components.Pages.Ingredients
         {
 
             bool exists = ingredients.Any(i =>
-                i.Name.Trim().Equals(currentIngredient.Name.Trim(), StringComparison.OrdinalIgnoreCase)
-                && (!isEditMode || i.Id != currentIngredient.Id)
+                i.name.Trim().Equals(currentIngredient.name.Trim(), StringComparison.OrdinalIgnoreCase)
+                && (!isEditMode || i.id != currentIngredient.id)
             );
 
             if (exists)
@@ -83,9 +83,9 @@ namespace AppBlazor.Components.Pages.Ingredients
 
             currentIngredient = new Ingredient
             {
-                Id = i.Id,
-                Name = i.Name,
-                Type = i.Type
+                id = i.id,
+                name = i.name,
+                type = i.type
             };
             isEditMode = true;
             message = "";
@@ -93,7 +93,7 @@ namespace AppBlazor.Components.Pages.Ingredients
 
         protected async Task DeleteIngredient(Ingredient i)
         {
-            var result = await IngredientService.Remove(i.Id);
+            var result = await IngredientService.Remove(i.id);
             if (result.Ok)
             {
                 message = "Ingrediente eliminado correctamente";

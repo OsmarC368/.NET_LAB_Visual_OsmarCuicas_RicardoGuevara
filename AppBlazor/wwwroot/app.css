@@ -8,6 +8,7 @@
     --fondo-boton: #080808;
     --texto-boton: rgba(219, 219, 219, 0.603);
     --texto-2: #dfdfdf;
+    --gradient: Linear-Gradient(90deg, #9b9b9b 0%, #e7f5eb 100%);
 }
 
 .tema-oscuro {
@@ -19,6 +20,7 @@
     --link: #58a6ff;
     --fondo-boton: #ebebeb;
     --texto-boton: rgba(15, 15, 15, 0.603);
+    --gradient: Linear-Gradient(90deg, #101014 0%, #0a0a1b 100%);
 }    
 
 html, body {
