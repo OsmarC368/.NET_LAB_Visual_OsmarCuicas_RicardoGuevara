@@ -63,7 +63,10 @@ else
         @foreach (var recipe in FilteredRecipes)
         {
             <div class="col-md-4 mb-3">
-                <div class="card shadow-sm h-100 text-center">
+                <div class="card shadow-sm h-100 text-center"
+                    style="cursor:pointer;"
+                    @onclick="() => GoToRecipeDetails(recipe.Id)">
+                    
                     @if (!string.IsNullOrWhiteSpace(recipe.imageUrl))
                     {
                         <img src="@recipe.imageUrl"
