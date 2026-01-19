@@ -19,19 +19,22 @@
     </li>*@
     <div>
         <h3>Pasos</h3>
-        <li>
+        <ul class="list-group">
             @foreach(var step in steps)
             {
-                <div>
-                    <h4>@step.Name</h4>
-                    <p>@step.Description</p>
-                    <p>Duración: @step.Duration</p>
-                    @if(!string.IsNullOrEmpty(step.imageURL))
-                    {
-                        <img src="@step.imageURL" alt="@step.Name" width="200" />
-                    }
-                </div>
+                <li class="list-group-item">
+                    <div>
+                        <h4>@step.Name</h4>
+                        <p>@step.Description</p>
+                        <p>Duración: @step.Duration</p>
+                        @if(!string.IsNullOrEmpty(step.imageURL))
+                        {
+                            <img src="@step.imageURL" alt="@step.Name" width="200" />
+                        }
+                    </div>
+                </li>
             }
-        </li>
+
+        </ul>
     </div>
 </div>

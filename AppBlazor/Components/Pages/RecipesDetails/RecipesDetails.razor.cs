@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Core.Interfaces.Services;
 using Microsoft.Extensions.Localization;
-using Core.Entities;
 
 namespace AppBlazor.Components.Pages.RecipesDetails
 {
@@ -270,31 +269,11 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             loadingIngredient = "loading...";
             StateHasChanged();
 
-            if(!int.TryParse(selectedIngredient, out int ingredientId))
-            {
-                message = "Debe seleccionar un ingrediente válido";
-                messageClass = "alert alert-danger";
-                loadingIngredient = string.Empty;
-                return;
-            }
-
-            if(!int.TryParse(selectedMeasure, out int measureId))
-            {
-                message = "Debe seleccionar una medida válida";
-                messageClass = "alert alert-danger";
-                loadingIngredient = string.Empty;
-                return;
-            }
-
             ingredientPerRecipe.recipeID = RecipeId;
-<<<<<<< HEAD
+
             ingredientPerRecipe.ingredientIdIPR = selectedIngredient.Value;
             ingredientPerRecipe.measureIdIPR = selectedMeasure.Value;
-=======
-            ingredientPerRecipe.ingredientIdIPR = ingredientId;
-            ingredientPerRecipe.measureIdIPR = measureId;
 
->>>>>>> e301576d67a1fd9580049131110183416dc83ef9
             var response = await ingredientPerRecipeService.Create(ingredientPerRecipe);
 
             if (response.Ok)
