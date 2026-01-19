@@ -20,7 +20,8 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public string loading = string.Empty;
         public string message = string.Empty;
         public bool updatingStep = false;
-        public List<Ingredient> ingredientList = new();
+        public bool updatingIngredient = false;
+        public List<Ingredient> ingredientsList = new();
         public List<Measure> measureList = new();
         public string messageClass = string.Empty;
         public IngredientPerRecipeDTO ingredientPerRecipe = new IngredientPerRecipeDTO();
