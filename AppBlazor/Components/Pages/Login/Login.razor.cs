@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace AppBlazor.Components.Pages.Login
 {
@@ -20,6 +21,7 @@ namespace AppBlazor.Components.Pages.Login
         public NavigationManager? NavigationManager { get; set; }
         [Inject]
         public TokenContainer? tokenContainer { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject]
         public Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
 
@@ -34,7 +36,7 @@ namespace AppBlazor.Components.Pages.Login
                 messageClass = "alert alert-danger";
                 return;
             }
-            loading = "Loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var response = await authService!.Login(user);
 

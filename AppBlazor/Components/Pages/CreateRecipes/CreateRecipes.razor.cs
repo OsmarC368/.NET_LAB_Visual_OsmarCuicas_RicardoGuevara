@@ -6,6 +6,8 @@ using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Localization;
+
 
 namespace AppBlazor.Components.Pages.CreateRecipes
 {
@@ -23,10 +25,11 @@ namespace AppBlazor.Components.Pages.CreateRecipes
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
         [Inject]
         public NavigationManager? NavigationManager { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
             loading = string.Empty;
@@ -35,7 +38,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
 
         public async Task CreateRecipe()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
 
@@ -98,7 +101,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
 
         public async Task UpdateRecipe()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var response = await recipesService.UpdateRecipe(recipe);
             if (response.Ok)

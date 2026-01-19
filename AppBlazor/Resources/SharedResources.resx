@@ -79,4 +79,43 @@
   <data name="No results found" xml:space="preserve">
     <value>Sin resultados encontrados</value>
   </data>
+  <data name="Clean" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+  <data name="Recipe details" xml:space="preserve">
+    <value>Detalles de la receta</value>
+  </data>
+  <data name="Type of recipe" xml:space="preserve">
+    <value>Tipo de receta</value>
+  </data>
+  <data name="Difficulty level" xml:space="preserve">
+    <value>Nivel de Dificultad</value>
+  </data>
+  <data name="Create Recipe" xml:space="preserve">
+    <value>Crear Recetas</value>
+  </data>
+  <data name="Update Recipe" xml:space="preserve">
+    <value>Actualizar Recetas</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="User Register" xml:space="preserve">
+    <value>Registro de Usuario</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo Electronico</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar Sesion</value>
+  </data>
+  <data name="No recipes available" xml:space="preserve">
+    <value>No hay recetas disponibles</value>
+  </data>
 </root>

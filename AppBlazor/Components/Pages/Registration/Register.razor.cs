@@ -2,6 +2,7 @@ using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
 using Core.Entities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 
 namespace AppBlazor.Components.Pages.Registration
 {
@@ -11,6 +12,7 @@ namespace AppBlazor.Components.Pages.Registration
 
         [Inject]
         public AuthService? authService { get; set; }
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
 
         public string message = string.Empty;
         public string messageClass = string.Empty;

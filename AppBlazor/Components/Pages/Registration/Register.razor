@@ -6,28 +6,28 @@
 
 <div class="formRegister">
     <form>
-        <h3>Registrar Usuario</h3>
+        <h3>@L["User Register"]</h3>
 
         <EditForm Model="@user"> 
             <DataAnnotationsValidator/>
             <div class="form-group d-flex flex-column">
                 <label>
-                    <span>Nombre</span>
+                    <span>@L["Name"]</span>
                     <InputText class="form-control" @bind-Value="user.name" />
                     <ValidationMessage For="() => user.name" class="alert alert-danger" />
                 </label>
                 <label>
-                    <span>Apellido</span>
+                    <span>@L["Lastname"]</span>
                     <InputText class="form-control" @bind-Value="user.lastname" />
                     <ValidationMessage For="() => user.lastname" class="alert alert-danger" />
                 </label>
                 <label>
-                    <span>Email</span>
+                    <span>@L["Email"]</span>
                     <InputText class="form-control" @bind-Value="user.email" />
                     <ValidationMessage For="() => user.email" class="alert alert-danger" />
                 </label>
                 <label>
-                    <span>Contraseña</span>
+                    <span>@L["Password"]</span>
                     <InputText class="form-control" @bind-Value="user.password" />
                     <ValidationMessage For="() => user.password" class="alert alert-danger" />
                 </label>
@@ -36,8 +36,8 @@
         </EditForm> 
 
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button class="btn btn-secondary" @onclick=RegisterUser >Registrarse</button>
-            <button class="btn btn-secondary" @onclick=Clear >Limpiar</button>
+            <button class="btn btn-secondary" @onclick=RegisterUser >@L["Register"]</button>
+            <button class="btn btn-secondary" @onclick=Clear >@L["Clean"]</button>
         </div>
 
         <div class="@messageClass" role="alert">

@@ -13,29 +13,29 @@
             <div class="form-group d-flex flex-column">
                 @if(updating)
                 {
-                    <h3>Actualizar Receta</h3>
+                    <h3>@L["Update Recipe"]</h3>
                 }
                 else
                 {
-                    <h3>Crear Receta</h3>
+                    <h3>@L["Create Recipe"]</h3>
                 }
                 <label>
-                    <span>Nombre</span>
+                    <span>@L["Name"]</span>
                     <InputText class="form-control" @bind-Value="recipe.name" />
                     <ValidationMessage For="() => recipe.name" class="alert alert-danger" id="Alert"/>
                 </label>
                 <label>
-                    <span>Descripción</span>
+                    <span>@L["Description"]</span>
                     <InputText class="form-control" @bind-Value="recipe.description" />
                     <ValidationMessage For="() => recipe.description" class="alert alert-danger" id="Alert" />
                 </label>
                 <label>
-                    <span>Tipo de Receta</span>
+                    <span>@L["Type of recipe"]</span>
                     <InputText class="form-control" @bind-Value="recipe.type" />
                     <ValidationMessage For="() => recipe.type" class="alert alert-danger" id="Alert" />
                 </label>
                 <label>
-                    <span>Nivel de Dificultad</span>
+                    <span>@L["Difficulty level"]</span>
                     <InputText class="form-control" @bind-Value="recipe.difficultyLevel" />
                     <ValidationMessage For="() => recipe.difficultyLevel" class="alert alert-danger" id="Alert" />
                 </label>
@@ -47,13 +47,13 @@
             @if(updating)
             {
                 <button class="btn btn-primary" @onclick=UpdateRecipe>Guardar</button>
-                <button class="btn btn-primary" @onclick=CancelUpdate>Cancelar</button>
+                <button class="btn btn-primary" @onclick=CancelUpdate>@L["Cancel"]</button>
             }
             else
             {
-                <button class="btn btn-primary" @onclick=CreateRecipe >Crear Receta</button>
+                <button class="btn btn-primary" @onclick=CreateRecipe >@L["Create"]</button>
             }
-            <button class="btn btn-primary" @onclick=Clear >Limpiar</button>
+            <button class="btn btn-primary" @onclick=Clear >@L["Clean"]</button>
         </div>
 
         <div class="@messageClass" role="alert">
@@ -63,9 +63,9 @@
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Tipo de Receta</th>
-                <th>Nivel de Dificultad</th>
+                <th>@L["Name"]</th>
+                <th>@L["Type of recipe"]</th>
+                <th>@L["Difficulty level"]</th>
             </tr>
         </thead>
         <tbody>
@@ -76,9 +76,9 @@
                     <td>@rec.Type</td>
                     <td>@rec.DifficultyLevel</td>
                     <td>
-                        <button class="btn btn-secondary" @onclick="() => FillRecipe(rec.Id)">Modificar</button>
-                        <button class="btn btn-warning" @onclick="() => DetallesReceta(rec.Id)">Detalles Receta</button>
-                        <button class="btn btn-danger" @onclick="() => DeleteRecipe(rec.Id)">Eliminar</button>
+                        <button class="btn btn-secondary" @onclick="() => FillRecipe(rec.Id)">@L["Edit"]</button>
+                        <button class="btn btn-warning" @onclick="() => DetallesReceta(rec.Id)">@L["Recipe details"]</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteRecipe(rec.Id)">@L["Delete"]</button>
                     </td>
                 </tr>
             }
