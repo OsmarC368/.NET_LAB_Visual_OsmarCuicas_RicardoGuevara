@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,6 +9,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
+using Core.Interfaces.Services;
 
 namespace AppBlazor.Components.Pages.RecipesDetails
 {
@@ -33,10 +34,9 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public StepService? stepService { get; set; }
         [Inject]
         public RecipesService? recipesService { get; set; }
+        [Inject] private IIngredientService ingredientService { get; set; } = default!;
         [Inject]
-        public IngredientService? ingredientService { get; set; }
-        [Inject]
-        public MeasureService? measureService { get; set; }
+        public IMeasureService measureService { get; set; }
         [Inject]
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; }
         [Inject]
@@ -313,7 +313,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                             ingredientIdIPR = ipr.IngredientIdIPR,
                             measureIdIPR = ipr.measureIdIPR,
                             amount = ipr.amount.ToString(),
-                            ingredient = ingredientResponse.Datos?.Name ?? string.Empty,
+                            ingredient = ingredientResponse.Datos?.name ?? string.Empty,
                             measure = measureResponse.Datos?.name ?? string.Empty
                         };
                         ingredientsPerRecipeList.Add(dto);
@@ -323,4 +323,4 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         }
 
     }
-}*/
+}

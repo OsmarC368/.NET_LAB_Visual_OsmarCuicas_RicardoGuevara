@@ -22,7 +22,7 @@ builder.Services.AddSingleton<TokenContainer>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<StepService>();
-//builder.Services.AddSingleton<IngredientPerRecipeService>();
+builder.Services.AddSingleton<IngredientPerRecipeService>();
 builder.Services.AddSingleton<Consumer>();
 builder.Services.AddSingleton<IMeasureService, MeasureService>();
 builder.Services.AddSingleton<IIngredientService, IngredientService>();
