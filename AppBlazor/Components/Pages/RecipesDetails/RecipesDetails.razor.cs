@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
+using Core.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -18,7 +20,11 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public string loading = string.Empty;
         public string message = string.Empty;
         public bool updatingStep = false;
+        public List<Ingredient> ingredientList = new();
+        public List<Measure> measureList = new();
         public string messageClass = string.Empty;
+        public IngredientPerRecipeDTO ingredientPerRecipe = new IngredientPerRecipeDTO();
+        public List<IngredientPerRecipeDTO> ingredientsPerRecipeList = new List<IngredientPerRecipeDTO>();
         [Inject]
         public StepService? stepService { get; set; }
         [Inject]
@@ -37,7 +43,6 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             StateHasChanged();
             var recipeFound = await recipesService.GetRecipeById(RecipeId);
             if (recipeFound.Data != null)
-
             {
                 RecipeName = recipeFound.Data.Datos?.Name ?? string.Empty;
             }
@@ -74,23 +79,25 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 StateHasChanged();
                 
             }
-            /*loading = "loading...";
-            StateHasChanged();
-            if (step.ImageFile == null)
+            else
             {
-                loading = string.Empty;
-                message = "Debe Ingresar una Imagen para la Receta";
-                messageClass = "alert alert-danger";
-                StateHasChanged();
-                return;
+                CreateStepImage();
             }
-            var authState = await AuthStateProvider.GetAuthenticationStateAsync(
+            
+        }
+
+        public async void CreateStepImage()
+        {
+            loading = "loading...";
+            StateHasChanged();
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            step.userIDR = int.Parse(user.FindFirst("id")?.Value ?? "0");
-            var response = await recipesService.CreateStep(step);
+            step.RecipeID = RecipeId;
+            step.RecipeIdS = RecipeId;
+            var response = await stepService.CreateStepImage(step);
             if (response.Ok)
             {
-                message = response.Data?.Mensaje ?? "Recipe created successfully";
+                message = response.Data?.Mensaje ?? "Step created successfully";
                 messageClass = "alert alert-success";
             }
             else
@@ -98,9 +105,9 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 message = "Error, No se Pudo Crear la Receta";
                 messageClass = "alert alert-danger";
             }
-            Clear();
+            ClearStep();
             steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
-            StateHasChanged();*/
+            StateHasChanged();
         }
 
 

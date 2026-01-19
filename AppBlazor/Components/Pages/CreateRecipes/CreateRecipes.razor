@@ -70,6 +70,7 @@
                 <th>Nombre</th>
                 <th>Tipo de Receta</th>
                 <th>Nivel de Dificultad</th>
+                <th>URL de la Imagen</th>
             </tr>
         </thead>
         <tbody>
@@ -79,6 +80,7 @@
                     <td>@rec.Name</td>
                     <td>@rec.Type</td>
                     <td>@rec.DifficultyLevel</td>
+                    <td>@rec.imageUrl</td>
                     <td>
                         <button class="btn btn-secondary" @onclick="() => FillRecipe(rec.Id)">Modificar</button>
                         <button class="btn btn-warning" @onclick="() => DetallesReceta(rec.Id)">Detalles Receta</button>

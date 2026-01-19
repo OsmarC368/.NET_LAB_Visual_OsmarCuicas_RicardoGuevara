@@ -12,6 +12,7 @@ namespace Core.Entities
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public string Type { get; set; } = "";
+        public string? imageUrl { get; set; } = "";
         public virtual List<IngredientsPerRecipe> IngredientsR { get; set; } = new();
         public virtual List<Step> StepsR { get; set; } = new();
         public float DifficultyLevel { get; set; }

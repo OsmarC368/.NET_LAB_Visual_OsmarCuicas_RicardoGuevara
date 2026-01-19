@@ -29,7 +29,7 @@ namespace AppBlazor.Data.Models
         public int userIDR {get; set;} = 0;
         public int userRID {get; set;} = 0;
         public int Id {get; set;} = 0;
-        public string imageUrl { get; set; } = "TemporaryImagePath";
+        public string imageUrl { get; set; } = "";
 
         // Nuevo campo para la imagen
         public IBrowserFile? ImageFile { get; set; }

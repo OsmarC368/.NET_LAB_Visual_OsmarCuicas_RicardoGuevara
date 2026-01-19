@@ -121,14 +121,15 @@ namespace AppBlazor.Data.Services
             {
                 var formData = new MultipartFormDataContent();
 
-                // Agregar los campos de texto
+
                 formData.Add(new StringContent(stepDTO.name), "name");
                 formData.Add(new StringContent(stepDTO.description), "description");
                 formData.Add(new StringContent(stepDTO.Duration), "duration");
-                formData.Add(new StringContent(stepDTO.imageURL), "imageURL");
+                formData.Add(new StringContent("Temp"), "imageURL");
                 formData.Add(new StringContent(stepDTO.RecipeID.ToString()), "recipeID");
+                formData.Add(new StringContent(stepDTO.RecipeID.ToString()), "recipeIDs");
 
-                // Agregar la imagen si existe
+
                 if (stepDTO.ImageFile != null)
                 {
                     var stream = stepDTO.ImageFile.OpenReadStream();
@@ -153,9 +154,6 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        internal async Task GetAllSteps()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
