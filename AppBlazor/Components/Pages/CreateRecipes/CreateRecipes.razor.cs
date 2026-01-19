@@ -34,16 +34,22 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             StateHasChanged();
         }
 
-        public async Task CreateRecipe()
+        public async void CreateWithImage()
         {
-            loading = "loading...";
-            StateHasChanged();
+            if (recipe.ImageFile == null)
+            {
+                loading = string.Empty;
+                message = "Debe Ingresar una Imagen para la Receta";
+                messageClass = "alert alert-danger";
+                StateHasChanged();
+                return;
+            }
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
 
             var user = authState.User;
             recipe.userIDR = int.Parse(user.FindFirst("id")?.Value ?? "0");
             recipe.userRID = int.Parse(user.FindFirst("id")?.Value ?? "0");
-            var response = await recipesService.CreateRecipe(recipe);
+            var response = await recipesService.CreateRecipeImage(recipe);
             if (response.Ok)
             {
                 message = response.Data?.Mensaje ?? "Recipe created successfully";
@@ -51,19 +57,63 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             }
             else
             {
-                message = response.message;
+                message = "Error, No se Pudo Crear la Receta";
                 messageClass = "alert alert-danger";
             }
             Clear();
             recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
             StateHasChanged();
+        }
+
+        public async Task CreateRecipe()
+        {
+            loading = "loading...";
+            StateHasChanged();
+            if(recipe.ImageFile == null)
+            {
+                var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+                var user = authState.User;
+                recipe.userIDR = int.Parse(user.FindFirst("id")?.Value ?? "0");
+                recipe.userRID = int.Parse(user.FindFirst("id")?.Value ?? "0");
+                var response = await recipesService.CreateRecipe(recipe);
+                if (response.Ok)
+                {
+                    message = response.Data?.Mensaje ?? "Recipe created successfully";
+                    messageClass = "alert alert-success";
+                }
+                else
+                {
+                    message = "Error, No se Pudo Crear la Receta";
+                    messageClass = "alert alert-danger";
+                }
+                Clear();
+                recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
+                StateHasChanged();
+            }
+            else
+            {
+                CreateWithImage();
+            }
 
         }
 
         public async Task<IEnumerable<Core.Entities.Recipe>?> GetAllRecipes()
         {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var temp = new List<Core.Entities.Recipe>();
             var response = await recipesService.GetAllRecipes();
-            return response.Datos;
+            if (response.Datos != null)
+            {
+                foreach (var recipe in response.Datos)
+                {
+                    if (recipe.UserIdR ==  int.Parse(user.FindFirst("id")?.Value ?? "0"))
+                    {
+                        temp.Add(recipe);
+                    }
+                }
+            }
+            return temp;
         }
 
         public async Task DeleteRecipe(int id)

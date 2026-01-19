@@ -179,9 +179,10 @@ namespace AppBlazor.Data
                                 try
                                 {
                                     response.Data = JsonConvert.DeserializeObject<T>(dataResponse);
+                                    response.Ok = true;
                                     try
                                     {
-                                        if(response.Data?.Equals("Bad Request") == true)
+                                        if(response.Data?.Equals("BadRequest") == true)
                                         {
                                             response.Ok = false;
                                             return response;

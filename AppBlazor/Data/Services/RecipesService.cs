@@ -89,7 +89,7 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<RecipeDTO>>> CreateRecipe (RecipeDTO recipeDTO)
+        public async Task<Response<Core.Responses.Response<RecipeDTO>>> CreateRecipeImage (RecipeDTO recipeDTO)
         {
             Response<Core.Responses.Response<RecipeDTO>> response = new ();
             try
@@ -118,10 +118,34 @@ namespace AppBlazor.Data.Services
                 response = await 
                     Consumer
                     .ExecuteMultipart<Core.Responses.Response<RecipeDTO>>(
-                        $"{url}",
+                        $"{url}/image",
                         formData,
                         _tokenContainer.token
                     );
+            }
+            catch (Exception ex)
+            {
+                response.Ok = false;
+                response.message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<Response<Core.Responses.Response<RecipeDTO>>> CreateRecipe(RecipeDTO recipeDTO)
+        {
+            Response<Core.Responses.Response<RecipeDTO>> response = new Response<Core.Responses.Response<RecipeDTO>>();
+            try
+            {
+                response = await 
+                    Consumer
+                    .Execute<Core.Responses.Response<RecipeDTO>, RecipeDTO>(
+                        url,
+                        methodHttp.POST,
+                        recipeDTO,
+                        _tokenContainer.token
+                        );
+
+                return response;
             }
             catch (Exception ex)
             {

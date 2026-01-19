@@ -1,59 +1,84 @@
-@page "/recipes-details/{RecipeId:int}"
+@page "/recipe-details/{RecipeId:int}"
 @using Core.Entities
 @rendermode InteractiveServer
 @attribute [StreamRendering]
 @using Microsoft.AspNetCore.Components.Authorization
 
-@* <div class="formLogin">
+<h2>@RecipeName</h2>
+<div class="formRecipesCreate">
     <form>
-        <EditForm Model="@ingredientPerRecipe"> 
+        <EditForm Model="@step"> 
             <DataAnnotationsValidator/>
             <label for="">@loading</label>
             <div class="form-group d-flex flex-column">
-                @if(updating)
+                @if(updatingStep)
                 {
-                    <h3>Actualizar Receta</h3>
+                    <h3>Actualizar Paso</h3>
                 }
                 else
                 {
-                    <h3>Crear Receta</h3>
+                    <h3>Crear Paso</h3>
                 }
                 <label>
                     <span>Nombre</span>
-                    <InputText class="form-control" @bind-Value="recipe.name" />
-                    <ValidationMessage For="() => recipe.name" class="alert alert-danger" id="Alert"/>
+                    <InputText class="form-control" @bind-Value="step.name" />
+                    <ValidationMessage For="() => step.name" class="alert alert-danger" id="Alert"/>
                 </label>
                 <label>
                     <span>Descripción</span>
-                    <InputText class="form-control" @bind-Value="recipe.description" />
-                    <ValidationMessage For="() => recipe.description" class="alert alert-danger" id="Alert" />
+                    <InputText class="form-control" @bind-Value="step.description" />
+                    <ValidationMessage For="() => step.description" class="alert alert-danger" id="Alert" />
                 </label>
                 <label>
-                    <span>Tipo de Receta</span>
-                    <InputText class="form-control" @bind-Value="recipe.type" />
-                    <ValidationMessage For="() => recipe.type" class="alert alert-danger" id="Alert" />
+                    <span>Duración</span>
+                    <InputText class="form-control" @bind-Value="step.Duration" />
+                    <ValidationMessage For="() => step.Duration" class="alert alert-danger" id="Alert" />
                 </label>
                 <label>
-                    <span>Nivel de Dificultad</span>
-                    <InputText class="form-control" @bind-Value="recipe.difficultyLevel" />
-                    <ValidationMessage For="() => recipe.difficultyLevel" class="alert alert-danger" id="Alert" />
+                    <span>Imagen del Paso </span>
+                    <InputFile OnChange="OnImageSelected" />
                 </label>
             </div>
         </EditForm> 
 
     </form>
     <div class="btn-group" role="group" aria-label="Basic example" style="padding-right: 10px;">
-        @if(updating)
+        @if(updatingStep)
         {
-            <button class="btn btn-primary" @onclick=UpdateRecipe>Guardar</button>
-            <button class="btn btn-primary" @onclick=CancelUpdate>Cancelar</button>
+            <button class="btn btn-primary" @onclick=UpdateStep>Guardar</button>
+            <button class="btn btn-primary" @onclick=CancelUpdateStep>Cancelar</button>
         }
         else
         {
-            <button class="btn btn-primary" @onclick=CreateRecipe >Crear Receta</button>
+            <button class="btn btn-primary" @onclick=CreateStep >Crear Paso</button>
         }
-        <button class="btn btn-primary" @onclick=Clear >Limpiar</button>
-    </div> *@
+        <button class="btn btn-primary" @onclick=ClearStep >Limpiar</button>
+    </div>
+    <h3>@loading</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Duracion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var step in steps)
+            {
+                <tr>
+                    <td>@step.Name</td>
+                    <td>@step.Duration</td>
+                    <td>
+                        <button class="btn btn-secondary" @onclick="() => FillStep(step.Id)">Modificar</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteStep(step.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
 
 @* <div class="formLogin">
     <form>

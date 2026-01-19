@@ -11,6 +11,7 @@ namespace Core.Entities
         public int Id { get; set; }
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
+        public string imageURL { get; set; } = "";
         public float Duration { get; set; }
         public int RecipeIdS { get; set; }
         public virtual Recipe? RecipeS { get; set; }
