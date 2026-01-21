@@ -46,6 +46,16 @@
             <ValidationMessage For="() => recipe.difficultyLevel" class="text-danger"/>
         </div>
 
+        <div class="mb-3">
+            <label>@L["Visibility"]</label>
+            <InputSelect class="form-control" @bind-Value="recipe.visibility">
+                <option value="">@L["Select type"]</option>
+                <option value="1">1 - @L["Public"]</option>
+                <option value="2">2 - @L["Private"]</option>
+            </InputSelect>
+            <ValidationMessage For="() => recipe.visibility" class="text-danger"/>
+        </div>
+
         <label>
             <span>@L["Recipe Image"]</span>
             <InputFile OnChange="OnImageSelected" />
@@ -96,6 +106,7 @@
             <th>@L["Name"]</th>
             <th>@L["Type of recipe"]</th>
             <th>@L["Difficulty"]</th>
+            <th>@L["Visibility"]</th>
             <th>@L["Actions"]</th>
         </tr>
     </thead>
@@ -108,6 +119,11 @@
                 <td>
                     <span class="badge @GetDifficultyClass(rec.DifficultyLevel)">
                         @GetDifficultyText(rec.DifficultyLevel)
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        @GetVisibilityText(rec.Visibility)
                     </span>
                 </td>
                 <td>

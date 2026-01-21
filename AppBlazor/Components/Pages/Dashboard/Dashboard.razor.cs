@@ -18,6 +18,7 @@ namespace AppBlazor.Components.Pages.Dashboard
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; }
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject] private IRecipeService RecipeService { get; set; }
+        [Inject] private IIngredientService IngredientService { get; set; } = default!;
 
         private bool isAuthenticated = false;
         private bool isLoaded = false;
@@ -26,25 +27,39 @@ namespace AppBlazor.Components.Pages.Dashboard
         private string filterName = string.Empty;
         private string filterType = string.Empty;
         private int? filterDifficulty = null;
+        private string filterByAuthor = string.Empty;
+        private int? selectedIngredientId = null;
+        private List<Ingredient> ingredients = new();
 
         private IEnumerable<Recipe> FilteredRecipes => recipes
             .Where(r =>
                 (string.IsNullOrWhiteSpace(filterName) || r.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrWhiteSpace(filterType) || r.Type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
-                (!filterDifficulty.HasValue || r.DifficultyLevel == filterDifficulty.Value)
+                (!filterDifficulty.HasValue || r.DifficultyLevel == filterDifficulty.Value) &&
+                (!selectedIngredientId.HasValue || 
+                r.IngredientsR.Any(ipr => ipr.IngredientIdIPR == selectedIngredientId.Value))
             );
 
         protected override async Task OnInitializedAsync()
         {
-            var response = await RecipeService.GetAllAsync();
-
-            if (response != null && response.Ok && response.Datos != null)
+            var recipesResponse = await RecipeService.GetAllAsync();
+            if (recipesResponse != null && recipesResponse.Ok && recipesResponse.Datos != null)
             {
-                recipes = response.Datos.ToList();
+                recipes = recipesResponse.Datos.ToList();
             }
             else
             {
                 recipes = new List<Recipe>();
+            }
+
+            var ingredientsResponse = await IngredientService.GetAllAsync();
+            if (ingredientsResponse != null && ingredientsResponse.Ok && ingredientsResponse.Datos != null)
+            {
+                ingredients = ingredientsResponse.Datos.ToList();
+            }
+            else
+            {
+                ingredients = new List<Ingredient>();
             }
         }
 
