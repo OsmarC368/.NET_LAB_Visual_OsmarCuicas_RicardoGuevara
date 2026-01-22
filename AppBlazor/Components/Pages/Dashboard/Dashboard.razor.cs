@@ -8,6 +8,7 @@ using Core.Entities;
 using Microsoft.Extensions.Localization;
 using AppBlazor.Data.Services;
 using Core.Interfaces.Services;
+using AppBlazor.Data.Models;
 
 
 namespace AppBlazor.Components.Pages.Dashboard
@@ -16,22 +17,23 @@ namespace AppBlazor.Components.Pages.Dashboard
     {
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; }
+        [Inject] private AuthService authService { get; set; }
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject] private IRecipeService RecipeService { get; set; }
 
         private bool isAuthenticated = false;
         private bool isLoaded = false;
         private int userType = 0;
-        private List<Recipe> recipes = new();
+        private List<RecipeDTO> recipes = new();
         private string filterName = string.Empty;
         private string filterType = string.Empty;
         private int? filterDifficulty = null;
 
-        private IEnumerable<Recipe> FilteredRecipes => recipes
+        private IEnumerable<RecipeDTO> FilteredRecipes => recipes
             .Where(r =>
-                (string.IsNullOrWhiteSpace(filterName) || r.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrWhiteSpace(filterType) || r.Type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
-                (!filterDifficulty.HasValue || r.DifficultyLevel == filterDifficulty.Value)
+                (string.IsNullOrWhiteSpace(filterName) || r.name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(filterType) || r.type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
+                (!filterDifficulty.HasValue || r.difficultyLevelFloat == filterDifficulty.Value)
             );
 
         protected override async Task OnInitializedAsync()
@@ -40,11 +42,22 @@ namespace AppBlazor.Components.Pages.Dashboard
 
             if (response != null && response.Ok && response.Datos != null)
             {
-                recipes = response.Datos.ToList();
+                foreach (var recipe in response.Datos.ToList())
+                {
+                    var dtoRecipe = new RecipeDTO();
+                    var userResponse = await authService.GetByIdAsync(recipe.UserIdR);
+                    dtoRecipe.author = $"{userResponse.Datos.Name}  {userResponse.Datos.Lastname}";
+                    dtoRecipe.visibility = recipe.Visibility;
+                    dtoRecipe.difficultyLevelFloat = recipe.DifficultyLevel;
+                    dtoRecipe.name = recipe.Name;
+                    dtoRecipe.imageUrl = recipe.imageUrl;
+                    dtoRecipe.type = recipe.Type;
+                    recipes.Add(dtoRecipe);
+                }
             }
             else
             {
-                recipes = new List<Recipe>();
+                recipes = new List<RecipeDTO>();
             }
         }
 

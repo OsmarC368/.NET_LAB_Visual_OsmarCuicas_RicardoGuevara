@@ -24,6 +24,7 @@ namespace AppBlazor.Data.Models
         [Required(ErrorMessage = "El Nivel de Dificultad es Requerido!")]
         [Range(1, 5, ErrorMessage = "El Nivel de Dificultad Debe Estar Entre 1 y 5")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "Solo se Permiten Numeros")]
+        public float difficultyLevelFloat {get; set;}
         public string difficultyLevel {get; set;} = string.Empty;
         public int visibility {get; set;} = 1;
         public int userIDR {get; set;} = 0;
@@ -33,5 +34,7 @@ namespace AppBlazor.Data.Models
 
         // Nuevo campo para la imagen
         public IBrowserFile? ImageFile { get; set; }
+
+        public string? author { get; set; }
     }
 }

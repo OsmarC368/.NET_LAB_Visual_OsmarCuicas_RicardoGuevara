@@ -72,7 +72,7 @@ else
                         <img src="@recipe.imageUrl"
                             class="card-img-top"
                             style="height:200px; object-fit:cover;"
-                            alt="@recipe.Name" />
+                            alt="@recipe.name" />
                     }
                     else
                     {
@@ -84,17 +84,17 @@ else
                     }
 
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">@recipe.Name</h5>
+                        <h5 class="card-title fw-bold">@recipe.name</h5>
 
                         <p class="mb-1">
                             <strong>@L["Type"]</strong><br />
-                            @recipe.Type
+                            @recipe.type
                         </p>
 
                         <p class="mb-0">
                             <strong>@L["Difficulty"]</strong><br />
-                            <span class="badge @GetDifficultyClass(recipe.DifficultyLevel)">
-                                @GetDifficultyText(recipe.DifficultyLevel)
+                            <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
+                                @GetDifficultyText(recipe.difficultyLevelFloat)
                             </span>
                         </p>
                     </div>
