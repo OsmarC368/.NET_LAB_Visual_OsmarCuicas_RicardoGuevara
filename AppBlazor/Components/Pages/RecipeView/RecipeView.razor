@@ -6,17 +6,19 @@
 
 <h2>@RecipeName</h2>
 <div>
-    @*
+    
     <h3>Ingredientes</h3>
-    <li>
-        @foreach(var ingredient in recipeIngredients)
-        {
-            <div>
-                <h4>@ingredient.IngredientName</h4>
-                <p>Cantidad: @ingredient.Quantity @ingredient.MeasureName</p>
-            </div>
-        }
-    </li>*@
+    <ul>
+        <li>
+            @foreach(var ingredient in recipeIngredients)
+            {
+                <div>
+                    <h4>@ingredient.ingredient</h4>
+                    <p>Cantidad: @ingredient.amount @ingredient.measure</p>
+                </div>
+            }
+        </li>
+    </ul>
     <div>
         <h3>Pasos</h3>
         <ul class="list-group">
@@ -26,7 +28,7 @@
                     <div>
                         <h4>@step.Name</h4>
                         <p>@step.Description</p>
-                        <p>Duración: @step.Duration</p>
+                        <p>Duración: @step.Duration m</p>
                         @if(!string.IsNullOrEmpty(step.imageURL))
                         {
                             <img src="@step.imageURL" alt="@step.Name" width="200" />

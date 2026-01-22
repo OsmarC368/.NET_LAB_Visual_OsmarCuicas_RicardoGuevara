@@ -21,6 +21,10 @@ namespace AppBlazor.Components.Pages.RecipeView
         [Inject]
         public RecipesService? recipeService { get; set; } = default!;
         [Inject]
+        public IngredientService? ingredientService { get; set; } = default!;
+        [Inject]
+        public MeasureService? measureService { get; set; } = default!;
+        [Inject]
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; } = default!;
         [Inject]
         public StepService? stepService { get; set; } = default!;
@@ -32,6 +36,7 @@ namespace AppBlazor.Components.Pages.RecipeView
         protected async override Task OnInitializedAsync()
         {
             await LoadRecipe();
+            await LoadIngredients();
         }
 
         public async Task LoadRecipe()
@@ -59,22 +64,26 @@ namespace AppBlazor.Components.Pages.RecipeView
             }
         }
 
-        /*private async void LoadIngredients()
+        private async Task LoadIngredients()
         {
             var response = await ingredientPerRecipeService.GetAllAsync();
-            if (response.Ok && response.Data != null)
+            if (response.Ok && response.Datos != null)
             {
-                var temp = response.Data.Where(i => i.RecipeId == RecipeId).ToList();
+                var temp = response.Datos.Where(i => i.RecipeId == RecipeId).ToList();
                 foreach (var ingredient in temp)
                 {
                     if (ingredient.RecipeId == RecipeId)
                     {
                         var newIngredient = new IngredientPerRecipeDTO();
-                        newIngredient.meaure = ingredient.Measure;
+                        var measure = await measureService.GetByIdAsync(ingredient.measureIdIPR);
+                        newIngredient.measure = measure.Datos.symbol;
+                        var ingre = await ingredientService.GetByIdAsync(ingredient.IngredientIdIPR);
+                        newIngredient.ingredient = ingre.Datos.name;
+                        newIngredient.amount = ingredient.amount.ToString();
                         recipeIngredients.Add(newIngredient);
                     }
                 }
             }
-        }*/
+        }
     }
 }
