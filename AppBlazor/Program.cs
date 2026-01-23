@@ -25,7 +25,9 @@ builder.Services.AddSingleton<StepService>();
 builder.Services.AddSingleton<IngredientPerRecipeService>();
 builder.Services.AddSingleton<Consumer>();
 builder.Services.AddSingleton<IMeasureService, MeasureService>();
+builder.Services.AddSingleton<MeasureService>();
 builder.Services.AddSingleton<IIngredientService, IngredientService>();
+builder.Services.AddSingleton<IngredientService>();
 builder.Services.AddSingleton<IRecipeService, RecipeService>();
 
 builder.Services.AddHttpContextAccessor();

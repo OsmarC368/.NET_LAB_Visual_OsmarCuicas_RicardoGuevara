@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppBlazor.Components;
 using AppBlazor.Data.Models;
 using Core.Entities;
 
@@ -10,6 +11,11 @@ namespace AppBlazor.Data.Services
     public class AuthService
     {
         const string url = "User";
+         private TokenContainer? _tokenContainer;
+         public AuthService (TokenContainer tokenContainer)
+        {
+            _tokenContainer = tokenContainer;
+        }
         public async Task<Response<Core.Responses.Response<Core.Responses.ResponseLogin>>> Login(UserDTO user)
         {
             Response<Core.Responses.Response<Core.Responses.ResponseLogin>> response = new Response<Core.Responses.Response<Core.Responses.ResponseLogin>>();
@@ -32,6 +38,21 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
+        public async Task<Core.Responses.Response<User>> GetByIdAsync(int id)
+        {
+            var apiResponse = await Consumer.Execute<Core.Responses.Response<User>, object>(
+                $"User/{id}",
+                methodHttp.GET,
+                null!,
+                _tokenContainer?.token
+            );
+
+            return apiResponse.Data ?? new Core.Responses.Response<User>
+            {
+                Ok = false,
+                Mensaje = apiResponse.message
+            };
+        }
         public async Task<Response<Core.Responses.Response<UserDTO>>> Register(UserDTO user)
         {
             Response<Core.Responses.Response<UserDTO>> response = new Response<Core.Responses.Response<UserDTO>>();

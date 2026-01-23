@@ -83,6 +83,7 @@
 
 .nav-scrollable[b-consqr0m1i] {
     display: none;
+    background:linear-gradient(70deg, #01111473, #5f525200) ;
 }
 
 .navbar-toggler:checked ~ .nav-scrollable[b-consqr0m1i] {

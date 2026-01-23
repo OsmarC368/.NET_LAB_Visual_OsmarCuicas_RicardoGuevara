@@ -11,14 +11,13 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Core.Interfaces.Services;
 using Microsoft.Extensions.Localization;
-using Core.Entities;
 
 namespace AppBlazor.Components.Pages.RecipesDetails
 {
     public partial class RecipesDetails
     {
-        private string selectedIngredient = string.Empty;
-        private string selectedMeasure = string.Empty;
+        private int? selectedIngredient;
+        private int? selectedMeasure;
         public StepDTO step = new();
         public string RecipeName = string.Empty;
         public List<Core.Entities.Step> steps = new();
@@ -234,7 +233,9 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public void ClearIngredient()
         {
             ingredientPerRecipe.amount = string.Empty;
-            loading = string.Empty;
+            selectedIngredient = null;
+            selectedMeasure = null;
+            loadingIngredient = string.Empty;
         }
 
         public void CancelUpdateIngredient()
@@ -257,28 +258,21 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task CreatIngredientPerRecipe()
         {
+            if (!selectedIngredient.HasValue || !selectedMeasure.HasValue)
+            {
+                message = "Por favor, selecciona un ingrediente y una medida.";
+                messageClass = "alert alert-warning";
+                StateHasChanged();
+                return;
+            }
+
             loadingIngredient = "loading...";
             StateHasChanged();
 
-            if(!int.TryParse(selectedIngredient, out int ingredientId))
-            {
-                message = "Debe seleccionar un ingrediente válido";
-                messageClass = "alert alert-danger";
-                loadingIngredient = string.Empty;
-                return;
-            }
-
-            if(!int.TryParse(selectedMeasure, out int measureId))
-            {
-                message = "Debe seleccionar una medida válida";
-                messageClass = "alert alert-danger";
-                loadingIngredient = string.Empty;
-                return;
-            }
-
             ingredientPerRecipe.recipeID = RecipeId;
-            ingredientPerRecipe.ingredientIdIPR = ingredientId;
-            ingredientPerRecipe.measureIdIPR = measureId;
+
+            ingredientPerRecipe.ingredientIdIPR = selectedIngredient.Value;
+            ingredientPerRecipe.measureIdIPR = selectedMeasure.Value;
 
             var response = await ingredientPerRecipeService.Create(ingredientPerRecipe);
 
