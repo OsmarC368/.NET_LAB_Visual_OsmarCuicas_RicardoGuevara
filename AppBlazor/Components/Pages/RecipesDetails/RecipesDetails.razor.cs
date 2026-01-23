@@ -51,7 +51,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         protected override async Task OnInitializedAsync()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var recipeFound = await recipesService.GetRecipeById(RecipeId);
             if (recipeFound.Data != null)
@@ -82,7 +82,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task CreateStep()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             if(step.ImageFile == null)
             {
@@ -115,7 +115,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async void CreateStepImage()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
@@ -190,7 +190,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
 
         public async Task UpdateStep()
         {
-            loading = "loading...";
+            loading = @L["Loading"];
             StateHasChanged();
             var response = await stepService.UpdateStep(step);
             if (response.Ok)
@@ -266,7 +266,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 return;
             }
 
-            loadingIngredient = "loading...";
+            loadingIngredient = @L["Loading"];
             StateHasChanged();
 
             ingredientPerRecipe.recipeID = RecipeId;

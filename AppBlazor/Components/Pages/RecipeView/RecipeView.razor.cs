@@ -28,6 +28,7 @@ namespace AppBlazor.Components.Pages.RecipeView
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; } = default!;
         [Inject]
         public StepService? stepService { get; set; } = default!;
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         public Recipe? recipe { get; set; } = new Recipe();
         public string RecipeName { get; set; } = string.Empty;
         public List<Step> steps { get; set; } = new List<Step>();

@@ -170,6 +170,42 @@
   <data name="Update Ingredient" xml:space="preserve">
     <value>Update Ingredient</value>
   </data>
+  <data name="Step" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="Search by author" xml:space="preserve">
+    <value>Search by author</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="All ingredients" xml:space="preserve">
+    <value>All ingredients</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Select Measure" xml:space="preserve">
+    <value>Select Measure</value>
+  </data>
+  <data name="Select Ingredient" xml:space="preserve">
+    <value>Select Ingredient</value>
+  </data>
+  <data name="Update Step" xml:space="preserve">
+    <value>Update Step</value>
+  </data>
+  <data name="Create Step" xml:space="preserve">
+    <value>Create Step</value>
+  </data>
+  <data name="Image of the step" xml:space="preserve">
+    <value>Image of the step</value>
+  </data>
+  <data name="Steps" xml:space="preserve">
+    <value>Steps</value>
+  </data>
 </root>
 
 
