@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities;
 
 namespace AppBlazor.Data.Models
 {
@@ -24,5 +25,8 @@ namespace AppBlazor.Data.Models
         [StringLength(225, ErrorMessage = "El Apellido es Demasiado Corto", MinimumLength =2)]
         public string lastname {get; set;} = string.Empty;
         public char userTypeID {get; set;} = '1';
+
+        public int id {get; set;}
+        public List<Recipe> recipes = new();
     }
 }

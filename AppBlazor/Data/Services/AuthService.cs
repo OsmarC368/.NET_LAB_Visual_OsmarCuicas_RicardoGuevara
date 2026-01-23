@@ -38,21 +38,23 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Core.Responses.Response<User>> GetByIdAsync(int id)
+        public async Task<Response<Core.Responses.Response<User>>> GetByIdAsync(int id)
         {
-            var apiResponse = await Consumer.Execute<User, object>(
+            var apiResponse = await Consumer.Execute<Core.Responses.Response<User>, object>(
                 $"{url}/{id}",
                 methodHttp.GET,
                 null!,
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<User>
-            {
-                Ok = apiResponse.Ok,
-                Mensaje = apiResponse.message,
-                Datos = apiResponse.Data
-            };
+            return apiResponse;
+
+            // return new Response<Core.Responses.Response<User>>
+            // {
+            //     Ok = apiResponse.Ok,
+            //     Mensaje = apiResponse.message,
+            //     Datos = apiResponse.Data
+            // };
         }
 
         public async Task<Response<Core.Responses.Response<UserDTO>>> Register(UserDTO user)

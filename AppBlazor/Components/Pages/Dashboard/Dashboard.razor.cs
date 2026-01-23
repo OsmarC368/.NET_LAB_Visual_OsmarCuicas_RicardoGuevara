@@ -46,7 +46,7 @@ namespace AppBlazor.Components.Pages.Dashboard
                 {
                     var dtoRecipe = new RecipeDTO();
                     var userResponse = await authService.GetByIdAsync(recipe.UserIdR);
-                    dtoRecipe.author = $"{userResponse.Datos.Name}  {userResponse.Datos.Lastname}";
+                    dtoRecipe.author = $"{userResponse.Data.Datos.Name}  {userResponse.Data.Datos.Lastname}";
                     dtoRecipe.visibility = recipe.Visibility;
                     dtoRecipe.difficultyLevelFloat = recipe.DifficultyLevel;
                     dtoRecipe.name = recipe.Name;
