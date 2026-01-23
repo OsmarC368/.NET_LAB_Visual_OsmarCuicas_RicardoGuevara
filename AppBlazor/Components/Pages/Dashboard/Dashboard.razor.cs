@@ -20,6 +20,8 @@ namespace AppBlazor.Components.Pages.Dashboard
         [Inject] private AuthService authService { get; set; }
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject] private IRecipeService RecipeService { get; set; }
+        [Inject] private IngredientService ingredientService { get; set; }
+        [Inject] private IngredientPerRecipeService iprService { get; set; }
 
         private bool isAuthenticated = false;
         private bool isLoaded = false;
@@ -52,6 +54,15 @@ namespace AppBlazor.Components.Pages.Dashboard
                     dtoRecipe.name = recipe.Name;
                     dtoRecipe.imageUrl = recipe.imageUrl;
                     dtoRecipe.type = recipe.Type;
+                    var iprRespone = await iprService.GetAllAsync();
+                    foreach (var ipr in iprRespone.Datos)
+                    {
+                        if (ipr.RecipeId == recipe.Id)
+                        {
+                            var ingredientResponse = await ingredientService.GetByIdAsync(ipr.IngredientIdIPR);
+                            dtoRecipe.ingridients.Append(ingredientResponse.Datos.name);
+                        }
+                    }
                     recipes.Add(dtoRecipe);
                 }
             }

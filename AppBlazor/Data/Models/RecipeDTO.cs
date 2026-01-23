@@ -36,5 +36,7 @@ namespace AppBlazor.Data.Models
         public IBrowserFile? ImageFile { get; set; }
 
         public string? author { get; set; }
+
+        public List<string> ingridients { get; set; } = new();
     }
 }
