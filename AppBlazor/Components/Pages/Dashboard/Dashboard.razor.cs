@@ -10,7 +10,6 @@ using AppBlazor.Data.Services;
 using Core.Interfaces.Services;
 using AppBlazor.Data.Models;
 
-
 namespace AppBlazor.Components.Pages.Dashboard
 {
     public partial class Dashboard : ComponentBase
@@ -20,31 +19,72 @@ namespace AppBlazor.Components.Pages.Dashboard
         [Inject] private AuthService authService { get; set; }
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         [Inject] private IRecipeService RecipeService { get; set; }
-        [Inject] private IngredientService ingredientService { get; set; }
-        [Inject] private IngredientPerRecipeService iprService { get; set; }
+        [Inject] private IIngredientService IngredientService { get; set; } = default!;
+        [Inject] private IngredientPerRecipeService IngredientPerRecipeService { get; set; } = default!;
 
         private bool isAuthenticated = false;
         private bool isLoaded = false;
         private int userType = 0;
+
         private List<RecipeDTO> recipes = new();
+        private List<IngredientPerRecipeDTO> ingredientsPerRecipe = new();
+        private List<Ingredient> ingredients = new();
         private string filterName = string.Empty;
         private string filterType = string.Empty;
         private int? filterDifficulty = null;
+        private string filterByAuthor = string.Empty;
+        private int? selectedIngredientId;
 
         private IEnumerable<RecipeDTO> FilteredRecipes => recipes
             .Where(r =>
-                (string.IsNullOrWhiteSpace(filterName) || r.name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrWhiteSpace(filterType) || r.type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
-                (!filterDifficulty.HasValue || r.difficultyLevelFloat == filterDifficulty.Value)
+                r.visibility == 1 &&
+                (string.IsNullOrWhiteSpace(filterName) ||
+                    r.name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(filterType) ||
+                    r.type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
+                (!filterDifficulty.HasValue ||
+                    r.difficultyLevelFloat == filterDifficulty.Value) &&
+                (string.IsNullOrWhiteSpace(filterByAuthor) ||
+                    (r.author != null &&
+                     r.author.Contains(filterByAuthor, StringComparison.OrdinalIgnoreCase))) &&
+                (!selectedIngredientId.HasValue ||
+                ingredientsPerRecipe.Any(ipr => ipr.recipeID == r.Id && ipr.ingredientIdIPR == selectedIngredientId.Value))
             );
 
         protected override async Task OnInitializedAsync()
         {
-            var response = await RecipeService.GetAllAsync();
+            isLoaded = false;
 
-            if (response != null && response.Ok && response.Datos != null)
+            recipes = new List<RecipeDTO>();
+            ingredientsPerRecipe = new List<IngredientPerRecipeDTO>();
+            ingredients = new List<Ingredient>();
+
+            var usersDict = new Dictionary<int, string>();
+
+            var recipesResponse = await RecipeService.GetAllAsync();
+
+            var ingredientsPerRecipeResp = await IngredientPerRecipeService.GetAllAsync();
+            if (ingredientsPerRecipeResp?.Ok == true && ingredientsPerRecipeResp.Datos != null)
             {
-                foreach (var recipe in response.Datos.ToList())
+                ingredientsPerRecipe = ingredientsPerRecipeResp.Datos.Select(ipr => new IngredientPerRecipeDTO
+                {
+                    id = ipr.id,
+                    recipeID = ipr.RecipeId,
+                    ingredientIdIPR = ipr.IngredientIdIPR,
+                    measureIdIPR = ipr.measureIdIPR,
+                    amount = ipr.amount.ToString(),
+                    ingredient = ipr.IngredientIPR?.name ?? string.Empty,
+                    measure = string.Empty 
+                }).ToList();
+            }
+
+            var allIngredientsResponse = await IngredientService.GetAllAsync();
+            if (allIngredientsResponse?.Ok == true && allIngredientsResponse.Datos != null)
+                ingredients = allIngredientsResponse.Datos.ToList();
+
+            if (recipesResponse?.Ok == true && recipesResponse.Datos != null)
+            {
+                foreach (var recipe in recipesResponse.Datos)
                 {
                     var dtoRecipe = new RecipeDTO();
                     var userResponse = await authService.GetByIdAsync(recipe.UserIdR);
@@ -54,15 +94,7 @@ namespace AppBlazor.Components.Pages.Dashboard
                     dtoRecipe.name = recipe.Name;
                     dtoRecipe.imageUrl = recipe.imageUrl;
                     dtoRecipe.type = recipe.Type;
-                    var iprRespone = await iprService.GetAllAsync();
-                    foreach (var ipr in iprRespone.Datos)
-                    {
-                        if (ipr.RecipeId == recipe.Id)
-                        {
-                            var ingredientResponse = await ingredientService.GetByIdAsync(ipr.IngredientIdIPR);
-                            dtoRecipe.ingridients.Append(ingredientResponse.Datos.name);
-                        }
-                    }
+                    dtoRecipe.Id = recipe.Id;
                     recipes.Add(dtoRecipe);
                 }
             }
@@ -97,6 +129,7 @@ namespace AppBlazor.Components.Pages.Dashboard
         private void GoToMeasures() => Navigation.NavigateTo("/measure");
         private void GoToIngredients() => Navigation.NavigateTo("/ingredient");
         private void GoToRecipes() => Navigation.NavigateTo("/create-recipes");
+        private void GoToRecipeDetails(int recipeId) => Navigation.NavigateTo($"/recipe-view/{recipeId}");
 
         private string GetDifficultyText(float level)
         {
@@ -110,11 +143,6 @@ namespace AppBlazor.Components.Pages.Dashboard
             if (level == 1) return "bg-success";
             if (level == 2) return "bg-warning text-dark";
             return "bg-danger";
-        }
-
-        private void GoToRecipeDetails(int recipeId)
-        {
-            Navigation.NavigateTo($"/recipe-view/{recipeId}");
         }
     }
 }

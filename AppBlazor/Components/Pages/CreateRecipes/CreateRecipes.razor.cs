@@ -45,6 +45,12 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             return L["Hard"];
         }
 
+        private string GetVisibilityText(float level)
+        {
+            if (level == 1) return L["Public"];
+            return L["Private"];
+        }
+
         private string GetDifficultyClass(float level)
         {
             if (level == 1) return "bg-success";

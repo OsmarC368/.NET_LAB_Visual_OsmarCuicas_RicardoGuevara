@@ -44,19 +44,13 @@ namespace AppBlazor.Data.Services
                 $"{url}/{id}",
                 methodHttp.GET,
                 null!,
-                _tokenContainer.token
+                _tokenContainer?.token
             );
 
             return apiResponse;
 
-            // return new Response<Core.Responses.Response<User>>
-            // {
-            //     Ok = apiResponse.Ok,
-            //     Mensaje = apiResponse.message,
-            //     Datos = apiResponse.Data
-            // };
-        }
 
+        }
         public async Task<Response<Core.Responses.Response<UserDTO>>> Register(UserDTO user)
         {
             Response<Core.Responses.Response<UserDTO>> response = new Response<Core.Responses.Response<UserDTO>>();
