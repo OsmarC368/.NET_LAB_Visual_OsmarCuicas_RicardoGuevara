@@ -206,6 +206,9 @@
   <data name="Steps" xml:space="preserve">
     <value>Steps</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
 </root>
 
 

@@ -1,0 +1,153 @@
+@page "/profile"
+
+<h3>@L["Profile"]</h3>
+
+@if (!isLoaded)
+{
+    <p>@L["Loading"]</p>
+}
+else if (!isAuthenticated)
+{
+    <p class="text-danger">@L["No se pudo cargar el usuario"]</p>
+}
+else
+{
+    <!-- Card de perfil -->
+    <div class="card profile-card mb-4 shadow-sm p-4">
+        <div class="profile-info">
+            <div class="info-item">
+                <strong>@L["Name"]:</strong> <span>@UserName</span>
+            </div>
+            <div class="info-item">
+                <strong>@L["Lastname"]:</strong> <span>@UserLastname</span>
+            </div>
+            <div class="info-item">
+                <strong>@L["Email"]:</strong> <span>@UserEmail</span>
+            </div>
+        </div>
+    </div>
+
+    <h4>@L["Recipes"]</h4>
+
+    @if (UserRecipes != null && UserRecipes.Any())
+    {
+        <div class="row mt-3">
+            @foreach (var recipe in UserRecipes)
+            {
+                <div class="col-md-4 mb-4">
+                    <a class="text-decoration-none" href="@($"/recipe-view/{recipe.Id}")">
+                        <div class="card recipe-card">
+                            @if (!string.IsNullOrEmpty(recipe.imageUrl))
+                            {
+                                <div class="card-image" style="background-image: url('@recipe.imageUrl');">
+                                    <div class="card-overlay">
+                                        <h5 class="card-title">@recipe.name</h5>
+                                        <p>@recipe.type</p>
+                                        <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
+                                            @GetDifficultyText(recipe.difficultyLevelFloat)
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card-no-image d-flex flex-column justify-content-center align-items-center">
+                                    <span style="font-size:3rem;">🍽️</span>
+                                    <span class="text-muted">@L["No Image"]</span>
+                                    <h5 class="mt-2">@recipe.name</h5>
+                                    <p>@recipe.type</p>
+                                    <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
+                                        @GetDifficultyText(recipe.difficultyLevelFloat)
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>@L["No tienes recetas aún"]</p>
+    }
+}
+
+<style>
+    .profile-card {
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .profile-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .info-item strong {
+        color: #495057;
+        margin-right: 0.5rem;
+    }
+
+    .card.recipe-card {
+        cursor: pointer;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none; 
+        background: none; 
+        padding: 0; 
+        width: 100%;
+        text-align: left;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+    }
+
+    .card-image {
+        width: 100%;
+        height: 220px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        transition: transform 0.3s;
+    }
+
+    .recipe-card:hover .card-image {
+        transform: scale(1.05);
+    }
+
+    .card-overlay {
+        width: 100%;
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        padding: 0.8rem;
+        box-sizing: border-box;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        margin: 0 0 0.3rem 0;
+        font-weight: 600;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+    }
+
+    .card-no-image {
+        width: 100%;
+        height: 220px;
+        background: #f8f9fa;
+        color: #6c757d;
+        text-align: center;
+        padding: 0.5rem;
+    }
+</style>
