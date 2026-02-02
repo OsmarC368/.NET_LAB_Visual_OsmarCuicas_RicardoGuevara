@@ -32,35 +32,86 @@
 
         <div class="col-md-7 mb-4">
             <div class="card shadow-sm h-100">
-                <div class="card-header bg-success text-white fw-bold">
-                    @L["Steps"]
+                <div class="card-header bg-success text-white fw-bold d-flex justify-content-between align-items-center">
+                    <span>@L["Steps"]</span>
+                    <span class="badge bg-light text-dark">
+                        @(currentStepIndex + 1) / @steps.Count
+                    </span>
                 </div>
 
-                <ul class="list-group list-group-flush">
-                    @foreach (var step in steps)
-                    {
-                        <li class="list-group-item">
-                            <h5 class="fw-bold mb-1">@step.Name</h5>
-                            <p class="mb-2 text-muted">@step.Description</p>
+                @if (steps != null && steps.Any())
+                {
+                    var step = steps[currentStepIndex];
+                    bool isCompleted = completedSteps.Contains(currentStepIndex);
 
-                            <div class="d-flex align-items-center gap-3">
-                                <span class="badge bg-info text-dark">
-                                     @L["Duration"]: @step.Duration m
-                                </span>
-                            </div>
+                    <div class="card-body">
 
-                            @if (!string.IsNullOrEmpty(step.imageURL))
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="fw-bold mb-0">@step.Name</h4>
+
+                            @if (isCompleted)
                             {
-                                <img src="@step.imageURL"
-                                     class="img-fluid rounded mt-3 shadow-sm"
-                                     style="max-height:200px; object-fit:cover;"
-                                     alt="@step.Name" />
+                                <span class="badge bg-success">✅ @L["Completed"]</span>
                             }
-                        </li>
-                    }
-                </ul>
+                        </div>
+
+                        <p class="text-muted mt-2">@step.Description</p>
+
+                        <span class="badge bg-info text-dark mb-3">
+                            @L["Duration"]: @step.Duration m
+                        </span>
+
+                        @if (!string.IsNullOrEmpty(step.imageURL))
+                        {
+                            <img src="@step.imageURL"
+                                class="img-fluid rounded mt-3 shadow-sm"
+                                style="max-height:220px; object-fit:cover;"
+                                alt="@step.Name" />
+                        }
+
+                        <div class="mt-4">
+                            <label class="form-label fw-semibold">
+                                @L["Your notes for this step"]
+                            </label>
+
+                            <textarea class="form-control"
+                                    rows="3"
+                                    placeholder="@L["Write your notes here..."]"
+                                    @bind="CurrentStepNote">
+                            </textarea>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-outline-success w-100"
+                                    @onclick="MarkStepCompleted"
+                                    disabled="@isCompleted">
+                                @(isCompleted ? L["Step completed"] : L["Mark as completed"])
+                            </button>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <button class="btn btn-outline-secondary"
+                                    @onclick="PreviousStep"
+                                    disabled="@(currentStepIndex == 0)">
+                                ◀ @L["Previous"]
+                            </button>
+
+                            <button class="btn btn-outline-success"
+                                    @onclick="NextStep"
+                                    disabled="@(currentStepIndex == steps.Count - 1)">
+                                @L["Next"] ▶
+                            </button>
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body text-muted">
+                        @L["No steps available"]
+                    </div>
+                }
             </div>
         </div>
-
     </div>
 </div>

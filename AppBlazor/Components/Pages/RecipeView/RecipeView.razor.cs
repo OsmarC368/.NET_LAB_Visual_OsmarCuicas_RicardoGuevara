@@ -86,5 +86,35 @@ namespace AppBlazor.Components.Pages.RecipeView
                 }
             }
         }
+
+        private int currentStepIndex = 0;
+        private Dictionary<int, string> stepNotes = new();
+        private HashSet<int> completedSteps = new();
+
+        private void NextStep()
+        {
+            if (currentStepIndex < steps.Count - 1)
+                currentStepIndex++;
+        }
+
+        private void PreviousStep()
+        {
+            if (currentStepIndex > 0)
+                currentStepIndex--;
+        }
+
+        private void MarkStepCompleted()
+        {
+            completedSteps.Add(currentStepIndex);
+        }
+
+        private string CurrentStepNote
+        {
+            get => stepNotes.ContainsKey(currentStepIndex)
+                ? stepNotes[currentStepIndex]
+                : string.Empty;
+
+            set => stepNotes[currentStepIndex] = value;
+        }
     }
 }
