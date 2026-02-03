@@ -39,6 +39,8 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         [Inject]
         public IMeasureService measureService { get; set; }
         [Inject]
+        public StepUserService? stepUserService { get; set; }
+        [Inject]
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; }
         [Inject]
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
@@ -93,8 +95,14 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 var response = await stepService.CreateStep(step);
                 if (response.Ok)
                 {
-                message = response.Data?.Mensaje ?? "Step created successfully";
-                messageClass = "alert alert-success";
+                    var stepUser = new StepUser();
+                    stepUser.comment = "";
+                    stepUser.completed = false;
+                    stepUser.stepSURID = response.Data.Datos.id;
+                    stepUser.userSURID = int.Parse(user.FindFirst("id")?.Value ?? "0");
+                    await stepUserService.Create(stepUser);
+                    message = response.Data?.Mensaje ?? "Step created successfully";
+                    messageClass = "alert alert-success";
                 }
                 else
                 {
@@ -124,6 +132,12 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             var response = await stepService.CreateStepImage(step);
             if (response.Ok)
             {
+                var stepUser = new StepUser();
+                stepUser.comment = "";
+                stepUser.completed = false;
+                stepUser.stepSURID = response.Data.Datos.id;
+                stepUser.userSURID = int.Parse(user.FindFirst("id")?.Value ?? "0");
+                await stepUserService.Create(stepUser);
                 message = response.Data?.Mensaje ?? "Step created successfully";
                 messageClass = "alert alert-success";
             }
