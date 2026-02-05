@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject TokenContainer tokenContainer
+@using AppBlazor.Data.Services
 @using Blazored.SessionStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Runtime.InteropServices
@@ -82,45 +83,17 @@
                         </a>
                     </div>
                 </li>
-                @* <div class="theme-selector">
-                    <label style="color:var(--texto-2); margin-left: 4%;">Cambiar Tema</label>
-                    <select @onchange="test">
-                        @foreach (var theme in themes)
-                        {
-                            <option value="@theme">@theme</option>
-                        }
-                    </select>
-
-                    
-                </div> *@
+               
             </NotAuthorized>
         </AuthorizeView>
 
     </nav>
 </div>
 
-@* 
-@code {
-    private List<string> themes = new List<string> { "Claro", "Oscuro" };
-    private bool themeSelected(string theme) => theme == "Claro";
-    [Parameter]
-    public EventCallback<bool> notifyThemeChange { get; set; }
-
-    private void ThemeSelectorSelected(ChangeEventArgs e)
-    {
-        Console.WriteLine(e.Value.ToString());
-        notifyThemeChange.InvokeAsync(themeSelected(e.Value.ToString())); 
-        notifyThemeChange.InvokeAsync();
-    }
-
-    private void test(ChangeEventArgs e)
-    {
-        Console.WriteLine(e.Value.ToString());
-    }
-
-} *@
 
 @code {
+
+    private bool isDarkModeActive = true;
     string GetCultureUrl(string culture)
     {
         var currentPath = Navigation.ToBaseRelativePath(Navigation.Uri);
@@ -132,4 +105,5 @@
 
         return $"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(currentPath)}";
     }
+
 }

@@ -208,4 +208,7 @@
   <data name="Profile" xml:space="preserve">
     <value>Perfil</value>
   </data>
+  <data name="Uncomplete Step" xml:space="preserve">
+    <value>Descompletar Paso</value>
+  </data>
 </root>

@@ -18,7 +18,7 @@ namespace AppBlazor.Data.Models
         public string description {get; set;} = string.Empty;
 
         [Required(ErrorMessage = "La Duración es Requerido!")]
-        [Range(1, 50000000, ErrorMessage = "La Duración Debe Ser Mayor a 0")]
+        [Range(0, 50000000, ErrorMessage = "La Duración Debe Ser Mayor o igual a 0")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "Solo se Permiten Numeros")]
         public string Duration {get; set;} = string.Empty;
 
@@ -30,5 +30,6 @@ namespace AppBlazor.Data.Models
         public int id {get; set;} = 0;
         // Nuevo campo para la imagen
         public IBrowserFile? ImageFile { get; set; }
+        public string note { get; set; }
     }
 }

@@ -1,0 +1,23 @@
+#cardBody {
+    display: flex;
+    flex-direction: column;
+}
+
+#temp-value{
+    background: #101010e6;
+    color: white;
+    width: 18rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    border-radius: 10px;
+    padding-right: 18px;
+    margin-left: 1rem;
+}
+
+#temp-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

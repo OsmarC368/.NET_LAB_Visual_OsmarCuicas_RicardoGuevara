@@ -10,7 +10,8 @@ main[b-dpjp486nnl] {
 }
 
 .sidebar[b-dpjp486nnl] {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    /* background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%); */
+    background-image: var(--gradient);
 }
 
 .top-row[b-dpjp486nnl] {
@@ -363,6 +364,11 @@ main[b-dpjp486nnl] {
     }
 }
 /* /Components/Pages/CreateRecipes/CreateRecipes.razor.rz.scp.css */
+/* /Components/Pages/Dashboard/Dashboard.razor.rz.scp.css */
+#recipe-card:hover[b-y3be6o1tqk] {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+}
 /* /Components/Pages/Login/Login.razor.rz.scp.css */
 .formLogin[b-ok54b6n1cw] {
     border: 5px solid #0000007c;
@@ -385,6 +391,30 @@ main[b-dpjp486nnl] {
 
 .alert-danger[b-ok54b6n1cw] {
     margin-top: 10px;
+}
+/* /Components/Pages/RecipeView/RecipeView.razor.rz.scp.css */
+#cardBody[b-f9y2js25vw] {
+    display: flex;
+    flex-direction: column;
+}
+
+#temp-value[b-f9y2js25vw]{
+    background: #101010e6;
+    color: white;
+    width: 18rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    border-radius: 10px;
+    padding-right: 18px;
+    margin-left: 1rem;
+}
+
+#temp-container[b-f9y2js25vw] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 /* /Components/Pages/Registration/Register.razor.rz.scp.css */
 .formRegister[b-r3joh3zd3a] {
