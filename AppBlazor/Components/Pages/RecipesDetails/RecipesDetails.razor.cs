@@ -345,5 +345,10 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 ingredientsPerRecipeList.Add(dto);
             }
         }
+
+        private void GoBack()
+        {
+            Navigation.NavigateTo("/create-recipes");
+        }
     }
 }

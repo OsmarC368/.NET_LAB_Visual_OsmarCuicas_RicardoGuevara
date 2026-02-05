@@ -116,5 +116,10 @@ namespace AppBlazor.Components.Pages.RecipeView
 
             set => stepNotes[currentStepIndex] = value;
         }
+
+        private void GoBack()
+        {
+            Navigation.NavigateTo("/dashboard");
+        }
     }
 }

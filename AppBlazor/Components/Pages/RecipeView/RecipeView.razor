@@ -2,7 +2,13 @@
 @using Core.Entities
 @rendermode InteractiveServer
 @attribute [StreamRendering]
+@inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Components.Authorization
+
+
+<button class="btn btn-primary" @onclick="GoBack">
+    @L["Back"]
+</button>
 
 <div class="container mt-4">
 
