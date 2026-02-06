@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using Core.Interfaces.Services;
 using Microsoft.Extensions.Localization;
 using Core.Entities;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using System.IO.Compression;
 namespace AppBlazor.Components.Pages.RecipeView
 {
     public partial class RecipeView
@@ -28,16 +30,83 @@ namespace AppBlazor.Components.Pages.RecipeView
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; } = default!;
         [Inject]
         public StepService? stepService { get; set; } = default!;
+        [Inject]
+        public StepUserService? stepUserService { get; set; } = default!;
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         public Recipe? recipe { get; set; } = new Recipe();
         public string RecipeName { get; set; } = string.Empty;
         public List<Step> steps { get; set; } = new List<Step>();
         public List<IngredientPerRecipeDTO> recipeIngredients { get; set; } = new List<IngredientPerRecipeDTO>();
+        [Inject]
+        public AuthenticationStateProvider? AuthStateProvider { get; set; }
+        
+        private int currentStepIndex = 0;
+        private string currentStepNote = "";
+        private List<StepUser> stepUserList = new();
+        private string play_pause = "▶";
+ 
 
         protected async override Task OnInitializedAsync()
         {
             await LoadRecipe();
             await LoadIngredients();
+            await verifyStepUser();
+        }
+
+        private void startPause(int stepID)
+        {
+            if (play_pause == "▶")
+            {
+                play_pause = "⏸";
+                start(stepID);
+            }
+            else
+            {
+                play_pause = "▶";
+                pause(stepID);
+            }
+        }
+
+        private void pause(int stepID)
+        {
+            var step = steps.FirstOrDefault(x => x.Id == stepID);
+            step.stepTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+
+        private void start(int stepID)
+        {
+            var step = steps.FirstOrDefault(x => x.Id == stepID);
+            step.stepTimer.Change(0, 1000);
+        }
+
+        private void reset(int stepID)
+        {
+            var step = steps.FirstOrDefault(x => x.Id == stepID);
+            step.currentTimer = step.Duration * 60;
+            var minutes = Math.Floor(step.currentTimer / 60);
+            var seconds = step.currentTimer % 60;
+            step.timerValue = minutes + ":" + seconds;
+            pause(stepID);
+            play_pause = "▶";
+            InvokeAsync(StateHasChanged);
+
+        }
+
+        private void timer(object? state, int stepID)
+        {
+            var step = steps.FirstOrDefault(x => x.Id == stepID);
+            if(step.currentTimer > 0)
+            {
+                step.currentTimer -= 1;
+                var minutes = Math.Floor(step.currentTimer / 60);
+                var seconds = step.currentTimer % 60;
+                step.timerValue = minutes + ":" + seconds;
+            }
+            else
+            {
+                reset(stepID);
+            }
+            InvokeAsync(StateHasChanged);
         }
 
         public async Task LoadRecipe()
@@ -60,6 +129,11 @@ namespace AppBlazor.Components.Pages.RecipeView
                 foreach (var step in temp)
                 {
                     if(step.RecipeIdS == RecipeId)
+                        step.currentTimer = step.Duration*60;
+                        var minutes = Math.Floor(step.currentTimer / 60);
+                        var seconds = step.currentTimer % 60;
+                        step.timerValue = minutes + ":" + seconds;
+                        step.stepTimer = new Timer(state => timer(state, step.Id), null, Timeout.Infinite, Timeout.Infinite);
                         steps.Add(step);
                 }
             }
@@ -87,10 +161,6 @@ namespace AppBlazor.Components.Pages.RecipeView
             }
         }
 
-        private int currentStepIndex = 0;
-        private Dictionary<int, string> stepNotes = new();
-        private HashSet<int> completedSteps = new();
-
         private void NextStep()
         {
             if (currentStepIndex < steps.Count - 1)
@@ -103,19 +173,97 @@ namespace AppBlazor.Components.Pages.RecipeView
                 currentStepIndex--;
         }
 
-        private void MarkStepCompleted()
+        private async Task MarkStep(int stepID, bool state)
         {
-            completedSteps.Add(currentStepIndex);
+            StepUser stepUserToUpdate = new();
+            foreach(var stepUser in stepUserList)
+            {
+                if(stepUser.stepSURID == stepID)
+                {
+                    stepUserToUpdate = stepUser;
+                    stepUserToUpdate.completed = state;
+                }
+            }
+            await stepUserService.Update(stepUserToUpdate.id, stepUserToUpdate);
         }
 
-        private string CurrentStepNote
-        {
-            get => stepNotes.ContainsKey(currentStepIndex)
-                ? stepNotes[currentStepIndex]
-                : string.Empty;
 
-            set => stepNotes[currentStepIndex] = value;
+
+        private async Task saveComment(int stepID)
+        {
+            StepUser stepUserToUpdate = new();
+            var step = steps.FirstOrDefault(x => x.Id == stepID);
+            foreach(var stepUser in stepUserList)
+            {
+                if(stepUser.stepSURID == stepID)
+                {
+                    stepUserToUpdate = stepUser;
+                    stepUserToUpdate.comment = step.note;
+                }
+            }
+            await stepUserService.Update(stepUserToUpdate.id, stepUserToUpdate);
         }
+
+
+        private async Task verifyStepUser()
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var userID = int.Parse(user.FindFirst("id")?.Value ?? "0");
+            bool verified = false;
+            var response = await stepUserService.GetAllAsync();
+            if (response.Ok)
+            {
+                foreach(var step in steps)
+                {
+                    verified = false;
+                    foreach(var x in response.Datos)
+                    {
+                        if(x.stepSURID == step.Id && x.userSURID == userID)
+                        {
+                            verified = true;
+                            step.note = x.comment;
+                            stepUserList.Add(x);
+                        }
+                    }
+                    if (!verified)
+                    {
+                        var newStepUser = await createStepUser(userID, step.Id);
+                        step.note = newStepUser.comment;
+                        stepUserList.Add(newStepUser);
+                    }
+                }
+            }
+
+        }
+
+
+
+
+        private async Task<StepUser> createStepUser(int userID, int stepID)
+        {
+            var stepUser = new StepUser();
+            stepUser.comment = "";
+            stepUser.completed = false;
+            stepUser.stepSURID = stepID;
+            stepUser.userSURID = userID;
+            await stepUserService.Create(stepUser);
+            return stepUser;
+        }
+
+        private bool verifyCompletedStep(int stepID)
+        {
+            bool verified = false; 
+            foreach(var stepUser in stepUserList)
+            {
+                if(stepUser.stepSURID == stepID)
+                {
+                    verified = stepUser.completed;
+                }
+            }
+            return verified; 
+        }
+
 
         private void GoBack()
         {

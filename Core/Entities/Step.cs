@@ -13,7 +13,11 @@ namespace Core.Entities
         public string Description { get; set; } = "";
         public string imageURL { get; set; } = "";
         public float Duration { get; set; }
+        public float currentTimer { get; set; }
         public int RecipeIdS { get; set; }
+        public string note { get; set; } = "";
         public virtual Recipe? RecipeS { get; set; }
+        public Timer stepTimer { get; set; }
+        public string timerValue { get; set; }
     }
 }

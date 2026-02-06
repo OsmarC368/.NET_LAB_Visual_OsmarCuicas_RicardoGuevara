@@ -1,4 +1,7 @@
-﻿@inject NavigationManager Navigation
+@inject NavigationManager NavigationManager
+@inject TokenContainer tokenContainer
+@using AppBlazor.Data.Services
+@using Blazored.SessionStorage
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 
@@ -94,13 +97,17 @@
                         </a>
                     </div>
                 </li>
+               
             </NotAuthorized>
         </AuthorizeView>
 
     </nav>
 </div>
 
+
 @code {
+
+    private bool isDarkModeActive = true;
     string GetCultureUrl(string culture)
     {
         var currentPath = Navigation.ToBaseRelativePath(Navigation.Uri);
@@ -112,4 +119,5 @@
 
         return $"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(currentPath)}";
     }
+
 }

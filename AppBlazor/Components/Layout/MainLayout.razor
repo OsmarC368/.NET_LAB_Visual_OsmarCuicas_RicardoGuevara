@@ -1,23 +1,20 @@
-﻿@inherits LayoutComponentBase
+﻿@using AppBlazor.Data.Services
+@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Http
+@inject ThemeService themeService
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IJSRuntime JS
 
-<div class="page @ObtenerClaseTema()">
+
+<div class="page"" id="main-container">
     <div class="sidebar">
-        @* <NavMenu notifyThemeChange="setTheme"/> *@
         <NavMenu/>
     </div>
 
     <main>
-         <select @onchange="CambiarTema" style="margin-left: 1rem;">
-            @foreach (string modo in modos)
-            {
-                <option selected="@EsSeleccionado(modo)" value="@modo">@modo</option>
-            }
-         </select>
-
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
-
         <article class="content px-4">
             @Body
         </article>
@@ -30,31 +27,4 @@
     <span class="dismiss">🗙</span>
 </div>
 
-@code {
-    @* private string currentTheme = string.Empty;
 
-    private void setTheme()
-    {
-        Console.WriteLine("callback");
-        currentTheme = isDarkTheme ? "tema-oscuro" : string.Empty;
-        StateHasChanged(); 
-    }*@
-
-    private string modoSeleccionado = "Claro";
-    private List<string> modos = new List<string> { "Claro", "Oscuro" };
-
-    private string ObtenerClaseTema()
-    {
-        return modoSeleccionado == "Oscuro" ? "tema-oscuro" : string.Empty;
-    }
-
-    private bool EsSeleccionado(string modo)
-    {
-        return modo == modoSeleccionado;
-    }
-
-    private void CambiarTema(ChangeEventArgs e)
-    {
-        modoSeleccionado = e.Value.ToString();
-    }
-}

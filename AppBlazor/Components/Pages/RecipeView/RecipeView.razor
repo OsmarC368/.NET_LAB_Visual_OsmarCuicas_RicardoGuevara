@@ -14,7 +14,7 @@
 
     <h2 class="text-center fw-bold mb-4">@RecipeName</h2>
 
-    <div class="row">
+    <div class="row" style="display: grid; justify-items: center;">
 
         <div class="col-md-5 mb-4">
             <div class="card shadow-sm h-100">
@@ -48,9 +48,9 @@
                 @if (steps != null && steps.Any())
                 {
                     var step = steps[currentStepIndex];
-                    bool isCompleted = completedSteps.Contains(currentStepIndex);
+                    bool isCompleted = verifyCompletedStep(step.Id);
 
-                    <div class="card-body">
+                    <div class="card-body" id="cardBody">
 
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="fw-bold mb-0">@step.Name</h4>
@@ -62,16 +62,28 @@
                         </div>
 
                         <p class="text-muted mt-2">@step.Description</p>
+                        @if(step.Duration > 0)
+                        {
+                            <span class="badge bg-info text-dark mb-3">
+                                @L["Duration"]: @step.Duration m
+                            </span>
+                            <div id="temp-container">
+                                <div id="temp-options">
 
-                        <span class="badge bg-info text-dark mb-3">
-                            @L["Duration"]: @step.Duration m
-                        </span>
+                                    <button class="btn btn-outline-info" @onclick="() => startPause(step.Id)">@play_pause</button>
+                                    <button class="btn btn-outline-info" @onclick="() => reset(step.Id)">⟳</button>
+                                </div>
+                                <div id="temp-value">
+                                    @step.timerValue
+                                </div>
+                            </div>
+                        }
 
                         @if (!string.IsNullOrEmpty(step.imageURL))
                         {
                             <img src="@step.imageURL"
                                 class="img-fluid rounded mt-3 shadow-sm"
-                                style="max-height:220px; object-fit:cover;"
+                                style="max-height:320px; object-fit:cover;"
                                 alt="@step.Name" />
                         }
 
@@ -83,18 +95,32 @@
                             <textarea class="form-control"
                                     rows="3"
                                     placeholder="@L["Write your notes here..."]"
-                                    @bind="CurrentStepNote">
+                                    @bind="@step.note">
                             </textarea>
                         </div>
+                        <button
+                        class="btn btn-info"
+                        @onclick="() => saveComment(step.Id)"
+                        type="button">
+                        Guardar
+                        </button>
 
                         <div class="mt-4">
                             <button class="btn btn-outline-success w-100"
-                                    @onclick="MarkStepCompleted"
+                                    @onclick="() => MarkStep(step.Id, true)"
                                     disabled="@isCompleted">
                                 @(isCompleted ? L["Step completed"] : L["Mark as completed"])
                             </button>
                         </div>
-
+                        @if(@isCompleted)
+                        {
+                            <div class="mt-4">
+                                <button class="btn btn-outline-warning w-100"
+                                        @onclick="() => MarkStep(step.Id, false)">
+                                    @(isCompleted ? L["Uncomplete Step"] : true)
+                                </button>
+                            </div>
+                        }
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <button class="btn btn-outline-secondary"
                                     @onclick="PreviousStep"
