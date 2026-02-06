@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,20 +17,10 @@
 </head>
 
 <body>
-    <Routes/>
+
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
-<script>
-    window.applyGlobalTheme = (isDark) => {
-        const layoutContainer = document.querySelector('.page'); 
-        if (layoutContainer) {
-            if (isDark) {
-                layoutContainer.classList.add('dark-mode');
-            } else {
-                layoutContainer.classList.remove('dark-mode');
-            }
-        }
-    };
-</script>
+
 </html>

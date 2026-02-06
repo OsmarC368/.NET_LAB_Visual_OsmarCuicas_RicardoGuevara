@@ -35,6 +35,7 @@ builder.Services.AddSingleton<StepUserService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthorizationStateProvider>();
 builder.Services.AddScoped<ThemeService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
