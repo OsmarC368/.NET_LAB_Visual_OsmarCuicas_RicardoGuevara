@@ -265,5 +265,9 @@ namespace AppBlazor.Components.Pages.RecipeView
         }
 
 
+        private void GoBack()
+        {
+            Navigation.NavigateTo("/dashboard");
+        }
     }
 }

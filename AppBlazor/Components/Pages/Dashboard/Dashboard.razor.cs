@@ -14,11 +14,11 @@ namespace AppBlazor.Components.Pages.Dashboard
 {
     public partial class Dashboard : ComponentBase
     {
-        [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; }
-        [Inject] private AuthService authService { get; set; }
-        [Inject] private IStringLocalizer<SharedResources> L { get; set; }
-        [Inject] private IRecipeService RecipeService { get; set; }
+        [Inject] private NavigationManager Navigation { get; set; } = default!;
+        [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+        [Inject] private AuthService authService { get; set; } = default!;
+        [Inject] private IStringLocalizer<SharedResources> L { get; set; } = default!;
+        [Inject] private IRecipeService RecipeService { get; set; } = default!;
         [Inject] private IIngredientService IngredientService { get; set; } = default!;
         [Inject] private IngredientPerRecipeService IngredientPerRecipeService { get; set; } = default!;
 
@@ -29,39 +29,47 @@ namespace AppBlazor.Components.Pages.Dashboard
         private List<RecipeDTO> recipes = new();
         private List<IngredientPerRecipeDTO> ingredientsPerRecipe = new();
         private List<Ingredient> ingredients = new();
+
         private string filterName = string.Empty;
         private string filterType = string.Empty;
         private int? filterDifficulty = null;
         private string filterByAuthor = string.Empty;
-        private int? selectedIngredientId;
+        private void GoToMeasures() => Navigation.NavigateTo("/measure");
+        private void GoToIngredients() => Navigation.NavigateTo("/ingredient");
+        private void GoToRecipes() => Navigation.NavigateTo("/create-recipes");
+        private void GoToRecipeDetails(int recipeId) => Navigation.NavigateTo($"/recipe-view/{recipeId}");
+        private string filterIngredientsText = string.Empty;
 
-        private IEnumerable<RecipeDTO> FilteredRecipes => recipes
-            .Where(r =>
-                r.visibility == 1 &&
-                (string.IsNullOrWhiteSpace(filterName) ||
-                    r.name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
-                (string.IsNullOrWhiteSpace(filterType) ||
-                    r.type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
-                (!filterDifficulty.HasValue ||
-                    r.difficultyLevelFloat == filterDifficulty.Value) &&
-                (string.IsNullOrWhiteSpace(filterByAuthor) ||
-                    (r.author != null &&
-                     r.author.Contains(filterByAuthor, StringComparison.OrdinalIgnoreCase))) &&
-                (!selectedIngredientId.HasValue ||
-                ingredientsPerRecipe.Any(ipr => ipr.recipeID == r.Id && ipr.ingredientIdIPR == selectedIngredientId.Value))
-            );
+        private IEnumerable<RecipeDTO> FilteredRecipes =>
+            recipes
+                .Select(r => new
+                {
+                    Recipe = r,
+                    MatchCount = GetIngredientMatchCount(r)
+                })
+                .Where(x =>
+                    x.Recipe.visibility == 1 &&
+                    (string.IsNullOrWhiteSpace(filterName) ||
+                        x.Recipe.name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrWhiteSpace(filterType) ||
+                        x.Recipe.type.Contains(filterType, StringComparison.OrdinalIgnoreCase)) &&
+                    (!filterDifficulty.HasValue ||
+                        x.Recipe.difficultyLevelFloat == filterDifficulty.Value) &&
+                    (string.IsNullOrWhiteSpace(filterByAuthor) ||
+                        (x.Recipe.author != null &&
+                         x.Recipe.author.Contains(filterByAuthor, StringComparison.OrdinalIgnoreCase))) &&
+                    (string.IsNullOrWhiteSpace(filterIngredientsText) || x.MatchCount > 0)
+                )
+                .OrderByDescending(x => x.MatchCount) 
+                .Select(x => x.Recipe);
 
         protected override async Task OnInitializedAsync()
         {
             isLoaded = false;
 
-            recipes = new List<RecipeDTO>();
-            ingredientsPerRecipe = new List<IngredientPerRecipeDTO>();
-            ingredients = new List<Ingredient>();
-
-            var usersDict = new Dictionary<int, string>();
-
-            var recipesResponse = await RecipeService.GetAllAsync();
+            recipes = new();
+            ingredientsPerRecipe = new();
+            ingredients = new();
 
             var ingredientsPerRecipeResp = await IngredientPerRecipeService.GetAllAsync();
             if (ingredientsPerRecipeResp?.Ok == true && ingredientsPerRecipeResp.Datos != null)
@@ -74,34 +82,36 @@ namespace AppBlazor.Components.Pages.Dashboard
                     measureIdIPR = ipr.measureIdIPR,
                     amount = ipr.amount.ToString(),
                     ingredient = ipr.IngredientIPR?.name ?? string.Empty,
-                    measure = string.Empty 
+                    measure = string.Empty
                 }).ToList();
             }
 
-            var allIngredientsResponse = await IngredientService.GetAllAsync();
-            if (allIngredientsResponse?.Ok == true && allIngredientsResponse.Datos != null)
-                ingredients = allIngredientsResponse.Datos.ToList();
+            var ingredientsResp = await IngredientService.GetAllAsync();
+            if (ingredientsResp?.Ok == true && ingredientsResp.Datos != null)
+                ingredients = ingredientsResp.Datos.ToList();
 
-            if (recipesResponse?.Ok == true && recipesResponse.Datos != null)
+            var recipesResp = await RecipeService.GetAllAsync();
+            if (recipesResp?.Ok == true && recipesResp.Datos != null)
             {
-                foreach (var recipe in recipesResponse.Datos)
+                foreach (var recipe in recipesResp.Datos)
                 {
-                    var dtoRecipe = new RecipeDTO();
-                    var userResponse = await authService.GetByIdAsync(recipe.UserIdR);
-                    dtoRecipe.author = $"{userResponse.Data.Datos.Name}  {userResponse.Data.Datos.Lastname}";
-                    dtoRecipe.visibility = recipe.Visibility;
-                    dtoRecipe.difficultyLevelFloat = recipe.DifficultyLevel;
-                    dtoRecipe.name = recipe.Name;
-                    dtoRecipe.imageUrl = recipe.imageUrl;
-                    dtoRecipe.type = recipe.Type;
-                    dtoRecipe.Id = recipe.Id;
-                    recipes.Add(dtoRecipe);
+                    var dto = new RecipeDTO();
+
+                    var userResp = await authService.GetByIdAsync(recipe.UserIdR);
+                    dto.author = $"{userResp.Data.Datos.Name} {userResp.Data.Datos.Lastname}";
+
+                    dto.Id = recipe.Id;
+                    dto.name = recipe.Name;
+                    dto.type = recipe.Type;
+                    dto.imageUrl = recipe.imageUrl;
+                    dto.difficultyLevelFloat = recipe.DifficultyLevel;
+                    dto.visibility = recipe.Visibility;
+
+                    recipes.Add(dto);
                 }
             }
-            else
-            {
-                recipes = new List<RecipeDTO>();
-            }
+
+            isLoaded = true;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -117,19 +127,41 @@ namespace AppBlazor.Components.Pages.Dashboard
             {
                 var claim = user.FindFirst("userType");
                 if (claim != null && int.TryParse(claim.Value, out var parsed))
-                {
                     userType = parsed;
-                }
             }
 
-            isLoaded = true;
             StateHasChanged();
         }
 
-        private void GoToMeasures() => Navigation.NavigateTo("/measure");
-        private void GoToIngredients() => Navigation.NavigateTo("/ingredient");
-        private void GoToRecipes() => Navigation.NavigateTo("/create-recipes");
-        private void GoToRecipeDetails(int recipeId) => Navigation.NavigateTo($"/recipe-view/{recipeId}");
+        private List<int> GetSelectedIngredientIds()
+        {
+            if (string.IsNullOrWhiteSpace(filterIngredientsText))
+                return new();
+
+            var searchTerms = filterIngredientsText
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(s => s.ToLower())
+                .ToList();
+
+            return ingredients
+                .Where(i => searchTerms.Any(t => i.name.ToLower().Contains(t)))
+                .Select(i => i.id)
+                .ToList();
+        }
+
+        private int GetIngredientMatchCount(RecipeDTO recipe)
+        {
+            var selectedIds = GetSelectedIngredientIds();
+            if (!selectedIds.Any())
+                return 0;
+
+            var recipeIngredientIds = ingredientsPerRecipe
+                .Where(ipr => ipr.recipeID == recipe.Id)
+                .Select(ipr => ipr.ingredientIdIPR)
+                .ToList();
+
+            return selectedIds.Count(id => recipeIngredientIds.Contains(id));
+        }
 
         private string GetDifficultyText(float level)
         {

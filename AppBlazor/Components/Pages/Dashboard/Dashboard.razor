@@ -36,13 +36,12 @@
                    @bind="filterByAuthor"
                    @bind:event="oninput" />
 
-            <select class="form-select" @bind="selectedIngredientId">
-                <option value="">@L["All ingredients"]</option>
-                @foreach (var ing in ingredients)
-                {
-                    <option value="@ing.id">@ing.name</option>
-                }
-            </select>       
+            <input type="text"
+                   class="form-control"
+                   placeholder="sal ajo cebolla"
+                   @bind="filterIngredientsText"
+                   @bind:event="oninput" />
+       
         </div>
     </div>
 </div>

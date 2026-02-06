@@ -1,10 +1,9 @@
-﻿@inject NavigationManager NavigationManager
+@inject NavigationManager NavigationManager
 @inject TokenContainer tokenContainer
 @using AppBlazor.Data.Services
 @using Blazored.SessionStorage
 @using Microsoft.AspNetCore.Components.Authorization
-@using System.Runtime.InteropServices
-@inject NavigationManager Navigation
+@using System.Security.Claims
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -17,68 +16,83 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
 
-       <AuthorizeView>
+        <AuthorizeView Context="auth">
             <Authorized>
-                <div class="nav-item px-3">
+                @{
+                    var userTypeClaim = auth.User.FindFirst("userType");
+                    var userType = userTypeClaim != null ? int.Parse(userTypeClaim.Value) : 0;
+                }
+
+\                <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/Dashboard">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Principal
+                        <span class="bi bi-list-nested-nav-menu"></span> Principal
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+
+\                <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/create-recipes">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Crear Recetas
+                        <span class="bi bi-list-nested-nav-menu"></span> Recetas
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/Ingredient">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Ingredientes
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/Measure">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Medidas
-                    </NavLink>
-                </div>
+
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/profile">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Perfil
+                        <span class="bi bi-list-nested-nav-menu"></span> Perfil
                     </NavLink>
                 </div>
+
+\                @if (userType != 1)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="/Ingredient">
+                            <span class="bi bi-list-nested-nav-menu"></span> Ingredientes
+                        </NavLink>
+                    </div>
+
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="/Measure">
+                            <span class="bi bi-list-nested-nav-menu"></span> Medidas
+                        </NavLink>
+                    </div>
+                }
+
                 <li class="nav-item px-3 mt-3">
                     <div class="d-flex gap-1">
                         <a class="btn btn-outline-secondary btn-sm"
-                        href="@GetCultureUrl("es")">
+                           href="@GetCultureUrl("es")">
                             🇪🇸 ES
                         </a>
 
                         <a class="btn btn-outline-secondary btn-sm"
-                        href="@GetCultureUrl("en")">
+                           href="@GetCultureUrl("en")">
                             🇺🇸 EN
                         </a>
                     </div>
                 </li>
             </Authorized>
-            <NotAuthorized>
 
+            <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/auth/login">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Login
+                        <span class="bi bi-list-nested-nav-menu"></span> Login
                     </NavLink>
                 </div>
+
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/auth/register">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Register
+                        <span class="bi bi-list-nested-nav-menu"></span> Register
                     </NavLink>
                 </div>
+
                 <li class="nav-item px-3 mt-3">
                     <div class="d-flex gap-1">
                         <a class="btn btn-outline-secondary btn-sm"
-                        href="@GetCultureUrl("es")">
+                           href="@GetCultureUrl("es")">
                             🇪🇸 ES
                         </a>
 
                         <a class="btn btn-outline-secondary btn-sm"
-                        href="@GetCultureUrl("en")">
+                           href="@GetCultureUrl("en")">
                             🇺🇸 EN
                         </a>
                     </div>

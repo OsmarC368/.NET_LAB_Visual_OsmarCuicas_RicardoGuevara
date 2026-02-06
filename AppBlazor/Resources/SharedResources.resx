@@ -190,8 +190,8 @@
   <data name="Select Measure" xml:space="preserve">
     <value>Seleccionar Medida</value>
   </data>
-  <data name="Select Ingredient" xml:space="preserve">
-    <value>Seleccionar Ingrediente</value>
+  <data name="Search Ingredient" xml:space="preserve">
+    <value>Buscar Ingrediente</value>
   </data>
   <data name="Update Step" xml:space="preserve">
     <value>Editar Step</value>
@@ -210,5 +210,22 @@
   </data>
   <data name="Uncomplete Step" xml:space="preserve">
     <value>Descompletar Paso</value>
+  <data name="No steps available" xml:space="preserve">
+    <value>Sin pasos disponibles</value>
+  </data>
+  <data name="No steps available" xml:space="preserve">
+    <value>No steps available</value>
+  </data>
+  <data name="Step completed" xml:space="preserve">
+    <value>Paso completado</value>
+  </data>
+  <data name="Mark as completed" xml:space="preserve">
+    <value>Marcar como completado</value>
+  </data>
+  <data name="Your notes for this step" xml:space="preserve">
+    <value>Tus notas para este paso</value>
+  </data>
+  <data name="Write your notes here..." xml:space="preserve">
+    <value>Escribe tus notas aqui...</value>
   </data>
 </root>
