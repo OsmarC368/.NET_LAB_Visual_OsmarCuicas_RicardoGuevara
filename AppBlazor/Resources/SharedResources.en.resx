@@ -212,11 +212,6 @@
   <data name="Uncomplete Step" xml:space="preserve">
     <value>Uncomplete Step</value>
   </data>
-</root>
-
-
-
-
   <data name="No steps available" xml:space="preserve">
     <value>No steps available</value>
   </data>
@@ -233,3 +228,8 @@
     <value>Write your notes here...</value>
   </data>
 </root>
+
+
+
+
+

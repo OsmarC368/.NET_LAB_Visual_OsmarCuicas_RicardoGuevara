@@ -25,6 +25,10 @@ namespace AppBlazor.Data.Models
         [Range(1, 5, ErrorMessage = "El Nivel de Dificultad Debe Estar Entre 1 y 5")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "Solo se Permiten Numeros")]
         public float difficultyLevelFloat {get; set;}
+        [Required(ErrorMessage = "El Numero de Platos es Requerido")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números enteros positivos")]
+        [Range(1, int.MaxValue, ErrorMessage = "La Cantidad de Platos debe ser de al menos 1")]
+        public string servings { get; set;}
         public string difficultyLevel {get; set;} = string.Empty;
         public int visibility {get; set;} = 1;
         public int userIDR {get; set;} = 0;

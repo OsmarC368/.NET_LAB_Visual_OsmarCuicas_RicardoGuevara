@@ -42,6 +42,7 @@ namespace AppBlazor.Components.Pages.RecipeView
         
         private int currentStepIndex = 0;
         private string currentStepNote = "";
+        private float recServings = 0;
         private List<StepUser> stepUserList = new();
         private string play_pause = "▶";
  
@@ -51,6 +52,34 @@ namespace AppBlazor.Components.Pages.RecipeView
             await LoadRecipe();
             await LoadIngredients();
             await verifyStepUser();
+        }
+
+        private void resetServings()
+        {
+            resetAmount();
+            recServings = 0;
+        }
+
+        private void resetAmount()
+        {
+            foreach(var ingre in recipeIngredients)
+            {
+                ingre.amount = ingre.amountOrg;
+            }
+        }
+
+        private void recalculateServings()
+        {
+            if (recServings != 0 && recServings > 0)
+            {
+                resetAmount();
+                float value = ((recServings * 100) / recipe.Servings) / 100;
+                foreach(var ingre in recipeIngredients)
+                {
+                    ingre.amount = (float.Parse(ingre.amount) * value).ToString();
+                }
+            }
+            
         }
 
         private void startPause(int stepID)
@@ -129,12 +158,14 @@ namespace AppBlazor.Components.Pages.RecipeView
                 foreach (var step in temp)
                 {
                     if(step.RecipeIdS == RecipeId)
+                    {
                         step.currentTimer = step.Duration*60;
                         var minutes = Math.Floor(step.currentTimer / 60);
                         var seconds = step.currentTimer % 60;
                         step.timerValue = minutes + ":" + seconds;
                         step.stepTimer = new Timer(state => timer(state, step.Id), null, Timeout.Infinite, Timeout.Infinite);
                         steps.Add(step);
+                    }
                 }
             }
         }
@@ -155,6 +186,7 @@ namespace AppBlazor.Components.Pages.RecipeView
                         var ingre = await ingredientService.GetByIdAsync(ingredient.IngredientIdIPR);
                         newIngredient.ingredient = ingre.Datos.name;
                         newIngredient.amount = ingredient.amount.ToString();
+                        newIngredient.amountOrg = ingredient.amount.ToString();
                         recipeIngredients.Add(newIngredient);
                     }
                 }

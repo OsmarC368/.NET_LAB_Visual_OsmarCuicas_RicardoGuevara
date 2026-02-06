@@ -16,7 +16,7 @@
 
     <div class="row" style="display: grid; justify-items: center;">
 
-        <div class="col-md-5 mb-4">
+        <div class="col-md-5 mb-4" id="ingredientContainer">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-primary text-white fw-bold">
                     @L["Ingredients"]
@@ -33,6 +33,15 @@
                         </li>
                     }
                 </ul>
+                <div>
+                    <label for="" class="fw-semibold" style="display: flex; margin-left: 10px;">Original Servings(@recipe.Servings)</label>
+                    <label for="" class="fw-semibold" style="margin: 10px;">Recalculate Servings</label>
+                    <input class="form-control" placeholder="1" @bind="recServings"/>
+                    <div style="display: flex; justify-content: space-around; margin: 10px;">
+                        <button class="btn btn-info" @onclick="recalculateServings" type="button">Recalculate</button>
+                        <button class="btn btn-info" @onclick="resetServings" type="button">Reset</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -86,6 +95,20 @@
                                 style="max-height:320px; object-fit:cover;"
                                 alt="@step.Name" />
                         }
+
+                        @if (!string.IsNullOrEmpty(step.videoURL))
+                        {
+                            <div>
+                                <iframe src="@step.videoURL" 
+                                frameborder="0"
+                                width="640"
+                                height="360"
+                                allowfullscreen>
+                                </iframe>
+                            </div>
+
+                        }
+                        
 
                         <div class="mt-4">
                             <label class="form-label fw-semibold">

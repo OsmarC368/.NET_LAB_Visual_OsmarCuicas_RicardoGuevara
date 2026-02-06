@@ -25,6 +25,7 @@ namespace AppBlazor.Data.Models
         [Required(ErrorMessage = "El Apellido es Requerido!")]
         [StringLength(225, ErrorMessage = "El Apellido es Demasiado Corto", MinimumLength =2)]
         public string imageURL {get; set;} = string.Empty;
+        public string videoURL {get; set;} = string.Empty;
         public int RecipeID {get; set;} = 0;
         public int RecipeIdS {get; set;} = 0;
         public int id {get; set;} = 0;

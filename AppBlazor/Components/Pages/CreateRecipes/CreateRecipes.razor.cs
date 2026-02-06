@@ -25,10 +25,13 @@ namespace AppBlazor.Components.Pages.CreateRecipes
         [Inject]
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
         [Inject]
+        public ThemeContainer? themeContainer { get; set; }
+        [Inject]
         public NavigationManager? NavigationManager { get; set; }
         [Inject] private IStringLocalizer<SharedResources> L { get; set; }
         private string filterName = string.Empty;
         private string filterType = string.Empty;
+        private string theme = string.Empty;
         private int? filterDifficulty = null;
 
         private IEnumerable<Recipe> FilteredRecipes => recipes
@@ -60,6 +63,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
 
         protected override async Task OnInitializedAsync()
         {
+            theme = themeContainer.theme;
             loading = "loading...";
             StateHasChanged();
             recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();

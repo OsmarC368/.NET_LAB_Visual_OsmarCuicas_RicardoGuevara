@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Core.Interfaces.Services;
+using AppBlazor.Components.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 //Custom Services
 //builder.Services.AddSingleton<StateContainer>();
 builder.Services.AddSingleton<TokenContainer>();
+builder.Services.AddSingleton<ThemeContainer>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<StepService>();
@@ -30,6 +32,7 @@ builder.Services.AddSingleton<IIngredientService, IngredientService>();
 builder.Services.AddSingleton<IngredientService>();
 builder.Services.AddSingleton<IRecipeService, RecipeService>();
 builder.Services.AddSingleton<StepUserService>();
+builder.Services.AddSingleton<UploadVideoService>();
 
 
 builder.Services.AddHttpContextAccessor();

@@ -9,15 +9,18 @@ namespace AppBlazor.Components.Pages.Measures
     public partial class Measures
     {
         [Inject] private IMeasureService MeasureService { get; set; } = default!;
+        [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 
         protected List<Measure> measures = new();
         protected Measure currentMeasure = new();
         protected bool isEditMode = false;
         protected string message = "";
+        protected string theme = "";
         protected bool success = false;
 
         protected override async Task OnInitializedAsync()
         {
+            theme = themeContainer.theme;
             await LoadMeasures();
         }
 

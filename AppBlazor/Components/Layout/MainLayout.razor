@@ -1,4 +1,6 @@
-﻿@using AppBlazor.Data.Services
+﻿@using AppBlazor.Components.Pages
+@using AppBlazor.Components.Pages.Profile
+@using AppBlazor.Data.Services
 @inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Http
 @inject ThemeService themeService
@@ -12,10 +14,10 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        @* <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-        <article class="content px-4">
+        </div> *@
+        <article class="content px-4 @theme" id="mainArticle">
             @Body
         </article>
     </main>
@@ -26,5 +28,18 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+
+@code {
+    [Inject] 
+    private ThemeContainer themeContainer {get; set;}
+    private string theme = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        theme = themeContainer.theme;
+    }
+
+}
 
 

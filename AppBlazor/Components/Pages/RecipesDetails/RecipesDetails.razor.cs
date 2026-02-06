@@ -41,6 +41,8 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         [Inject]
         public StepUserService? stepUserService { get; set; }
         [Inject]
+        public UploadVideoService? uploadVideoService { get; set; }
+        [Inject]
         public IngredientPerRecipeService? ingredientPerRecipeService { get; set; }
         [Inject]
         public AuthenticationStateProvider? AuthStateProvider { get; set; }
@@ -110,9 +112,46 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             }
             else
             {
-                CreateStepImage();
+                if(step.ImageFile.ContentType.Contains("video"))
+                {
+                    await saveWithVideo();
+                }
+                else
+                {
+                    CreateStepImage();
+                }
             }
             
+        }
+
+        public async Task saveWithVideo()
+        {
+            var videoID = await tryUpload();
+
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            step.RecipeID = RecipeId;
+            step.RecipeIdS = RecipeId;
+            step.videoURL = "https://graco-corp.euvideocdn.com/player/index.html?id=" + videoID;
+            var response = await stepService.CreateStep(step);
+            if (response.Ok)
+            {
+                message = response.Data?.Mensaje ?? "Step created successfully";
+                messageClass = "alert alert-success";
+            }
+            else
+            {
+                message = "Error, No se Pudo Crear El Paso";
+                messageClass = "alert alert-danger";
+            }
+            ClearStep();
+            steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+            StateHasChanged();
+        }
+
+        public async Task<string> tryUpload()
+        {
+            return await uploadVideoService.Upload(step.ImageFile);
         }
 
         public async void CreateStepImage()

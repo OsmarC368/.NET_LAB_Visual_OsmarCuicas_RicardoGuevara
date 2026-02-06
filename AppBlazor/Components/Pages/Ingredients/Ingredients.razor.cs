@@ -9,15 +9,18 @@ namespace AppBlazor.Components.Pages.Ingredients
     public partial class Ingredients
     {
         [Inject] private IIngredientService IngredientService { get; set; } = default!;
+        [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 
         protected List<Ingredient> ingredients = new();
         protected Ingredient currentIngredient = new();
         protected bool isEditMode = false;
         protected string message = "";
+        protected string theme = "";
         protected bool success = false;
 
         protected override async Task OnInitializedAsync()
         {
+            theme = themeContainer.theme;
             await LoadIngredients();
         }
 

@@ -12,7 +12,7 @@
 <div class="card mb-4 p-3 shadow-sm">
     <EditForm Model="@recipe">
         <DataAnnotationsValidator />
-        <h3 style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
+        <h3 class="@theme" style="text-align: center; font-weight: bold; font-size: 2em; margin-top: 40px;">
             @L["Create Recipe"]
         </h3>
         <label>@loading</label>
@@ -45,6 +45,13 @@
             </InputSelect>
             <ValidationMessage For="() => recipe.difficultyLevel" class="text-danger"/>
         </div>
+
+        <div class="mb-3">
+            <label>Servings</label>
+            <InputText class="form-control" @bind-Value="recipe.servings" />
+            <ValidationMessage For="() => recipe.servings" class="text-danger"/>
+        </div>
+
 
         <div class="mb-3">
             <label>@L["Visibility"]</label>

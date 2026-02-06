@@ -12,6 +12,7 @@ namespace AppBlazor.Data.Models
         [Required(ErrorMessage = "La Cantidad es Requerida!")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "Solo se Permiten Numeros")]
         public string amount {get; set;} = string.Empty;
+        public string amountOrg {get; set;} = string.Empty;
         public int ingredientIdIPR {get; set;} = 0;
         public int measureIdIPR {get; set;} = 0;
         public int recipeID {get; set;} = 0;

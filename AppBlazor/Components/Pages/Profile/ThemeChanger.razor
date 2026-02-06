@@ -1,11 +1,33 @@
 @using AppBlazor.Data.Services
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject ThemeService themeService
 @rendermode InteractiveServer
 
 
 <div>
     <h3>Configuration</h3>
-    <div>
-        <button  class="btn btn-outline-info" id="changeTheme" type="button" @onclick="themeService.ToggleTheme">@(themeService.IsDarkModeActive ?  "🌙" : "🔆")</button>
+    <div style="margin: 5px;">
+        <button class="btn btn-outline-info" @onclick="changeTheme">@(theme == "" ? "🔆": "🌙")</button>
     </div>
 </div>
+
+@code {
+    [Inject]
+    public ThemeContainer? themeContainer { get; set; }
+    [Inject]
+    public NavigationManager? navManager { get; set; }
+    public string theme = "";
+
+    protected async override Task OnInitializedAsync()
+    {
+        theme = themeContainer.theme;
+    }
+    public void changeTheme()
+    {
+        themeContainer.changeTheme();
+        theme = themeContainer.theme;
+        navManager.Refresh();
+    }
+
+
+}

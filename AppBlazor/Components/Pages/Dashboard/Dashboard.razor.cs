@@ -9,6 +9,7 @@ using Microsoft.Extensions.Localization;
 using AppBlazor.Data.Services;
 using Core.Interfaces.Services;
 using AppBlazor.Data.Models;
+using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
 
 namespace AppBlazor.Components.Pages.Dashboard
 {
@@ -21,6 +22,7 @@ namespace AppBlazor.Components.Pages.Dashboard
         [Inject] private IRecipeService RecipeService { get; set; } = default!;
         [Inject] private IIngredientService IngredientService { get; set; } = default!;
         [Inject] private IngredientPerRecipeService IngredientPerRecipeService { get; set; } = default!;
+        [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 
         private bool isAuthenticated = false;
         private bool isLoaded = false;
@@ -32,6 +34,7 @@ namespace AppBlazor.Components.Pages.Dashboard
 
         private string filterName = string.Empty;
         private string filterType = string.Empty;
+        private string theme = string.Empty;
         private int? filterDifficulty = null;
         private string filterByAuthor = string.Empty;
         private void GoToMeasures() => Navigation.NavigateTo("/measure");
@@ -65,6 +68,7 @@ namespace AppBlazor.Components.Pages.Dashboard
 
         protected override async Task OnInitializedAsync()
         {
+            theme = themeContainer.theme;
             isLoaded = false;
 
             recipes = new();

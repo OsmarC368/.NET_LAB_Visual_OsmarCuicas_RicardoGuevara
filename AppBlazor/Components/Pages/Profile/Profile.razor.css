@@ -1,0 +1,9 @@
+div{
+    background-color: var(--fondo);
+    color: var(--texto);
+    /* padding: 1rem; */
+}
+
+strong {
+    color: var(--texto);
+}

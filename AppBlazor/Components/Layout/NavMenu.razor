@@ -1,4 +1,5 @@
 @inject NavigationManager NavigationManager
+@inject NavigationManager Navigation
 @inject TokenContainer tokenContainer
 @using AppBlazor.Data.Services
 @using Blazored.SessionStorage
@@ -23,13 +24,13 @@
                     var userType = userTypeClaim != null ? int.Parse(userTypeClaim.Value) : 0;
                 }
 
-\                <div class="nav-item px-3">
+                <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/Dashboard">
                         <span class="bi bi-list-nested-nav-menu"></span> Principal
                     </NavLink>
                 </div>
 
-\                <div class="nav-item px-3">
+                <div class="nav-item px-3">
                     <NavLink class="nav-link" href="/create-recipes">
                         <span class="bi bi-list-nested-nav-menu"></span> Recetas
                     </NavLink>
@@ -41,7 +42,7 @@
                     </NavLink>
                 </div>
 
-\                @if (userType != 1)
+                @if (userType != 1)
                 {
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="/Ingredient">

@@ -1,78 +1,80 @@
 @page "/profile"
 
-
-<h3>@L["Profile"]</h3>
-<ThemeChanger/>
-@if (!isLoaded)
-{
-    <p>@L["Loading"]</p>
-}
-else if (!isAuthenticated)
-{
-    <p class="text-danger">@L["No se pudo cargar el usuario"]</p>
-}
-else
-{
-    <!-- Card de perfil -->
-    <div class="card profile-card mb-4 shadow-sm p-4">
-        <div class="profile-info">
-            <div class="info-item">
-                <strong>@L["Name"]:</strong> <span>@UserName</span>
-            </div>
-            <div class="info-item">
-                <strong>@L["Lastname"]:</strong> <span>@UserLastname</span>
-            </div>
-            <div class="info-item">
-                <strong>@L["Email"]:</strong> <span>@UserEmail</span>
+<div class="@theme">
+    <h3>@L["Profile"]</h3>
+    <ThemeChanger/>
+    @if (!isLoaded)
+    {
+        <p>@L["Loading"]</p>
+    }
+    else if (!isAuthenticated)
+    {
+        <p class="text-danger">@L["No se pudo cargar el usuario"]</p>
+    }
+    else
+    {
+        <!-- Card de perfil -->
+        <div class="card profile-card mb-4 shadow-sm p-4">
+            <div class="profile-info">
+                <div class="info-item">
+                    <strong>@L["Name"]:</strong> <span>@UserName</span>
+                </div>
+                <div class="info-item">
+                    <strong>@L["Lastname"]:</strong> <span>@UserLastname</span>
+                </div>
+                <div class="info-item">
+                    <strong>@L["Email"]:</strong> <span>@UserEmail</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <h4>@L["Recipes"]</h4>
+        <h4>@L["Recipes"]</h4>
 
-    @if (UserRecipes != null && UserRecipes.Any())
-    {
-        <div class="row mt-3">
-            @foreach (var recipe in UserRecipes)
-            {
-                <div class="col-md-4 mb-4">
-                    <a class="text-decoration-none" href="@($"/recipe-view/{recipe.Id}")">
-                        <div class="card recipe-card">
-                            @if (!string.IsNullOrEmpty(recipe.imageUrl))
-                            {
-                                <div class="card-image" style="background-image: url('@recipe.imageUrl');">
-                                    <div class="card-overlay">
-                                        <h5 class="card-title">@recipe.name</h5>
+        @if (UserRecipes != null && UserRecipes.Any())
+        {
+            <div class="row mt-3">
+                @foreach (var recipe in UserRecipes)
+                {
+                    <div class="col-md-4 mb-4">
+                        <a class="text-decoration-none" href="@($"/recipe-view/{recipe.Id}")">
+                            <div class="card recipe-card">
+                                @if (!string.IsNullOrEmpty(recipe.imageUrl))
+                                {
+                                    <div class="card-image" style="background-image: url('@recipe.imageUrl');">
+                                        <div class="card-overlay">
+                                            <h5 class="card-title">@recipe.name</h5>
+                                            <p>@recipe.type</p>
+                                            <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
+                                                @GetDifficultyText(recipe.difficultyLevelFloat)
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="card-no-image d-flex flex-column justify-content-center align-items-center">
+                                        <span style="font-size:3rem;">🍽️</span>
+                                        <span class="text-muted">@L["No Image"]</span>
+                                        <h5 class="mt-2">@recipe.name</h5>
                                         <p>@recipe.type</p>
                                         <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
                                             @GetDifficultyText(recipe.difficultyLevelFloat)
                                         </span>
                                     </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="card-no-image d-flex flex-column justify-content-center align-items-center">
-                                    <span style="font-size:3rem;">🍽️</span>
-                                    <span class="text-muted">@L["No Image"]</span>
-                                    <h5 class="mt-2">@recipe.name</h5>
-                                    <p>@recipe.type</p>
-                                    <span class="badge @GetDifficultyClass(recipe.difficultyLevelFloat)">
-                                        @GetDifficultyText(recipe.difficultyLevelFloat)
-                                    </span>
-                                </div>
-                            }
-                        </div>
-                    </a>
-                </div>
-            }
-        </div>
+                                }
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>@L["No tienes recetas aún"]</p>
+        }
     }
-    else
-    {
-        <p>@L["No tienes recetas aún"]</p>
-    }
-}
+
+</div>
 
 <style>
     .profile-card {

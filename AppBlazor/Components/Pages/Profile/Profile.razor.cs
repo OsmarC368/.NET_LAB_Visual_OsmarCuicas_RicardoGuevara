@@ -17,6 +17,7 @@ namespace AppBlazor.Components.Pages.Profile
         [Inject] private NavigationManager Navigation { get; set; } = default!;
         [Inject] private IRecipeService RecipeService { get; set; } = default!;
         [Inject] private IStringLocalizer<SharedResources> L { get; set; } = default!;
+        [Inject] private ThemeContainer themeContainer { get; set; } = default!;
         [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; } = default!;
 
         private bool isAuthenticated = false;
@@ -24,6 +25,7 @@ namespace AppBlazor.Components.Pages.Profile
         private int UserId;
 
         private string UserName = string.Empty;
+        private string theme = string.Empty;
         private string UserLastname = string.Empty;
         private string UserEmail = string.Empty;
 
@@ -31,6 +33,7 @@ namespace AppBlazor.Components.Pages.Profile
 
         protected override async Task OnInitializedAsync()
         {
+            theme = themeContainer.theme;
             isLoaded = false;
 
             var authState = await AuthState;
