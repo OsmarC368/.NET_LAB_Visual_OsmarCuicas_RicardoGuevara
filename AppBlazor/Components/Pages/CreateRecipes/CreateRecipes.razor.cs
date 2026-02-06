@@ -181,6 +181,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             recipe.difficultyLevel = recipeToUpdate?.DifficultyLevel.ToString() ?? string.Empty;
             recipe.type = recipeToUpdate?.Type;
             recipe.visibility = recipeToUpdate?.Visibility ?? 1;
+            recipe.servings = recipeToUpdate?.Servings.ToString();
             recipe.Id = recipeToUpdate?.Id ?? 0;
         }
 
