@@ -4,12 +4,11 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Entities;
 using Microsoft.Extensions.Localization;
 using AppBlazor.Data.Services;
-using Core.Interfaces.Services;
 using AppBlazor.Data.Models;
 using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Components.Pages.Dashboard
 {
@@ -19,8 +18,8 @@ namespace AppBlazor.Components.Pages.Dashboard
         [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
         [Inject] private AuthService authService { get; set; } = default!;
         [Inject] private IStringLocalizer<SharedResources> L { get; set; } = default!;
-        [Inject] private IRecipeService RecipeService { get; set; } = default!;
-        [Inject] private IIngredientService IngredientService { get; set; } = default!;
+        [Inject] private RecipeService RecipeService { get; set; } = default!;
+        [Inject] private IngredientService IngredientService { get; set; } = default!;
         [Inject] private IngredientPerRecipeService IngredientPerRecipeService { get; set; } = default!;
         [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 

@@ -5,12 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
-using Core.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
-using Core.Interfaces.Services;
 using Microsoft.Extensions.Localization;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Components.Pages.RecipesDetails
 {
@@ -20,7 +19,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         private int? selectedMeasure;
         public StepDTO step = new();
         public string RecipeName = string.Empty;
-        public List<Core.Entities.Step> steps = new();
+        public List<Data.Models.Core.Step> steps = new();
         public string loading = string.Empty;
         public string loadingIngredient = string.Empty;
         public string message = string.Empty;
@@ -35,9 +34,9 @@ namespace AppBlazor.Components.Pages.RecipesDetails
         public StepService? stepService { get; set; }
         [Inject]
         public RecipesService? recipesService { get; set; }
-        [Inject] private IIngredientService ingredientService { get; set; } = default!;
+        [Inject] private IngredientService ingredientService { get; set; } = default!;
         [Inject]
-        public IMeasureService measureService { get; set; }
+        public MeasureService measureService { get; set; }
         [Inject]
         public StepUserService? stepUserService { get; set; }
         [Inject]
@@ -63,7 +62,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 RecipeName = recipeFound.Data.Datos?.Name ?? string.Empty;
             }
 
-            steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+            steps = (await GetAllSteps())?.ToList() ?? new List<Step>();
             loading = string.Empty;
 
             var ingredientsResponse = await GetAllIngredients();
@@ -106,7 +105,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                     messageClass = "alert alert-danger";
                 }
                 ClearStep();
-                steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+                steps = (await GetAllSteps())?.ToList() ?? new List<Step>();
                 StateHasChanged();
                 
             }
@@ -145,7 +144,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 messageClass = "alert alert-danger";
             }
             ClearStep();
-            steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+            steps = (await GetAllSteps())?.ToList() ?? new List<Step>();
             StateHasChanged();
         }
 
@@ -174,16 +173,16 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 messageClass = "alert alert-danger";
             }
             ClearStep();
-            steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+            steps = (await GetAllSteps())?.ToList() ?? new List<Step>();
             StateHasChanged();
         }
 
 
-        public async Task<IEnumerable<Core.Entities.Step>?> GetAllSteps()
+        public async Task<IEnumerable<Step>?> GetAllSteps()
         {
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            var temp = new List<Core.Entities.Step>();
+            var temp = new List<Step>();
             var response = await stepService.GetAllAsync();
             if (response.Datos != null)
             {
@@ -245,7 +244,7 @@ namespace AppBlazor.Components.Pages.RecipesDetails
                 messageClass = "alert alert-danger";
             }
             CancelUpdateStep();
-            steps = (await GetAllSteps())?.ToList() ?? new List<Core.Entities.Step>();
+            steps = (await GetAllSteps())?.ToList() ?? new List<Step>();
         }
 
 
@@ -285,13 +284,13 @@ namespace AppBlazor.Components.Pages.RecipesDetails
             ClearIngredient();
         }
 
-        public async Task<IEnumerable<Core.Entities.Measure>?> GetAllMeasures()
+        public async Task<IEnumerable<Measure>?> GetAllMeasures()
         {
             var response = await measureService.GetAllAsync();
             return response.Datos;
         }
 
-        public async Task<IEnumerable<Core.Entities.Ingredient>?> GetAllIngredients()
+        public async Task<IEnumerable<Ingredient>?> GetAllIngredients()
         {
             var response = await ingredientService.GetAllAsync();
             return response.Datos;

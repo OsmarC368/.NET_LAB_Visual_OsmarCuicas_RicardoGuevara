@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppBlazor.Components;
 using AppBlazor.Data.Models;
-using Core.Entities;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Data.Services
 {
@@ -16,14 +16,14 @@ namespace AppBlazor.Data.Services
         {
             _tokenContainer = tokenContainer;
         }
-        public async Task<Response<Core.Responses.Response<Core.Responses.ResponseLogin>>> Login(UserDTO user)
+        public async Task<Response<Models.Core.Responses.Response<Models.Core.Responses.ResponseLogin>>> Login(UserDTO user)
         {
-            Response<Core.Responses.Response<Core.Responses.ResponseLogin>> response = new Response<Core.Responses.Response<Core.Responses.ResponseLogin>>();
+            Response<Models.Core.Responses.Response<Models.Core.Responses.ResponseLogin>> response = new Response<Models.Core.Responses.Response<Models.Core.Responses.ResponseLogin>>();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<Core.Responses.ResponseLogin>, UserDTO>(
+                    .Execute<Models.Core.Responses.Response<Models.Core.Responses.ResponseLogin>, UserDTO>(
                         $"{url}/login",
                         methodHttp.POST,
                         user);
@@ -38,9 +38,9 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<User>>> GetByIdAsync(int id)
+        public async Task<Response<Models.Core.Responses.Response<User>>> GetByIdAsync(int id)
         {
-            var apiResponse = await Consumer.Execute<Core.Responses.Response<User>, object>(
+            var apiResponse = await Consumer.Execute<Models.Core.Responses.Response<User>, object>(
                 $"{url}/{id}",
                 methodHttp.GET,
                 null!,
@@ -51,14 +51,14 @@ namespace AppBlazor.Data.Services
 
 
         }
-        public async Task<Response<Core.Responses.Response<UserDTO>>> Register(UserDTO user)
+        public async Task<Response<Models.Core.Responses.Response<UserDTO>>> Register(UserDTO user)
         {
-            Response<Core.Responses.Response<UserDTO>> response = new Response<Core.Responses.Response<UserDTO>>();
+            Response<Models.Core.Responses.Response<UserDTO>> response = new Response<Models.Core.Responses.Response<UserDTO>>();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<UserDTO>, UserDTO>(
+                    .Execute<Models.Core.Responses.Response<UserDTO>, UserDTO>(
                         $"{url}/register",
                         methodHttp.POST,
                         user);

@@ -5,7 +5,6 @@ using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
-using Core.Interfaces.Services;
 using AppBlazor.Components.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,11 +25,14 @@ builder.Services.AddSingleton<RecipesService>();
 builder.Services.AddSingleton<StepService>();
 builder.Services.AddSingleton<IngredientPerRecipeService>();
 builder.Services.AddSingleton<Consumer>();
-builder.Services.AddSingleton<IMeasureService, MeasureService>();
+// builder.Services.AddSingleton<IMeasureService, MeasureService>();
 builder.Services.AddSingleton<MeasureService>();
-builder.Services.AddSingleton<IIngredientService, IngredientService>();
+builder.Services.AddSingleton<MeasureService>();
+// builder.Services.AddSingleton<IIngredientService, IngredientService>();
 builder.Services.AddSingleton<IngredientService>();
-builder.Services.AddSingleton<IRecipeService, RecipeService>();
+builder.Services.AddSingleton<IngredientService>();
+// builder.Services.AddSingleton<IRecipeService, RecipeService>();
+builder.Services.AddSingleton<RecipeService>();
 builder.Services.AddSingleton<StepUserService>();
 builder.Services.AddSingleton<UploadVideoService>();
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppBlazor.Components;
 using AppBlazor.Data.Models;
-using Core.Entities;
+using AppBlazor.Data.Models.Core;
 using Microsoft.VisualBasic;
 
 namespace AppBlazor.Data.Services
@@ -18,18 +18,18 @@ namespace AppBlazor.Data.Services
             _tokenContainer = tokenContainer;
         }
 
-        public async Task<Core.Responses.Response<IEnumerable<Step>>> GetAllAsync()
+        public async Task<Models.Core.Responses.Response<IEnumerable<Step>>> GetAllAsync()
         {
-            var response = await Consumer.Execute<Core.Responses.Response<IEnumerable<Step>>>(
+            var response = await Consumer.Execute<Models.Core.Responses.Response<IEnumerable<Step>>>(
                 url,
                 methodHttp.GET,
                 null,
                 _tokenContainer?.token);
 
-            return response.Data ?? new Core.Responses.Response<IEnumerable<Step>> { Ok = false, Mensaje = response.message };
+            return response.Data ?? new Models.Core.Responses.Response<IEnumerable<Step>> { Ok = false, Mensaje = response.message };
         }
 
-        public async Task<Core.Responses.Response<Step>> GetByIdAsync(int id)
+        public async Task<Models.Core.Responses.Response<Step>> GetByIdAsync(int id)
         {
             var apiResponse = await Consumer.Execute<Step, object>(
                 $"{url}/{id}",
@@ -38,7 +38,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<Step>
+            return new Models.Core.Responses.Response<Step>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -46,14 +46,14 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Response<Core.Responses.Response<StepDTO>>> UpdateStep (StepDTO stepDTO)
+        public async Task<Response<Models.Core.Responses.Response<StepDTO>>> UpdateStep (StepDTO stepDTO)
         {
-            Response<Core.Responses.Response<StepDTO>> response = new ();
+            Response<Models.Core.Responses.Response<StepDTO>> response = new ();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<StepDTO>, StepDTO>(
+                    .Execute<Models.Core.Responses.Response<StepDTO>, StepDTO>(
                         $"{url}/{stepDTO.id}",
                         methodHttp.PUT,
                         stepDTO,
@@ -68,14 +68,14 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<Step>>> DeleteStep (int id)
+        public async Task<Response<Models.Core.Responses.Response<Step>>> DeleteStep (int id)
         {
-            Response<Core.Responses.Response<Step>> response = new ();
+            Response<Models.Core.Responses.Response<Step>> response = new ();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<Step>, object>(
+                    .Execute<Models.Core.Responses.Response<Step>, object>(
                         $"{url}/{id}",
                         methodHttp.DELETE,
                         null,
@@ -90,14 +90,14 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<StepDTO>>> CreateStep(StepDTO stepDTO)
+        public async Task<Response<Models.Core.Responses.Response<StepDTO>>> CreateStep(StepDTO stepDTO)
         {
-            Response<Core.Responses.Response<StepDTO>> response = new Response<Core.Responses.Response<StepDTO>>();
+            Response<Models.Core.Responses.Response<StepDTO>> response = new Response<Models.Core.Responses.Response<StepDTO>>();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<StepDTO>, StepDTO>(
+                    .Execute<Models.Core.Responses.Response<StepDTO>, StepDTO>(
                         url,
                         methodHttp.POST,
                         stepDTO,
@@ -114,9 +114,9 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<StepDTO>>> CreateStepImage (StepDTO stepDTO)
+        public async Task<Response<Models.Core.Responses.Response<StepDTO>>> CreateStepImage (StepDTO stepDTO)
         {
-            Response<Core.Responses.Response<StepDTO>> response = new ();
+            Response<Models.Core.Responses.Response<StepDTO>> response = new ();
             try
             {
                 var formData = new MultipartFormDataContent();
@@ -140,7 +140,7 @@ namespace AppBlazor.Data.Services
 
                 response = await 
                     Consumer
-                    .ExecuteMultipart<Core.Responses.Response<StepDTO>>(
+                    .ExecuteMultipart<Models.Core.Responses.Response<StepDTO>>(
                         $"{url}/image",
                         formData,
                         _tokenContainer.token

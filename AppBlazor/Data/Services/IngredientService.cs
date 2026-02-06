@@ -1,14 +1,15 @@
-using Core.Entities;
-using Core.Interfaces.Services;
+
 using AppBlazor.Data;
 using AppBlazor.Components;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AppBlazor.Data.Models.Core.Interfaces.Services;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Data.Services
 {
-    public class IngredientService : IIngredientService
+    public class IngredientService
     {
         private readonly TokenContainer _tokenContainer;
 
@@ -17,22 +18,22 @@ namespace AppBlazor.Data.Services
             _tokenContainer = tokenContainer;
         }
 
-        public async Task<Core.Responses.Response<IEnumerable<Ingredient>>> GetAllAsync()
+        public async Task<Models.Core.Responses.Response<IEnumerable<Ingredient>>> GetAllAsync()
         {
-            var apiResponse = await Consumer.Execute<Core.Responses.Response<IEnumerable<Ingredient>>, object>(
+            var apiResponse = await Consumer.Execute<Models.Core.Responses.Response<IEnumerable<Ingredient>>, object>(
                 "Ingredient",
                 methodHttp.GET,
                 null!,
                 _tokenContainer.token
             );
 
-            return apiResponse.Data ?? new Core.Responses.Response<IEnumerable<Ingredient>> { Ok = false, Mensaje = apiResponse.message };
+            return apiResponse.Data ?? new Models.Core.Responses.Response<IEnumerable<Ingredient>> { Ok = false, Mensaje = apiResponse.message };
         }
 
-        public async Task<Core.Responses.Response<Ingredient>> GetByIdAsync(int id)
+        public async Task<Models.Core.Responses.Response<Ingredient>> GetByIdAsync(int id)
         {
             var apiResponse = await Consumer.Execute<
-                Core.Responses.Response<Ingredient>,
+                Models.Core.Responses.Response<Ingredient>,
                 object
             >(
                 $"Ingredient/{id}",
@@ -42,14 +43,14 @@ namespace AppBlazor.Data.Services
             );
 
             return apiResponse.Data
-                ?? new Core.Responses.Response<Ingredient>
+                ?? new Models.Core.Responses.Response<Ingredient>
                 {
                     Ok = false,
                     Mensaje = apiResponse.message
                 };
         }
 
-        public async Task<Core.Responses.Response<Ingredient>> Create(Ingredient newEntity)
+        public async Task<Models.Core.Responses.Response<Ingredient>> Create(Ingredient newEntity)
         {
             //Console.WriteLine("TOKEN ACTUAL EN Create: " + _tokenContainer.token); 
 
@@ -63,7 +64,7 @@ namespace AppBlazor.Data.Services
             //if (!apiResponse.Ok)
             //    Console.WriteLine("ERROR Create: " + apiResponse.message);
 
-            return new Core.Responses.Response<Ingredient>
+            return new Models.Core.Responses.Response<Ingredient>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -71,7 +72,7 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Core.Responses.Response<Ingredient>> Update(int id, Ingredient newEntityValues)
+        public async Task<Models.Core.Responses.Response<Ingredient>> Update(int id, Ingredient newEntityValues)
         {
             //Console.WriteLine("TOKEN ACTUAL EN Update: " + _tokenContainer.token); 
 
@@ -85,7 +86,7 @@ namespace AppBlazor.Data.Services
             //if (!apiResponse.Ok)
             //    Console.WriteLine($"ERROR Update ({id}): " + apiResponse.message);
 
-            return new Core.Responses.Response<Ingredient>
+            return new Models.Core.Responses.Response<Ingredient>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -93,7 +94,7 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Core.Responses.Response<Ingredient>> Remove(int id)
+        public async Task<Models.Core.Responses.Response<Ingredient>> Remove(int id)
         {
             //Console.WriteLine("TOKEN ACTUAL EN Remove: " + _tokenContainer.token); 
 
@@ -107,7 +108,7 @@ namespace AppBlazor.Data.Services
             //if (!apiResponse.Ok)
             //    Console.WriteLine($"ERROR Remove ({id}): " + apiResponse.message);
 
-            return new Core.Responses.Response<Ingredient>
+            return new Models.Core.Responses.Response<Ingredient>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,

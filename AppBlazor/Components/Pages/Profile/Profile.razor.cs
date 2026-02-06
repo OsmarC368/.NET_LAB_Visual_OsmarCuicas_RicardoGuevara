@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
 using Microsoft.Extensions.Localization;
-using Core.Interfaces.Services;
 
 
 namespace AppBlazor.Components.Pages.Profile
@@ -15,7 +14,7 @@ namespace AppBlazor.Components.Pages.Profile
     {
         [Inject] private AuthService authService { get; set; } = default!;
         [Inject] private NavigationManager Navigation { get; set; } = default!;
-        [Inject] private IRecipeService RecipeService { get; set; } = default!;
+        [Inject] private RecipeService RecipeService { get; set; } = default!;
         [Inject] private IStringLocalizer<SharedResources> L { get; set; } = default!;
         [Inject] private ThemeContainer themeContainer { get; set; } = default!;
         [CascadingParameter] private Task<AuthenticationState> AuthState { get; set; } = default!;

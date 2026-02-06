@@ -1,14 +1,13 @@
-using Core.Entities;
-using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Components;
-using Core.Responses;          
 using AppBlazor.Data.Services;
+using AppBlazor.Data.Models.Core;
+using AppBlazor.Data.Models.Core.Responses;
 
 namespace AppBlazor.Components.Pages.Ingredients
 {
     public partial class Ingredients
     {
-        [Inject] private IIngredientService IngredientService { get; set; } = default!;
+        [Inject] private IngredientService IngredientService { get; set; } = default!;
         [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 
         protected List<Ingredient> ingredients = new();

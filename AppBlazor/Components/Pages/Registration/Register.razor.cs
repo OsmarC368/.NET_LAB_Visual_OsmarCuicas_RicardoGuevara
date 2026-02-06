@@ -1,8 +1,8 @@
 using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
-using Core.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using AppBlazor.Data.Models;
 
 namespace AppBlazor.Components.Pages.Registration
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Entities;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Data.Models
 {

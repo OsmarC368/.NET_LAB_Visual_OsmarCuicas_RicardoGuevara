@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppBlazor.Data.Models;
+using AppBlazor.Data.Models.Core;
 using AppBlazor.Data.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
-using Core.Entities;
 
 namespace AppBlazor.Components.Pages.CreateRecipes
 {
     public partial class CreateRecipes
     {
         public RecipeDTO recipe = new RecipeDTO();
-        public List<Core.Entities.Recipe> recipes = new ();
+        public List<Recipe> recipes = new ();
         public string loading = string.Empty;
         public string message = string.Empty;
         public bool updating = false;
@@ -66,7 +66,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
             theme = themeContainer.theme;
             loading = "loading...";
             StateHasChanged();
-            recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
+            recipes = (await GetAllRecipes())?.ToList() ?? new List<Data.Models.Core.Recipe>();
             loading = string.Empty;
             StateHasChanged();
         }
@@ -98,7 +98,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
                 messageClass = "alert alert-danger";
             }
             Clear();
-            recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
+            recipes = (await GetAllRecipes())?.ToList() ?? new List<Data.Models.Core.Recipe>();
             StateHasChanged();
         }
 
@@ -124,7 +124,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
                     messageClass = "alert alert-danger";
                 }
                 Clear();
-                recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
+                recipes = (await GetAllRecipes())?.ToList() ?? new List<Data.Models.Core.Recipe>();
                 StateHasChanged();
             }
             else
@@ -134,11 +134,11 @@ namespace AppBlazor.Components.Pages.CreateRecipes
 
         }
 
-        public async Task<IEnumerable<Core.Entities.Recipe>?> GetAllRecipes()
+        public async Task<IEnumerable<Data.Models.Core.Recipe>?> GetAllRecipes()
         {
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            var temp = new List<Core.Entities.Recipe>();
+            var temp = new List<Data.Models.Core.Recipe>();
             var response = await recipesService.GetAllRecipes();
             if (response.Datos != null)
             {
@@ -201,7 +201,7 @@ namespace AppBlazor.Components.Pages.CreateRecipes
                 messageClass = "alert alert-danger";
             }
             CancelUpdate();
-            recipes = (await GetAllRecipes())?.ToList() ?? new List<Core.Entities.Recipe>();
+            recipes = (await GetAllRecipes())?.ToList() ?? new List<Data.Models.Core.Recipe>();
 
 
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppBlazor.Components;
 using AppBlazor.Data.Models;
-using Core.Entities;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Data.Services
 {
@@ -17,18 +17,18 @@ namespace AppBlazor.Data.Services
             _tokenContainer = tokenContainer;
         }
 
-        public async Task<Core.Responses.Response<IEnumerable<IngredientsPerRecipe>>> GetAllAsync()
+        public async Task<Models.Core.Responses.Response<IEnumerable<IngredientsPerRecipe>>> GetAllAsync()
         {
-            var response = await Consumer.Execute<Core.Responses.Response<IEnumerable<IngredientsPerRecipe>>>(
+            var response = await Consumer.Execute<Models.Core.Responses.Response<IEnumerable<IngredientsPerRecipe>>>(
                 url,
                 methodHttp.GET,
                 null,
                 _tokenContainer?.token);
 
-            return response.Data ?? new Core.Responses.Response<IEnumerable<IngredientsPerRecipe>> { Ok = false, Mensaje = response.message };
+            return response.Data ?? new Models.Core.Responses.Response<IEnumerable<IngredientsPerRecipe>> { Ok = false, Mensaje = response.message };
         }
 
-        public async Task<Core.Responses.Response<IngredientsPerRecipe>> GetByIdAsync(int id)
+        public async Task<Models.Core.Responses.Response<IngredientsPerRecipe>> GetByIdAsync(int id)
         {
             var apiResponse = await Consumer.Execute<IngredientsPerRecipe, object>(
                 $"{url}/{id}",
@@ -37,7 +37,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<IngredientsPerRecipe>
+            return new Models.Core.Responses.Response<IngredientsPerRecipe>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -45,14 +45,14 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Response<Core.Responses.Response<IngredientPerRecipeDTO>>> Update (IngredientPerRecipeDTO ingredientPerRecipeDTO)
+        public async Task<Response<Models.Core.Responses.Response<IngredientPerRecipeDTO>>> Update (IngredientPerRecipeDTO ingredientPerRecipeDTO)
         {
-            Response<Core.Responses.Response<IngredientPerRecipeDTO>> response = new ();
+            Response<Models.Core.Responses.Response<IngredientPerRecipeDTO>> response = new ();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<IngredientPerRecipeDTO>, IngredientPerRecipeDTO>(
+                    .Execute<Models.Core.Responses.Response<IngredientPerRecipeDTO>, IngredientPerRecipeDTO>(
                         $"{url}/{ingredientPerRecipeDTO.id}",
                         methodHttp.PUT,
                         ingredientPerRecipeDTO,
@@ -67,14 +67,14 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<IngredientsPerRecipe>>> Delete (int id)
+        public async Task<Response<Models.Core.Responses.Response<IngredientsPerRecipe>>> Delete (int id)
         {
-            Response<Core.Responses.Response<IngredientsPerRecipe>> response = new ();
+            Response<Models.Core.Responses.Response<IngredientsPerRecipe>> response = new ();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<IngredientsPerRecipe>, object>(
+                    .Execute<Models.Core.Responses.Response<IngredientsPerRecipe>, object>(
                         $"{url}/{id}",
                         methodHttp.DELETE,
                         null,
@@ -89,14 +89,14 @@ namespace AppBlazor.Data.Services
             return response;
         }
 
-        public async Task<Response<Core.Responses.Response<IngredientPerRecipeDTO>>> Create(IngredientPerRecipeDTO ingredientPerRecipeDTO)
+        public async Task<Response<Models.Core.Responses.Response<IngredientPerRecipeDTO>>> Create(IngredientPerRecipeDTO ingredientPerRecipeDTO)
         {
-            Response<Core.Responses.Response<IngredientPerRecipeDTO>> response = new Response<Core.Responses.Response<IngredientPerRecipeDTO>>();
+            Response<Models.Core.Responses.Response<IngredientPerRecipeDTO>> response = new Response<Models.Core.Responses.Response<IngredientPerRecipeDTO>>();
             try
             {
                 response = await 
                     Consumer
-                    .Execute<Core.Responses.Response<IngredientPerRecipeDTO>, IngredientPerRecipeDTO>(
+                    .Execute<Models.Core.Responses.Response<IngredientPerRecipeDTO>, IngredientPerRecipeDTO>(
                         url,
                         methodHttp.POST,
                         ingredientPerRecipeDTO,

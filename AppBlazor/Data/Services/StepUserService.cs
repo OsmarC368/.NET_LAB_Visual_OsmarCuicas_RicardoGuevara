@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppBlazor.Components;
-using Core.Entities;
+using AppBlazor.Data.Models.Core;
 
 namespace AppBlazor.Data.Services
 {
@@ -16,19 +16,19 @@ namespace AppBlazor.Data.Services
             _tokenContainer = tokenContainer;
         }
 
-        public async Task<Core.Responses.Response<IEnumerable<StepUser>>> GetAllAsync()
+        public async Task<Models.Core.Responses.Response<IEnumerable<StepUser>>> GetAllAsync()
         {
-            var apiResponse = await Consumer.Execute<Core.Responses.Response<IEnumerable<StepUser>>, object>(
+            var apiResponse = await Consumer.Execute<Models.Core.Responses.Response<IEnumerable<StepUser>>, object>(
                 "StepUser",
                 methodHttp.GET,
                 null!,
                 _tokenContainer.token
             );
 
-            return apiResponse.Data ?? new Core.Responses.Response<IEnumerable<StepUser>> { Ok = false, Mensaje = apiResponse.message };
+            return apiResponse.Data ?? new Models.Core.Responses.Response<IEnumerable<StepUser>> { Ok = false, Mensaje = apiResponse.message };
         }
 
-        public async Task<Core.Responses.Response<StepUser>> GetByIdAsync(int id)
+        public async Task<Models.Core.Responses.Response<StepUser>> GetByIdAsync(int id)
         {
             var apiResponse = await Consumer.Execute<StepUser, object>(
                 $"StepUser/{id}",
@@ -37,7 +37,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<StepUser>
+            return new Models.Core.Responses.Response<StepUser>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -45,7 +45,7 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Core.Responses.Response<StepUser>> Create(StepUser newEntity)
+        public async Task<Models.Core.Responses.Response<StepUser>> Create(StepUser newEntity)
         {
             var apiResponse = await Consumer.Execute<StepUser, StepUser>(
                 "StepUser",
@@ -54,7 +54,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<StepUser>
+            return new Models.Core.Responses.Response<StepUser>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -62,7 +62,7 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Core.Responses.Response<StepUser>> Update(int id, StepUser newEntityValues)
+        public async Task<Models.Core.Responses.Response<StepUser>> Update(int id, StepUser newEntityValues)
         {
             var apiResponse = await Consumer.Execute<StepUser, StepUser>(
                 $"StepUser/{id}",
@@ -71,7 +71,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<StepUser>
+            return new Models.Core.Responses.Response<StepUser>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,
@@ -79,7 +79,7 @@ namespace AppBlazor.Data.Services
             };
         }
 
-        public async Task<Core.Responses.Response<StepUser>> Remove(int id)
+        public async Task<Models.Core.Responses.Response<StepUser>> Remove(int id)
         {
             var apiResponse = await Consumer.Execute<StepUser, object>(
                 $"StepUser/{id}",
@@ -88,7 +88,7 @@ namespace AppBlazor.Data.Services
                 _tokenContainer.token
             );
 
-            return new Core.Responses.Response<StepUser>
+            return new Models.Core.Responses.Response<StepUser>
             {
                 Ok = apiResponse.Ok,
                 Mensaje = apiResponse.message,

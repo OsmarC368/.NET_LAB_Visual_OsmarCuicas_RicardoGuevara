@@ -1,14 +1,13 @@
-using Core.Entities;
-using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Components;
-using Core.Responses;          
 using AppBlazor.Data.Services;
+using AppBlazor.Data.Models.Core;
+using AppBlazor.Data;
 
 namespace AppBlazor.Components.Pages.Measures
 {
     public partial class Measures
     {
-        [Inject] private IMeasureService MeasureService { get; set; } = default!;
+        [Inject] private MeasureService MeasureService { get; set; } = default!;
         [Inject] private ThemeContainer themeContainer { get; set; } = default!;
 
         protected List<Measure> measures = new();
@@ -47,7 +46,7 @@ namespace AppBlazor.Components.Pages.Measures
                 success = false;
                 return;
             }
-            Response<Measure> result;
+            Response<Data.Response<Measure>> result;
 
             if (isEditMode)
                 result = await MeasureService.Update(currentMeasure.id, currentMeasure);
@@ -64,7 +63,7 @@ namespace AppBlazor.Components.Pages.Measures
             }
             else
             {
-                message = "Error: " + (string.IsNullOrEmpty(result.Mensaje) ? "Sin detalles de la API" : result.Mensaje);
+                //message = "Error: " + (string.IsNullOrEmpty(result.Data.Mensaje) ? "Sin detalles de la API" : result.Mensaje);
                 success = false;
             }
         }

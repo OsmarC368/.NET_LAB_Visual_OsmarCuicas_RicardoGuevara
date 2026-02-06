@@ -5,15 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AppBlazor.Data.Models;
 using AppBlazor.Data.Services;
-using Core.Entities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
-using Core.Interfaces.Services;
 using Microsoft.Extensions.Localization;
-using Core.Entities;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using System.IO.Compression;
+using AppBlazor.Data.Models.Core;
 namespace AppBlazor.Components.Pages.RecipeView
 {
     public partial class RecipeView
